@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">IRCTC Booking Reminder</string>
+    <string name="advance_reminder">120 Day Reminder</string>
+    <string name="tatkal_reminder">Tatkal Reminder</string>
+    <string name="custom_reminder">Custom Reminder</string>
+    <string name="view_reminder">View Reminders</string>
+    <string name="sortByTD">Travel Date</string>
+    <string name="sortByRD">Reminder Date</string>
+    <string name="showOnly">Show</string>
+    <string name="travel_title">Reminder Title *</string>
+    <string name="hint">Marriage Plan Visit</string>
+    <string name="select_date">Select Travel Date *</string>
+    <string name="select_rem_date">Select Reminder Date *</string>
+    <string name="travel_date">DD/MM/YYYY</string>
+    <string name="create_reminder">Create Reminder</string>
+    <string name="travel_date_label">Travel Date</string>
+    <string name="reminder_date_label">Reminder Date</string>
+    <string name="reminder_type_label">Type</string>
+    <string name="okay">OK</string>
+    <string name="goto_home">Go to Home</string>
+    <string name="create_another">One More</string>
+    <string name="success_note">Your reminder has been successfully created !</string>
+    <string name="ad_unit_id">ca-app-pub-4587610802196055/8799873383</string>
+
+    <string name="advance_booking_description">
+        1. The maximum advance booking period allowed by IRCTC is 120 days.\n\n
+        2. Use this reminder to notify you 120 days before your travel date to book advance booking tickets.\n\n
+        3. For your convenience, we will show the dates 120 days ahead from today.\n\n
+        4. IRCTC bookings will open at 8 a.m. We will notify you 1 hour before.\n\n
+        5. Best suitable for Special occasions and National holidays like Diwali, Independence Day, etc.
+    </string>
+
+    <string name="tatkal_booking_description">
+        1. Tatkal tickets can be booked one day before the scheduled train departure date.\n\n
+        2. Use this reminder to notify you 1 day before your travel date to book your Tatkal tickets.\n\n
+        3. Booking time for AC coaches is 10 a.m. and Non AC coaches is 11 a.m.\n\n
+        4. We will notify you at 9 a.m.
+    </string>
+
+    <string name="custom_booking_description">
+        1. Customize the reminder with this option by selecting your preferred travel date and booking date.\n\n
+        2. We will notify you at 8 a.m. on the booking date you selected.
+    </string>
+
+    <string name="view_reminders_description">
+        1. View your reminders here.\n\n
+        2. You can sort by Travel Date, Booking Date and can filter specific reminder types..
+    </string>
+
+</resources>

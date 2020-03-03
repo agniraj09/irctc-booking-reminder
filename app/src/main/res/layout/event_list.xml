@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="1dp"
+        card_view:cardElevation="5dp"
+        card_view:cardPreventCornerOverlap="true"
+        card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/event_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Marshmallow"
+                android:padding="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#040615"
+                android:textSize="20sp" />
+
+
+            <View
+                android:id="@+id/horiontalline"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/sortBarLine" />
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/travel_date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/travel_date_label"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/travel_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/reminder_date"
+                    android:layout_alignStart="@id/reminder_date"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@id/travel_date_label"
+                    android:layout_toRightOf="@id/travel_date_label"
+                    android:hint="Android 6.0"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/reminder_date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/travel_date_label"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/reminder_date_label"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/reminder_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/travel_date"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@id/reminder_date_label"
+                    android:layout_toRightOf="@id/reminder_date_label"
+                    android:hint="Android 6.0"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/reminder_type_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reminder_date_label"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/reminder_type_label"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/reminder_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/reminder_date"
+                    android:layout_alignStart="@id/reminder_date"
+                    android:layout_below="@+id/reminder_date"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@id/reminder_type_label"
+                    android:layout_toRightOf="@id/reminder_type_label"
+                    android:hint="Android 6.0"
+                    android:textColor="@android:color/black" />
+
+                <ImageView
+                    android:id="@+id/delete_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_delete_grey600_24dp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

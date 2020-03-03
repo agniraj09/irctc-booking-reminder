@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg1"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".activities.TatkalReminderActivity">
+
+
+    <TextView
+        android:id="@+id/tr_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="25dp"
+        android:text="@string/travel_title"
+        android:textColor="@color/labelcolor" />
+
+    <EditText
+        android:id="@+id/tr_event_title_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tr_title_textview"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/hint"
+        android:inputType="textPersonName"
+        android:maxEms="8"
+        android:maxLength="30"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/tr_traveldate_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tr_event_title_input"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="25dp"
+        android:text="@string/select_date"
+        android:textColor="@color/labelcolor" />
+
+    <EditText
+        android:id="@+id/tr_traveldate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tr_traveldate_textview"
+        android:layout_centerHorizontal="true"
+        android:focusable="false"
+        android:hint="@string/travel_date"
+        android:inputType="date"
+        android:onClick="showDatePickerDialogOnButtonClick"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/create120DayReminderEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tr_traveldate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:onClick="createEvent"
+        android:textColor="@color/labelcolor"
+        android:text="@string/create_reminder" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ad_unit_id">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout>

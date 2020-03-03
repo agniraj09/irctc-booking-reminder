@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#05109e</color>
+    <color name="colorPrimaryDark">#05109e</color>
+    <color name="colorAccent">#54a3f0</color>
+    <color name="colorAccentDark">#05109e</color>
+    <color name="homescreenmenu">#ffffff</color>
+    <color name="labelcolor">#05109e</color>
+    <color name="createbutton">#af992a</color>
+    <color name="year">#999999</color>
+    <color name="title">#222222</color>
+    <color name="sortBar">#56dee4e9</color>
+    <color name="sortBarLine">#a1c6cbcf</color>
+</resources>
