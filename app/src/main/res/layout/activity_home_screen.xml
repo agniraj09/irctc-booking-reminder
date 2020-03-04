@@ -16,6 +16,55 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                card_view:cardBackgroundColor="@color/colorAccent"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="5dp"
+                card_view:cardPreventCornerOverlap="true"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="230dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/booking_day_calc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:onClick="goToBookingCalculatorPage"
+                        android:text="@string/booking_day_calc"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/homescreenmenu" />
+
+                    <ImageView
+                        android:id="@+id/booking_day_calc_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.3"
+                        android:background="@color/colorAccentDark" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/firstLinear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,9 +114,7 @@
                         android:background="@color/colorAccentDark"
                         android:onClick="showAdvanceBookingReminderInfo"
                         android:src="@drawable/ic_information_outline_white_48dp" />
-
                 </LinearLayout>
-
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -215,6 +262,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
+
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"

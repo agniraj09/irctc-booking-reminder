@@ -38,6 +38,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
     }
 
+    public void goToBookingCalculatorPage(View view) {
+            Intent intent = new Intent(HomeScreenActivity.this, BookingDayCalculatorActivity.class);
+            startActivity(intent);
+    }
+
     public void goToAdvanceBookingReminderPage(View view) {
         if (arePermissionsGranted()) {
             Intent intent = new Intent(HomeScreenActivity.this, AdvanceBookingReminderActivity.class);

@@ -23,6 +23,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.BookingDayCalculatorActivity"
+            android:parentActivityName=".activities.HomeScreenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.HomeScreenActivity" />
+        </activity>
+        <activity
             android:name=".activities.AdvanceBookingReminderActivity"
             android:parentActivityName=".activities.HomeScreenActivity"
             android:screenOrientation="portrait"

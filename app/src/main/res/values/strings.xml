@@ -4,6 +4,7 @@
     <string name="tatkal_reminder">Tatkal Reminder</string>
     <string name="custom_reminder">Custom Reminder</string>
     <string name="view_reminder">View Reminders</string>
+    <string name="booking_day_calc">Booking Day Calculator</string>
     <string name="sortByTD">Travel Date</string>
     <string name="sortByRD">Reminder Date</string>
     <string name="showOnly">Show</string>
@@ -13,6 +14,7 @@
     <string name="select_rem_date">Select Reminder Date *</string>
     <string name="travel_date">DD/MM/YYYY</string>
     <string name="create_reminder">Create Reminder</string>
+    <string name="calculate_booking_date">Calculate Booking Date</string>
     <string name="travel_date_label">Travel Date</string>
     <string name="reminder_date_label">Reminder Date</string>
     <string name="reminder_type_label">Type</string>
