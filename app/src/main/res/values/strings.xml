@@ -18,6 +18,8 @@
     <string name="travel_date_label">Travel Date</string>
     <string name="reminder_date_label">Reminder Date</string>
     <string name="reminder_type_label">Type</string>
+    <string name="ac">AC Coach</string>
+    <string name="non_ac">Non AC Coach</string>
     <string name="okay">OK</string>
     <string name="goto_home">Go to Home</string>
     <string name="create_another">One More</string>

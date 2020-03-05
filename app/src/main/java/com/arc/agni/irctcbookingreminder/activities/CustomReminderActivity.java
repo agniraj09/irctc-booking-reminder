@@ -117,10 +117,10 @@ public class CustomReminderActivity extends AppCompatActivity {
             }
 
             Calendar reminderDateAndTime = Calendar.getInstance();
-            reminderDateAndTime.set(input_year, input_month, input_date, 7, 0);
+            reminderDateAndTime.set(input_year, input_month, input_date, 7, 30);
 
             Calendar travelDateAndTime = Calendar.getInstance();
-            travelDateAndTime.set(travel_year, travel_month, travel_date, 7, 0);
+            travelDateAndTime.set(travel_year, travel_month, travel_date, 7, 30);
 
             ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, travelDateAndTime, input_title, reminderType);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {

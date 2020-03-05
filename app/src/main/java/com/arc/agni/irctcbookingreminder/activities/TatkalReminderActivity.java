@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
     CalendarUtil calendarUtil = new CalendarUtil();
     static String input_title;
     EditText travel_title;
-    static int input_date, input_month, input_year;
+    static int input_date=0, input_month=0, input_year=0;
     int dateX, monthX, yearX;
     EditText travel_date;
     private AdView mAdView;
@@ -76,33 +77,53 @@ public class TatkalReminderActivity extends AppCompatActivity {
         travel_title = findViewById(R.id.tr_event_title_input);
         input_title = travel_title.getText().toString();
 
+        CheckBox ac = findViewById(R.id.acCoach);
+        CheckBox nonAc = findViewById(R.id.nonAcCoach);
+        boolean checkedAtleastOne = ac.isChecked() | nonAc.isChecked();
+
         if (validationUtil.advanceBookingValidation(input_title, input_date)) {
-            AdvanceBookingReminderActivity advanceBookingReminderActivity = new AdvanceBookingReminderActivity();
-            long calId = advanceBookingReminderActivity.getCalendarId(this);
-            if (calId == -1) {
-                advanceBookingReminderActivity.createCalendar(this);
-                calId = advanceBookingReminderActivity.getCalendarId(this);
+            if (checkedAtleastOne) {
+                AdvanceBookingReminderActivity advanceBookingReminderActivity = new AdvanceBookingReminderActivity();
+                long calId = advanceBookingReminderActivity.getCalendarId(this);
+                if (calId == -1) {
+                    advanceBookingReminderActivity.createCalendar(this);
+                    calId = advanceBookingReminderActivity.getCalendarId(this);
+                }
+
+                Calendar reminderDateAndTime = Calendar.getInstance();
+
+                if(ac.isChecked()) {
+                    reminderDateAndTime.set(input_year, input_month, input_date, 9, 30);
+                    reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -1);
+                    createReminder(calId, reminderDateAndTime);
+                }
+
+                if(nonAc.isChecked()){
+                    reminderDateAndTime.set(input_year, input_month, input_date, 10, 30);
+                    reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -1);
+                    createReminder(calId, reminderDateAndTime);
+                }
+
+                DialogUtil.showDialogPostEventCreation(TatkalReminderActivity.this, 2);
+            } else {
+                Toast.makeText(this, "Please Select Coach Preference", Toast.LENGTH_SHORT).show();
             }
-
-            Calendar reminderDateAndTime = Calendar.getInstance();
-            reminderDateAndTime.set(input_year, input_month, input_date, 9, 0);
-            reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -1);
-
-            Calendar dummy = Calendar.getInstance();
-
-            ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime,dummy, input_title, reminderType);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            Uri uri = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
-            long eventID = Long.parseLong(uri.getLastPathSegment());
-            values = calendarUtil.setReminderContentValues(eventID);
-            getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, values);
-
-            DialogUtil.showDialogPostEventCreation(TatkalReminderActivity.this, 2);
         } else {
             Toast.makeText(this, "Please Enter Valid Title and Date", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void createReminder(long calId, Calendar reminderDateAndTime) {
+        Calendar dummy = Calendar.getInstance();
+
+        ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, dummy, input_title, reminderType);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Uri uri = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
+        long eventID = Long.parseLong(uri.getLastPathSegment());
+        values = calendarUtil.setReminderContentValues(eventID);
+        getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, values);
     }
 
     @Override

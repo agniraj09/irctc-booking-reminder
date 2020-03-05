@@ -49,7 +49,7 @@ public class CalendarUtil {
         ContentValues values = new ContentValues();
         TimeZone timeZone = TimeZone.getDefault();
         long startMillis = reminderDateTime.getTimeInMillis();
-        reminderDateTime.add(Calendar.MINUTE, 50);
+        reminderDateTime.add(Calendar.MINUTE, 25);
         long endMillis = reminderDateTime.getTimeInMillis();
         long exMillis = exDate.getTimeInMillis();
 

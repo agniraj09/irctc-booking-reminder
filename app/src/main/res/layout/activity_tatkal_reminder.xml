@@ -52,11 +52,38 @@
         android:onClick="showDatePickerDialogOnButtonClick"
         android:textAlignment="center" />
 
+    <LinearLayout
+        android:id="@+id/checkBoxes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tr_traveldate">
+
+        <CheckBox
+            android:id="@+id/acCoach"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:text="@string/ac" />
+
+        <CheckBox
+            android:id="@+id/nonAcCoach"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:text="@string/non_ac" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/create120DayReminderEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tr_traveldate"
+        android:layout_below="@id/checkBoxes"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:onClick="createEvent"
@@ -72,4 +99,5 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/ad_unit_id">
     </com.google.android.gms.ads.AdView>
+
 </RelativeLayout>

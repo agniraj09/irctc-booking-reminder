@@ -133,7 +133,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             }
 
             Calendar reminderDateAndTime = Calendar.getInstance();
-            reminderDateAndTime.set(input_year, input_month, input_date, 7, 0);
+            reminderDateAndTime.set(input_year, input_month, input_date, 7, 30);
             reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -120);
 
             Calendar dummy = Calendar.getInstance();
