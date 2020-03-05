@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.DatePicker;
@@ -60,6 +61,7 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
                 input_date = day;
                 String travelDate = input_date + "/" + (input_month + 1) + "/" + input_year;
                 travel_date.setText(travelDate);
+                calculateBookingDate(view);
             }
         }, yearX, monthX, dateX);
 
@@ -73,8 +75,10 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
 
     public void calculateBookingDate(View view) {
         if (input_date > 0) {
+            boolean bookingStarted;
             String fullText;
             String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+            String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
             // Calculate booking Date from User selected travel date
             Calendar bookingDate = Calendar.getInstance();
@@ -82,23 +86,34 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
             bookingDate.add(Calendar.DAY_OF_YEAR, -120);
 
             // Make up final text to be shown in screen
-            String bookingDateText = months[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + " " + bookingDate.get(Calendar.YEAR);
-            String bookingTimeText = "8.00 a.m. IST";
+            String bookingDateText = months[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + ", " + bookingDate.get(Calendar.YEAR) + " (" + days[bookingDate.get(Calendar.DAY_OF_WEEK) - 1] + ") ";
+            String bookingTimeText = "8.00 a.m.";
             if (bookingDate.getTime().after(Calendar.getInstance().getTime())) {
-                fullText = "Booking will start on " + bookingDateText + " at " + bookingTimeText;
+                bookingStarted = false;
+                fullText = "Booking will start on\n" + bookingDateText + "\nat " + bookingTimeText;
             } else {
-                fullText = "Booking has already started on " + bookingDateText + " at " + bookingTimeText;
+                bookingStarted = true;
+                fullText = "Booking has already started on\n" + bookingDateText + "\nat " + bookingTimeText + " IST";
             }
 
             // Format final text
             ForegroundColorSpan red = new ForegroundColorSpan(Color.RED);
+            ForegroundColorSpan green = new ForegroundColorSpan(0xFF388C16);
+            RelativeSizeSpan textSize = new RelativeSizeSpan(1.4f);
             SpannableString finalResultText = new SpannableString(fullText);
             finalResultText.setSpan(new StyleSpan(Typeface.BOLD), fullText.indexOf(bookingDateText), fullText.indexOf(bookingDateText) + bookingDateText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            finalResultText.setSpan(red, fullText.indexOf(bookingDateText), fullText.indexOf(bookingDateText) + bookingDateText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (bookingStarted) {
+                finalResultText.setSpan(red, fullText.indexOf(bookingDateText), fullText.indexOf(bookingDateText) + bookingDateText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                finalResultText.setSpan(textSize, fullText.indexOf(bookingDateText), fullText.indexOf(bookingDateText) + bookingDateText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else {
+                finalResultText.setSpan(green, fullText.indexOf(bookingDateText), fullText.indexOf(bookingDateText) + bookingDateText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                finalResultText.setSpan(textSize, fullText.indexOf(bookingDateText), fullText.indexOf(bookingDateText) + bookingDateText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
             TextView result = findViewById(R.id.bc_result_textview);
+            result.setBackgroundResource(R.drawable.result_textview);
             result.setText(finalResultText);
         } else {
-            Toast.makeText(this, "Please Enter Valid Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please Select Valid Date", Toast.LENGTH_SHORT).show();
         }
     }
 }

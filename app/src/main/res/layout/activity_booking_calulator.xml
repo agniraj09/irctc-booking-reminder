@@ -31,27 +31,17 @@
         android:onClick="showDatePickerDialogOnButtonClick"
         android:textAlignment="center" />
 
-    <Button
-        android:id="@+id/calculate_booking_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bc_traveldate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:onClick="calculateBookingDate"
-        android:textColor="@color/labelcolor"
-        android:text="@string/calculate_booking_date" />
-
     <TextView
         android:id="@+id/bc_result_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calculate_booking_date"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="25dp"
-        android:textSize="20sp"
+        android:layout_marginTop="130dp"
+        android:padding="15dp"
         android:textAlignment="center"
-        android:textColor="@color/resultText" />
+        android:textColor="@color/resultText"
+        android:textSize="16sp" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
