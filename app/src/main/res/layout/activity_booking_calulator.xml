@@ -43,6 +43,18 @@
         android:textColor="@color/resultText"
         android:textSize="16sp" />
 
+    <Button
+        android:id="@+id/bc_create120DayReminderEvent"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bc_result_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:onClick="createEvent"
+        android:textColor="@color/labelcolor"
+        android:text="@string/create_reminder_arrow" />
+
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="fill_parent"

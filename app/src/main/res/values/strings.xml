@@ -9,11 +9,12 @@
     <string name="sortByRD">Reminder Date</string>
     <string name="showOnly">Show</string>
     <string name="travel_title">Reminder Title *</string>
-    <string name="hint">Marriage Plan Visit</string>
+    <string name="hint">New Year Ticket Booking</string>
     <string name="select_date">Select Travel Date *</string>
     <string name="select_rem_date">Select Reminder Date *</string>
     <string name="travel_date">DD/MM/YYYY</string>
     <string name="create_reminder">Create Reminder</string>
+    <string name="create_reminder_arrow">Create Reminder  ⏩</string>
     <string name="calculate_booking_date">Calculate Booking Date</string>
     <string name="travel_date_label">Travel Date</string>
     <string name="reminder_date_label">Reminder Date</string>

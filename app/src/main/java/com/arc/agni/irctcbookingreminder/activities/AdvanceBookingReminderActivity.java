@@ -32,12 +32,12 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
 
     CalendarUtil calendarUtil = new CalendarUtil();
     static String input_title;
-    static int input_date, input_month, input_year;
+    static int input_date = 0, input_month = 0, input_year = 0;
     int dateX, monthX, yearX;
     EditText travel_date;
     EditText travel_title;
     private AdView mAdView;
-    public  String reminderType = "120 Day Reminder";
+    public String reminderType = "120 Day Reminder";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,10 +47,18 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
 
         travel_date = findViewById(R.id.ab_traveldate);
 
+        // Optional
+        input_date = getIntent().getIntExtra("input_date", 0);
+        input_month = getIntent().getIntExtra("input_month", 0);
+        input_year = getIntent().getIntExtra("input_year", 0);
+        if (input_date != 0) {
+            String travelDate = input_date + "/" + (input_month + 1) + "/" + input_year;
+            travel_date.setText(travelDate);
+        }
+
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-
     }
 
     public void createCalendar(Context context) {
@@ -156,16 +164,16 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View v = getCurrentFocus();
-            if ( v instanceof EditText) {
+            if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 }

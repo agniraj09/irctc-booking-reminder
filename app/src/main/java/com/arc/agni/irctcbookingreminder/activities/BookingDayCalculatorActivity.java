@@ -1,6 +1,7 @@
 package com.arc.agni.irctcbookingreminder.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
 
     EditText travel_date;
     static int input_date, input_month, input_year;
+    static int booking_date, booking_month, booking_year;
     int dateX, monthX, yearX;
 
     @Override
@@ -84,6 +87,9 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
             Calendar bookingDate = Calendar.getInstance();
             bookingDate.set(input_year, input_month, input_date);
             bookingDate.add(Calendar.DAY_OF_YEAR, -120);
+            booking_date = bookingDate.get(Calendar.DAY_OF_MONTH);
+            booking_month = bookingDate.get(Calendar.MONTH);
+            booking_year = bookingDate.get(Calendar.YEAR);
 
             // Make up final text to be shown in screen
             String bookingDateText = months[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + ", " + bookingDate.get(Calendar.YEAR) + " (" + days[bookingDate.get(Calendar.DAY_OF_WEEK) - 1] + ") ";
@@ -91,6 +97,9 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
             if (bookingDate.getTime().after(Calendar.getInstance().getTime())) {
                 bookingStarted = false;
                 fullText = "Booking will start on\n" + bookingDateText + "\nat " + bookingTimeText;
+                // Set Visibility of Create Event Button True
+                Button createEvent = findViewById(R.id.bc_create120DayReminderEvent);
+                createEvent.setVisibility(View.VISIBLE);
             } else {
                 bookingStarted = true;
                 fullText = "Booking has already started on\n" + bookingDateText + "\nat " + bookingTimeText + " IST";
@@ -115,5 +124,13 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please Select Valid Date", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void createEvent(View view) {
+        Intent intent = new Intent(BookingDayCalculatorActivity.this, AdvanceBookingReminderActivity.class);
+        intent.putExtra("input_year", booking_year);
+        intent.putExtra("input_month", booking_month);
+        intent.putExtra("input_date", booking_date);
+        startActivity(intent);
     }
 }

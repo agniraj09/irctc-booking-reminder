@@ -12,7 +12,9 @@ import android.widget.Button;
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.AdvanceBookingReminderActivity;
+import com.arc.agni.irctcbookingreminder.activities.BookingDayCalculatorActivity;
 import com.arc.agni.irctcbookingreminder.activities.CustomReminderActivity;
+import com.arc.agni.irctcbookingreminder.activities.HomeScreenActivity;
 import com.arc.agni.irctcbookingreminder.activities.TatkalReminderActivity;
 import com.arc.agni.irctcbookingreminder.activities.ViewRemindersActivity;
 
@@ -87,6 +89,11 @@ public class DialogUtil {
                 CustomReminderActivity.isTravelDateSelected = false;
                 dialog.dismiss();
                 ((Activity) context).finish();
+                Intent intent = new Intent(context, HomeScreenActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                context.startActivity(intent);
             }
         });
 
