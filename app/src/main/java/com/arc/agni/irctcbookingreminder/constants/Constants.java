@@ -74,7 +74,7 @@ public class Constants {
     public static final String CANCEL = "Cancel";
 
     // Admob Constants
-    public static String ADMOB_APP_ID = "ca-app-pub-4587610802196055~4797049191";
+    public static String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
 
     // Calendar Constants
     public static final String CALENDAR_ACCOUNT_NAME = "IRCTC Booking Reminder";

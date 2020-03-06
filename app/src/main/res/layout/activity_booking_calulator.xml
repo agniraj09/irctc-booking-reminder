@@ -13,7 +13,6 @@
         android:id="@+id/bc_traveldate_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ab_event_title_input"
         android:layout_centerHorizontal="true"
         android:paddingTop="25dp"
         android:text="@string/select_date"

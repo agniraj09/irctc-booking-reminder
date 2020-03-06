@@ -8,8 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -19,6 +17,9 @@ import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
 
@@ -38,7 +39,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         MobileAds.initialize(this, ADMOB_APP_ID);
         mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("0EC56B91253E874AAF286CEDC3945F6A").build();
         mAdView.loadAd(adRequest);
 
         // Create Notification Channel

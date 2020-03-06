@@ -5,11 +5,12 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.TatkalReminderActivity;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_ID;
