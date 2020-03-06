@@ -32,20 +32,20 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
-public class BookingDayCalculatorActivity extends AppCompatActivity {
-    public static String ADMOB_APP_ID = "ca-app-pub-4587610802196055~4797049191";
-    private AdView mAdView;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
 
+public class BookingDayCalculatorActivity extends AppCompatActivity {
+
+    private AdView mAdView;
     EditText travel_date;
     static int input_date, input_month, input_year;
-    static int booking_date, booking_month, booking_year;
     int dateX, monthX, yearX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_calulator);
-        setTitle("Booking Day Calculator");
+        setTitle(TITLE_BOOKING_DAY_CALCULATOR);
 
         travel_date = findViewById(R.id.bc_traveldate);
 
@@ -69,7 +69,7 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
         }, yearX, monthX, dateX);
 
         Calendar userShowDateStart = Calendar.getInstance();
-        userShowDateStart.add(Calendar.DAY_OF_YEAR, 1);
+        userShowDateStart.add(Calendar.DAY_OF_YEAR, _1_DAY);
 
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
@@ -80,29 +80,23 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
         if (input_date > 0) {
             boolean bookingStarted;
             String fullText;
-            String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-            String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
             // Calculate booking Date from User selected travel date
             Calendar bookingDate = Calendar.getInstance();
             bookingDate.set(input_year, input_month, input_date);
-            bookingDate.add(Calendar.DAY_OF_YEAR, -120);
-            booking_date = bookingDate.get(Calendar.DAY_OF_MONTH);
-            booking_month = bookingDate.get(Calendar.MONTH);
-            booking_year = bookingDate.get(Calendar.YEAR);
+            bookingDate.add(Calendar.DAY_OF_YEAR, MINUS_120_DAYS);
 
             // Make up final text to be shown in screen
-            String bookingDateText = months[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + ", " + bookingDate.get(Calendar.YEAR) + " (" + days[bookingDate.get(Calendar.DAY_OF_WEEK) - 1] + ") ";
-            String bookingTimeText = "8.00 a.m.";
+            String bookingDateText = MONTHS[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + ", " + bookingDate.get(Calendar.YEAR) + " (" + DAYS[bookingDate.get(Calendar.DAY_OF_WEEK) - 1] + ") ";
             if (bookingDate.getTime().after(Calendar.getInstance().getTime())) {
                 bookingStarted = false;
-                fullText = "Booking will start on\n" + bookingDateText + "\nat " + bookingTimeText;
+                fullText = BOOKING_WILL_START + "\n" + bookingDateText + "\n" + AT + BOOKING_OPENING_TIME + IST;
                 // Set Visibility of Create Event Button True
                 Button createEvent = findViewById(R.id.bc_create120DayReminderEvent);
                 createEvent.setVisibility(View.VISIBLE);
             } else {
                 bookingStarted = true;
-                fullText = "Booking has already started on\n" + bookingDateText + "\nat " + bookingTimeText + " IST";
+                fullText = BOOKING_STARTED + "\n" + bookingDateText + "\n" + AT + BOOKING_OPENING_TIME + IST;
             }
 
             // Format final text
@@ -122,15 +116,15 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
             result.setBackgroundResource(R.drawable.result_textview);
             result.setText(finalResultText);
         } else {
-            Toast.makeText(this, "Please Select Valid Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, DATE_WARNING, Toast.LENGTH_SHORT).show();
         }
     }
 
     public void createEvent(View view) {
         Intent intent = new Intent(BookingDayCalculatorActivity.this, AdvanceBookingReminderActivity.class);
-        intent.putExtra("input_year", booking_year);
-        intent.putExtra("input_month", booking_month);
-        intent.putExtra("input_date", booking_date);
+        intent.putExtra(LABEL_INPUT_YEAR, input_year);
+        intent.putExtra(LABEL_INPUT_MONTH, input_month);
+        intent.putExtra(LABEL_INPUT_DATE, input_date);
         startActivity(intent);
     }
 }

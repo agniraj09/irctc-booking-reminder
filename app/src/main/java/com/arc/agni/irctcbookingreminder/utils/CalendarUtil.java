@@ -3,39 +3,44 @@ package com.arc.agni.irctcbookingreminder.utils;
 import android.content.ContentValues;
 import android.provider.CalendarContract;
 
-import com.arc.agni.irctcbookingreminder.activities.CustomReminderActivity;
-
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_ACCOUNT_NAME;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_COLOR_LOCAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_NAME;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.OWNER_ACCOUNT_ID;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_DURATION;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
+
 public class CalendarUtil {
 
-    public static final String MY_ACCOUNT_NAME = "IRCTC Booking Reminder";
+
 
     public ContentValues setCalendarContentValues(){
 
         ContentValues values = new ContentValues();
         values.put(
                 CalendarContract.Calendars.ACCOUNT_NAME,
-                MY_ACCOUNT_NAME);
+                CALENDAR_ACCOUNT_NAME);
         values.put(
                 CalendarContract.Calendars.ACCOUNT_TYPE,
                 CalendarContract.ACCOUNT_TYPE_LOCAL);
         values.put(
                 CalendarContract.Calendars.NAME,
-                "IRCTC Reminder Calendar");
+                CALENDAR_NAME);
         values.put(
                 CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                "IRCTC Reminder Calendar");
+                CALENDAR_NAME);
         values.put(
                 CalendarContract.Calendars.CALENDAR_COLOR,
-                0xffff0000);
+                CALENDAR_COLOR_LOCAL);
         values.put(
                 CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,
                 CalendarContract.Calendars.CAL_ACCESS_OWNER);
         values.put(
                 CalendarContract.Calendars.OWNER_ACCOUNT,
-                "abc@xyz.com");
+                OWNER_ACCOUNT_ID);
         values.put(
                 CalendarContract.Calendars.CALENDAR_TIME_ZONE,
                 "");
@@ -49,7 +54,7 @@ public class CalendarUtil {
         ContentValues values = new ContentValues();
         TimeZone timeZone = TimeZone.getDefault();
         long startMillis = reminderDateTime.getTimeInMillis();
-        reminderDateTime.add(Calendar.MINUTE, 25);
+        reminderDateTime.add(Calendar.MINUTE, REMINDER_DURATION);
         long endMillis = reminderDateTime.getTimeInMillis();
         long exMillis = exDate.getTimeInMillis();
 
@@ -59,7 +64,7 @@ public class CalendarUtil {
         values.put(CalendarContract.Events.DESCRIPTION, reminderType);
         values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-        if(reminderType.equalsIgnoreCase(CustomReminderActivity.reminderType)) {
+        if(reminderType.equalsIgnoreCase(REMINDER_TYPE_CUSTOM)) {
             values.put(CalendarContract.Events.EXDATE, exMillis);
         }
         return values;

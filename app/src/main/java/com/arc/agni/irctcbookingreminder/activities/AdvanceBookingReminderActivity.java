@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
+
+import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
+
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
@@ -37,20 +40,19 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
     EditText travel_date;
     EditText travel_title;
     private AdView mAdView;
-    public String reminderType = "120 Day Reminder";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advance_booking);
-        setTitle("120 Day Reminder");
+        setTitle(TITLE_120_DAY_REMINDER);
 
         travel_date = findViewById(R.id.ab_traveldate);
 
         // Optional
-        input_date = getIntent().getIntExtra("input_date", 0);
-        input_month = getIntent().getIntExtra("input_month", 0);
-        input_year = getIntent().getIntExtra("input_year", 0);
+        input_date = getIntent().getIntExtra(LABEL_INPUT_DATE, 0);
+        input_month = getIntent().getIntExtra(LABEL_INPUT_MONTH, 0);
+        input_year = getIntent().getIntExtra(LABEL_INPUT_YEAR, 0);
         if (input_date != 0) {
             String travelDate = input_date + "/" + (input_month + 1) + "/" + input_year;
             travel_date.setText(travelDate);
@@ -67,7 +69,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
                 CalendarContract.Calendars.CONTENT_URI.buildUpon();
         builder.appendQueryParameter(
                 CalendarContract.Calendars.ACCOUNT_NAME,
-                CalendarUtil.MY_ACCOUNT_NAME);
+                CALENDAR_ACCOUNT_NAME);
         builder.appendQueryParameter(
                 CalendarContract.Calendars.ACCOUNT_TYPE,
                 CalendarContract.ACCOUNT_TYPE_LOCAL);
@@ -91,7 +93,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
         }, yearX, monthX, dateX);
 
         Calendar userShowDateStart = Calendar.getInstance();
-        userShowDateStart.add(Calendar.DAY_OF_YEAR, 121);
+        userShowDateStart.add(Calendar.DAY_OF_YEAR, _121_DAYS);
 
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
@@ -109,7 +111,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
 
         String[] selArgs =
                 new String[]{
-                        CalendarUtil.MY_ACCOUNT_NAME,
+                        CALENDAR_ACCOUNT_NAME,
                         CalendarContract.ACCOUNT_TYPE_LOCAL};
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             return noSuchCalendarIndicator;
@@ -141,11 +143,11 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             }
 
             Calendar reminderDateAndTime = Calendar.getInstance();
-            reminderDateAndTime.set(input_year, input_month, input_date, 7, 30);
-            reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -120);
+            reminderDateAndTime.set(input_year, input_month, input_date, _120_DAY_BOOKING_REMINDER_HOUR, _120_DAY_BOOKING_REMINDER_MINUTE);
+            reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_120_DAYS);
 
             Calendar dummy = Calendar.getInstance();
-            ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, dummy, input_title, reminderType);
+            ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, dummy, input_title, REMINDER_TYPE_120_DAY);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
@@ -154,9 +156,9 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             values = calendarUtil.setReminderContentValues(eventID);
             getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, values);
 
-            DialogUtil.showDialogPostEventCreation(AdvanceBookingReminderActivity.this, 1);
+            DialogUtil.showDialogPostEventCreation(AdvanceBookingReminderActivity.this, IND_120_DAY_REMINDER);
         } else {
-            Toast.makeText(this, "Please Enter Valid Title and Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();
         }
     }
 

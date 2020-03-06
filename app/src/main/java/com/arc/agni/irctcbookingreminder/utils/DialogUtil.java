@@ -18,6 +18,16 @@ import com.arc.agni.irctcbookingreminder.activities.HomeScreenActivity;
 import com.arc.agni.irctcbookingreminder.activities.TatkalReminderActivity;
 import com.arc.agni.irctcbookingreminder.activities.ViewRemindersActivity;
 
+import static android.os.FileObserver.DELETE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CANCEL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DELETE_EVENT;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DELETE_OPTION;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DELETE_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_120_DAY_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_CUSTOM_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_TATKAL_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_VIEW_REMINDERS;
+
 public class DialogUtil {
 
     Context context;
@@ -30,16 +40,16 @@ public class DialogUtil {
 
     public void showDeleteEventDialog(final Context context, final String eventID) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setTitle("Delete Event");
+        alertDialogBuilder.setTitle(DELETE_EVENT);
         alertDialogBuilder
-                .setMessage("Are you sure you want to delete the event ?")
+                .setMessage(DELETE_WARNING)
                 .setCancelable(false)
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                .setPositiveButton(DELETE_OPTION, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         viewRemindersActivity.deleteEvent(eventID, context);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(CANCEL, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -68,11 +78,11 @@ public class DialogUtil {
                 ((Activity) context).finish();
                 ((Activity) context).overridePendingTransition(0, 0);
 
-                if (activityIndicator == 1) {
+                if (activityIndicator == IND_120_DAY_REMINDER) {
                     intent = new Intent(context, AdvanceBookingReminderActivity.class);
-                } else if (activityIndicator == 2) {
+                } else if (activityIndicator == IND_TATKAL_REMINDER) {
                     intent = new Intent(context, TatkalReminderActivity.class);
-                } else if (activityIndicator == 3) {
+                } else if (activityIndicator == IND_CUSTOM_REMINDER) {
                     intent = new Intent(context, CustomReminderActivity.class);
                 }
 
@@ -108,19 +118,19 @@ public class DialogUtil {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         switch (indicator) {
-            case 1: {
+            case IND_120_DAY_REMINDER: {
                 dialog.setContentView(R.layout.dialog_advancebooking_description);
                 break;
             }
-            case 2: {
+            case IND_TATKAL_REMINDER: {
                 dialog.setContentView(R.layout.dialog_tatkalbooking_description);
                 break;
             }
-            case 3: {
+            case IND_CUSTOM_REMINDER: {
                 dialog.setContentView(R.layout.dialog_custombooking_description);
                 break;
             }
-            case 4:
+            case IND_VIEW_REMINDERS:
             {
                 dialog.setContentView(R.layout.dialog_viewreminders_description);
                 break;

@@ -27,6 +27,8 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.Calendar;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
+
 public class CustomReminderActivity extends AppCompatActivity {
 
     CalendarUtil calendarUtil = new CalendarUtil();
@@ -34,19 +36,17 @@ public class CustomReminderActivity extends AppCompatActivity {
     static int input_date, input_month, input_year;
     static int travel_date, travel_month, travel_year;
     int dateX, monthX, yearX;
-    EditText reminder_date;
-    EditText travel_date_show;
-    EditText travel_title;
+    EditText reminder_date, travel_date_show, travel_title;
     private AdView mAdView;
     static Calendar selectedTravelDate = Calendar.getInstance();
     public static boolean isTravelDateSelected = false;
-    public static String reminderType = "Custom Reminder";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_reminder);
-        setTitle("Custom Reminder");
+        setTitle(TITLE_CUSTOM_REMINDER);
 
         reminder_date = findViewById(R.id.cr_reminderdate);
         travel_date_show = findViewById(R.id.cr_traveldate);
@@ -71,14 +71,14 @@ public class CustomReminderActivity extends AppCompatActivity {
             }, yearX, monthX, dateX);
 
             Calendar userShowDateStart = Calendar.getInstance();
-            userShowDateStart.add(Calendar.DAY_OF_YEAR, 1);
+            userShowDateStart.add(Calendar.DAY_OF_YEAR, _1_DAY);
 
             datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
             datePickerDialog.getDatePicker().setMaxDate(selectedTravelDate.getTimeInMillis() - 1000);
             datePickerDialog.setTitle("");
             datePickerDialog.show();
         } else {
-            Toast.makeText(this, "Please Select Travel Date First", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, TRAVEL_DATE_WARNING, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -96,7 +96,7 @@ public class CustomReminderActivity extends AppCompatActivity {
         }, yearX, monthX, dateX);
 
         Calendar userShowDateStart = Calendar.getInstance();
-        userShowDateStart.add(Calendar.DAY_OF_YEAR, 1);
+        userShowDateStart.add(Calendar.DAY_OF_YEAR, _1_DAY);
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
         datePickerDialog.show();
@@ -117,12 +117,12 @@ public class CustomReminderActivity extends AppCompatActivity {
             }
 
             Calendar reminderDateAndTime = Calendar.getInstance();
-            reminderDateAndTime.set(input_year, input_month, input_date, 7, 30);
+            reminderDateAndTime.set(input_year, input_month, input_date, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
 
             Calendar travelDateAndTime = Calendar.getInstance();
-            travelDateAndTime.set(travel_year, travel_month, travel_date, 7, 30);
+            travelDateAndTime.set(travel_year, travel_month, travel_date, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
 
-            ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, travelDateAndTime, input_title, reminderType);
+            ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, travelDateAndTime, input_title, REMINDER_TYPE_CUSTOM);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
@@ -131,9 +131,9 @@ public class CustomReminderActivity extends AppCompatActivity {
             values = calendarUtil.setReminderContentValues(eventID);
             getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, values);
 
-            DialogUtil.showDialogPostEventCreation(CustomReminderActivity.this, 3);
+            DialogUtil.showDialogPostEventCreation(CustomReminderActivity.this, IND_CUSTOM_REMINDER);
         } else {
-            Toast.makeText(this, "Please Enter Valid Title and Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();
         }
     }
 

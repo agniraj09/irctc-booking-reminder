@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
+
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
 
     private Event[] events;
@@ -72,8 +74,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
         String remDate = "";
         String traDate = "";
-        String[] dayofWeek = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
-                "Friday", "Saturday"};
         long reminderdate = Long.parseLong(events[position].getReminderDate());
         long traveldate = Long.parseLong(events[position].getTravelDate());
 
@@ -82,8 +82,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         reminderDatetoUI.setTimeInMillis(reminderdate);
         travelDatetoUI.setTimeInMillis(traveldate);
 
-        remDate = ("  :  " + dayofWeek[reminderDatetoUI.get(Calendar.DAY_OF_WEEK)-1] + ", " +  reminderDatetoUI.get(Calendar.DATE) + "/" + (reminderDatetoUI.get(Calendar.MONTH) + 1) + "/" + reminderDatetoUI.get(Calendar.YEAR));
-        traDate = ("  :  " + dayofWeek[travelDatetoUI.get(Calendar.DAY_OF_WEEK)-1] + ", " + travelDatetoUI.get(Calendar.DATE) + "/" + (travelDatetoUI.get(Calendar.MONTH) + 1) + "/" + travelDatetoUI.get(Calendar.YEAR));
+        remDate = ("  :  " + DAYS[reminderDatetoUI.get(Calendar.DAY_OF_WEEK)-1] + ", " +  reminderDatetoUI.get(Calendar.DATE) + "/" + (reminderDatetoUI.get(Calendar.MONTH) + 1) + "/" + reminderDatetoUI.get(Calendar.YEAR));
+        traDate = ("  :  " + DAYS[travelDatetoUI.get(Calendar.DAY_OF_WEEK)-1] + ", " + travelDatetoUI.get(Calendar.DATE) + "/" + (travelDatetoUI.get(Calendar.MONTH) + 1) + "/" + travelDatetoUI.get(Calendar.YEAR));
         String reminderType = "  :  " + events[position].getEventType();
 
         holder.eventTitle.setText(events[position].getEventTitle());

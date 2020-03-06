@@ -20,9 +20,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
+
 public class HomeScreenActivity extends AppCompatActivity {
 
-    public static String ADMOB_APP_ID = "ca-app-pub-4587610802196055~4797049191";
     private AdView mAdView;
     private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 1;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 2;
@@ -80,19 +81,19 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     public void showAdvanceBookingReminderInfo(View view) {
-        dialogUtil.showDescriptionDialog(this, 1);
+        dialogUtil.showDescriptionDialog(this, IND_120_DAY_REMINDER);
     }
 
     public void showTatkalReminderInfo(View view) {
-        dialogUtil.showDescriptionDialog(this, 2);
+        dialogUtil.showDescriptionDialog(this, IND_TATKAL_REMINDER);
     }
 
     public void showCustomReminderInfo(View view) {
-        dialogUtil.showDescriptionDialog(this, 3);
+        dialogUtil.showDescriptionDialog(this, IND_CUSTOM_REMINDER);
     }
 
     public void showViewRemindersInfo(View view) {
-        dialogUtil.showDescriptionDialog(this, 4);
+        dialogUtil.showDescriptionDialog(this, IND_VIEW_REMINDERS);
     }
 
     public boolean arePermissionsGranted() {
@@ -129,7 +130,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     return;
                 } else {
-                    Toast.makeText(this, "Calendar Permission needed to proceed further", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, CALENDAR_PERMISSION_WARNING, Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -139,7 +140,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     return;
                 } else {
-                    Toast.makeText(this, "Calendar Permission needed to proceed further", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, CALENDAR_PERMISSION_WARNING, Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -149,12 +150,10 @@ public class HomeScreenActivity extends AppCompatActivity {
     private void createNotificationChannel() {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            String name = "IRCTC Booking Reminder Channel";
-            String description = "This is a channel for ";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = null;
-            channel = new NotificationChannel("irctc", name, importance);
-            channel.setDescription(description);
+            channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
+            channel.setDescription(CHANNEL_DESCRIPTION);
 
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
@@ -166,7 +165,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle("")
-                .setMessage("Are you sure you want to exit?")
+                .setMessage(EXIT_WARNING)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

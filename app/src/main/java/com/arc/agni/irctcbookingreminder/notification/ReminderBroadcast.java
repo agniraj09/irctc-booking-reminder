@@ -11,11 +11,14 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.TatkalReminderActivity;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_ID;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_ID;
+
 public class ReminderBroadcast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "irctc")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_information_outline_white_36dp)
                 .setContentTitle("Booking Reminder")
                 .setContentText("This is a reminder")
@@ -23,7 +26,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-        notificationManager.notify(200, builder.build());
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     public void createNotification(Context context, AlarmManager alarmManager, long notificationTime) {

@@ -32,6 +32,8 @@ import com.google.android.gms.ads.AdView;
 
 import java.util.Calendar;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
+
 public class TatkalReminderActivity extends AppCompatActivity {
 
     CalendarUtil calendarUtil = new CalendarUtil();
@@ -41,13 +43,12 @@ public class TatkalReminderActivity extends AppCompatActivity {
     int dateX, monthX, yearX;
     EditText travel_date;
     private AdView mAdView;
-    public static String reminderType = "Tatkal Reminder";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tatkal_reminder);
-        setTitle("Tatkal Reminder");
+        setTitle(TITLE_TATKAL_REMINDER);
 
         travel_date = findViewById(R.id.tr_traveldate);
 
@@ -69,7 +70,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
         }, yearX, monthX, dateX);
 
         Calendar userShowDateStart = Calendar.getInstance();
-        userShowDateStart.add(Calendar.DAY_OF_YEAR, 2);
+        userShowDateStart.add(Calendar.DAY_OF_YEAR, _2_DAYS);
 
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
@@ -97,35 +98,35 @@ public class TatkalReminderActivity extends AppCompatActivity {
                 Calendar reminderDateAndTime = Calendar.getInstance();
 
                 if (ac.isChecked()) {
-                    reminderDateAndTime.set(input_year, input_month, input_date, 9, 30);
-                    reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -1);
+                    reminderDateAndTime.set(input_year, input_month, input_date, TATKAL_BOOKING_AC_REMINDER_HOUR, TATKAL_BOOKING__AC_REMINDER_MINUTE);
+                    reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     createReminder(calId, reminderDateAndTime);
                 }
 
                 if (nonAc.isChecked()) {
-                    reminderDateAndTime.set(input_year, input_month, input_date, 10, 30);
-                    reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -1);
+                    reminderDateAndTime.set(input_year, input_month, input_date, TATKAL_BOOKING_NON_AC_REMINDER_HOUR, TATKAL_BOOKING__NON_AC_REMINDER_MINUTE);
+                    reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     createReminder(calId, reminderDateAndTime);
                 }
 
-                DialogUtil.showDialogPostEventCreation(TatkalReminderActivity.this, 2);
+                DialogUtil.showDialogPostEventCreation(TatkalReminderActivity.this, IND_TATKAL_REMINDER);
 
                 long time = System.currentTimeMillis();
                 long timePlusTen = 1000 * 5;
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 new ReminderBroadcast().createNotification(TatkalReminderActivity.this, alarmManager, time + timePlusTen);
             } else {
-                Toast.makeText(this, "Please Select Coach Preference", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, COACH_PREFERENCE_WARNING, Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "Please Enter Valid Title and Date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();
         }
     }
 
     public void createReminder(long calId, Calendar reminderDateAndTime) {
         Calendar dummy = Calendar.getInstance();
 
-        ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, dummy, input_title, reminderType);
+        ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, dummy, input_title, REMINDER_TYPE_TATKAL);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             return;
         }

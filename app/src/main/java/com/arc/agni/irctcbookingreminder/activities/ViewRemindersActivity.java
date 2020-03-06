@@ -40,6 +40,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
+
 public class ViewRemindersActivity extends AppCompatActivity /*implements AdapterView.OnItemSelectedListener*/ {
 
     Context context;
@@ -51,15 +53,14 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
     public static int sortByParamIndicator;
     static boolean altClickTravel = true;
     static boolean altClickRem = true;
-    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reminders);
-        setTitle("View Reminders");
+        setTitle(TITLE_VIEW_REMINDER);
 
-        mAdView = findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -78,10 +79,10 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
                 public void onClick(View v) {
                     //Creating the instance of PopupMenu
                     PopupMenu popup = new PopupMenu(ViewRemindersActivity.this, showPopupMenu);
-                    popup.getMenu().add("All");
-                    popup.getMenu().add("120 Day Reminders");
-                    popup.getMenu().add("Tatkal Reminders");
-                    popup.getMenu().add("Custom Reminders");
+                    popup.getMenu().add(ALL);
+                    popup.getMenu().add(REMINDER_TYPE_120_DAY);
+                    popup.getMenu().add(REMINDER_TYPE_TATKAL);
+                    popup.getMenu().add(REMINDER_TYPE_CUSTOM);
 
                     //registering popup with OnMenuItemClickListener
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -91,15 +92,15 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
 
                             String type = item.getTitle().toString();
                             switch (type) {
-                                case "All": {
+                                case ALL: {
                                     eventList = eventListBackup;
                                     eventAdapter.refreshEventList(eventList);
                                     break;
                                 }
-                                case "120 Day Reminders": {
+                                case REMINDER_TYPE_120_DAY: {
                                     eventList = eventListBackup;
                                     for (Event e : eventList) {
-                                        if (e.getEventType().equalsIgnoreCase("120 Day Reminder")) {
+                                        if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_120_DAY)) {
                                             eventsList.add(e);
                                         }
                                     }
@@ -107,10 +108,10 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
                                     eventAdapter.refreshEventList(eventsList);
                                     break;
                                 }
-                                case "Tatkal Reminders": {
+                                case REMINDER_TYPE_TATKAL: {
                                     eventList = eventListBackup;
                                     for (Event e : eventList) {
-                                        if (e.getEventType().equalsIgnoreCase("Tatkal Reminder")) {
+                                        if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_TATKAL)) {
                                             eventsList.add(e);
                                         }
                                     }
@@ -118,10 +119,10 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
                                     eventAdapter.refreshEventList(eventsList);
                                     break;
                                 }
-                                case "Custom Reminders": {
+                                case REMINDER_TYPE_CUSTOM: {
                                     eventList = eventListBackup;
                                     for (Event e : eventList) {
-                                        if (e.getEventType().equalsIgnoreCase("Custom Reminder")) {
+                                        if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_CUSTOM)) {
                                             eventsList.add(e);
                                         }
                                     }
@@ -150,7 +151,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
         }else {
             horizontalLine.setVisibility(View.INVISIBLE);
             sortLayout.setVisibility(View.INVISIBLE);
-            Toast toast = Toast.makeText(this, "No Events Created", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, NO_EVENTS, Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -158,7 +159,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
     }
 
     public ArrayList<Event> getEventList() {
-        ArrayList<Event> eventList = new ArrayList<Event>();
+        ArrayList<Event> eventList = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
         }
         String[] mProjection =
@@ -173,7 +174,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
 
         Uri uri = CalendarContract.Events.CONTENT_URI;
         String selection = CalendarContract.Calendars.ACCOUNT_NAME + " = ? ";
-        String[] selectionArgs = new String[]{CalendarUtil.MY_ACCOUNT_NAME};
+        String[] selectionArgs = new String[]{CALENDAR_ACCOUNT_NAME};
 
         Cursor cursor = getContentResolver().query(uri, mProjection, selection, selectionArgs, null);
 
@@ -188,17 +189,17 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
             travelDate.setTimeInMillis(Long.parseLong(event.getReminderDate()));
 
             switch (event.getEventType()) {
-                case "120 Day Reminder": {
-                    travelDate.add(Calendar.DAY_OF_YEAR, 120);
+                case REMINDER_TYPE_120_DAY: {
+                    travelDate.add(Calendar.DAY_OF_YEAR, _120_DAYS);
                     break;
                 }
 
-                case "Tatkal Reminder": {
-                    travelDate.add(Calendar.DAY_OF_YEAR, 1);
+                case REMINDER_TYPE_TATKAL: {
+                    travelDate.add(Calendar.DAY_OF_YEAR, _1_DAY);
                     break;
                 }
 
-                case "Custom Reminder": {
+                case REMINDER_TYPE_CUSTOM: {
                     String customTravelDate = cursor.getString(cursor.getColumnIndex(CalendarContract.Events.EXDATE));
                     travelDate.setTimeInMillis(Long.parseLong(customTravelDate));
                     break;
@@ -235,10 +236,9 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
     }
 
     public void sortByTravelDate(View view) {
-
         ArrayList<Event> eventsList = eventList;
         if (eventsList != null) {
-            sortByParamIndicator = 2;
+            sortByParamIndicator = SORT_BY_TRAVEL_DATE;
             if (altClickTravel) {
                 Collections.sort(eventsList, new Event());
             } else {

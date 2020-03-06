@@ -6,6 +6,9 @@ import com.arc.agni.irctcbookingreminder.activities.ViewRemindersActivity;
 
 import java.util.Comparator;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.SORT_BY_REMINDER_DATE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.SORT_BY_TRAVEL_DATE;
+
 public class Event implements Comparator {
 
     private String eventID;
@@ -29,9 +32,9 @@ public class Event implements Comparator {
     public int compare(Object o1, Object o2) {
         Event event_one = (Event) o1;
         Event event_two = (Event) o2;
-        if (ViewRemindersActivity.sortByParamIndicator == 1) {
+        if (ViewRemindersActivity.sortByParamIndicator == SORT_BY_REMINDER_DATE) {
             return (event_one.getReminderDate()).compareTo(event_two.getReminderDate());
-        } else if (ViewRemindersActivity.sortByParamIndicator == 2) {
+        } else if (ViewRemindersActivity.sortByParamIndicator == SORT_BY_TRAVEL_DATE) {
             return (event_one.getTravelDate()).compareTo(event_two.getTravelDate());
         }
         return 1;
