@@ -2,9 +2,12 @@ package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,7 +26,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private AdView mAdView;
     private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 1;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 2;
-    DialogUtil dialogUtil ;
+    DialogUtil dialogUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        // Create Notification Channel
+        createNotificationChannel();
     }
 
     public void goToBookingCalculatorPage(View view) {
@@ -137,6 +143,22 @@ public class HomeScreenActivity extends AppCompatActivity {
                 }
                 return;
             }
+        }
+    }
+
+    private void createNotificationChannel() {
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            String name = "IRCTC Booking Reminder Channel";
+            String description = "This is a channel for ";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = null;
+            channel = new NotificationChannel("irctc", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
         }
     }
 

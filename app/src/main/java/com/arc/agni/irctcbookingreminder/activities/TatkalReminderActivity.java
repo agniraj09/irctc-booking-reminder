@@ -1,9 +1,12 @@
 package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -20,6 +23,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
@@ -33,7 +37,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
     CalendarUtil calendarUtil = new CalendarUtil();
     static String input_title;
     EditText travel_title;
-    static int input_date=0, input_month=0, input_year=0;
+    static int input_date = 0, input_month = 0, input_year = 0;
     int dateX, monthX, yearX;
     EditText travel_date;
     private AdView mAdView;
@@ -92,19 +96,24 @@ public class TatkalReminderActivity extends AppCompatActivity {
 
                 Calendar reminderDateAndTime = Calendar.getInstance();
 
-                if(ac.isChecked()) {
+                if (ac.isChecked()) {
                     reminderDateAndTime.set(input_year, input_month, input_date, 9, 30);
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -1);
                     createReminder(calId, reminderDateAndTime);
                 }
 
-                if(nonAc.isChecked()){
+                if (nonAc.isChecked()) {
                     reminderDateAndTime.set(input_year, input_month, input_date, 10, 30);
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, -1);
                     createReminder(calId, reminderDateAndTime);
                 }
 
                 DialogUtil.showDialogPostEventCreation(TatkalReminderActivity.this, 2);
+
+                long time = System.currentTimeMillis();
+                long timePlusTen = 1000 * 5;
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                new ReminderBroadcast().createNotification(TatkalReminderActivity.this, alarmManager, time + timePlusTen);
             } else {
                 Toast.makeText(this, "Please Select Coach Preference", Toast.LENGTH_SHORT).show();
             }
