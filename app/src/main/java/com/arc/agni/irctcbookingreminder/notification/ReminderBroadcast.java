@@ -5,9 +5,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 
 import com.arc.agni.irctcbookingreminder.R;
-import com.arc.agni.irctcbookingreminder.activities.TatkalReminderActivity;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -23,7 +23,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_information_outline_white_36dp)
                 .setContentTitle("Booking Reminder")
                 .setContentText("This is a reminder")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
