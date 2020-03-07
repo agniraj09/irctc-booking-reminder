@@ -25,7 +25,7 @@ public class Constants {
     public static final int SORT_BY_TRAVEL_DATE = 2;
 
     // Reminder Time Constants
-    public static final String LABEL_INPUT_DATE = "input_date";
+    public static final String LABEL_INPUT_DAY = "input_date";
     public static final String LABEL_INPUT_MONTH = "input_month";
     public static final String LABEL_INPUT_YEAR = "input_year";
 
@@ -74,8 +74,8 @@ public class Constants {
     public static final String CANCEL = "Cancel";
 
     // Admob Constants
-    public static String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
-    public static String TEST_DEVICE_ID = "0EC56B91253E874AAF286CEDC3945F6A";
+    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
+    public static final String TEST_DEVICE_ID = "0EC56B91253E874AAF286CEDC3945F6A";
 
     // Calendar Constants
     public static final int PERMISSIONS_REQUEST_READ_CALENDAR = 1;

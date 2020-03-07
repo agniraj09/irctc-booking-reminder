@@ -1,22 +1,53 @@
 package com.arc.agni.irctcbookingreminder.utils;
 
+import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.provider.CalendarContract;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.TimeZone;
+
+import androidx.core.app.ActivityCompat;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_ACCOUNT_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_COLOR_LOCAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.OWNER_ACCOUNT_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_DURATION;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
 
 public class CalendarUtil {
 
-    /* This method sets attributes for a new calendar that will be created(One time event) for our application */
-    public ContentValues setCalendarContentValues() {
+    /**
+     * This method is used to create a new calendar for our application. It's a one time event per lifetime of application
+     */
+    public static void createCalendar(Context context) {
+        ContentValues values = setCalendarContentValues();
+        Uri.Builder builder =
+                CalendarContract.Calendars.CONTENT_URI.buildUpon();
+        builder.appendQueryParameter(
+                CalendarContract.Calendars.ACCOUNT_NAME,
+                CALENDAR_ACCOUNT_NAME);
+        builder.appendQueryParameter(
+                CalendarContract.Calendars.ACCOUNT_TYPE,
+                CalendarContract.ACCOUNT_TYPE_LOCAL);
+        builder.appendQueryParameter(
+                CalendarContract.CALLER_IS_SYNCADAPTER,
+                "true");
+        context.getContentResolver().insert(builder.build(), values);
+    }
+
+    /**
+     * This method sets attributes for a new calendar that will be created(One time event) for our application.
+     */
+    private static ContentValues setCalendarContentValues() {
 
         ContentValues values = new ContentValues();
         values.put(
@@ -49,8 +80,60 @@ public class CalendarUtil {
         return values;
     }
 
-    /* This method sets attributes for a new event that will be created(whenever a user create a reminder) by users */
-    public ContentValues setEventContentValues(long calendarID, Calendar reminderDateTime, Calendar exDate, String title, String reminderType) {
+    /**
+     * This method is used to retrieve the calendar ID that was created earlier.
+     */
+    public static long getCalendarId(Context context) {
+        long noSuchCalendarIndicator = -1;
+        String[] projection = new String[]{CalendarContract.Calendars._ID};
+        String selection =
+                CalendarContract.Calendars.ACCOUNT_NAME +
+                        " = ? AND " +
+                        CalendarContract.Calendars.ACCOUNT_TYPE +
+                        " = ? ";
+
+        String[] selArgs =
+                new String[]{
+                        CALENDAR_ACCOUNT_NAME,
+                        CalendarContract.ACCOUNT_TYPE_LOCAL};
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            return noSuchCalendarIndicator;
+        }
+        Cursor cursor =
+                context.getContentResolver().
+                        query(
+                                CalendarContract.Calendars.CONTENT_URI,
+                                projection,
+                                selection,
+                                selArgs,
+                                null);
+        if (Objects.requireNonNull(cursor).moveToFirst()) {
+            return cursor.getLong(0);
+        }
+        return -1;
+    }
+
+    public static void createReminder(String reminderTitle, Calendar reminderDateAndTime, Calendar exDateAndTime, String reminderType, Context context) {
+
+        ContextWrapper contextWrapper = new ContextWrapper(context);
+        long calId = getCalendarId(context);
+        if (calId == -1) {
+            createCalendar(context);
+            calId = getCalendarId(context);
+        }
+
+        ContentValues values = setEventContentValues(calId, reminderTitle, reminderDateAndTime, exDateAndTime, reminderType);
+
+        Uri uri = contextWrapper.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
+        long eventID = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(uri).getLastPathSegment()));
+        values = setReminderContentValues(eventID);
+        contextWrapper.getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, values);
+    }
+
+    /**
+     * This method sets attributes for a new event that will be created(whenever a user create a reminder) by users
+     */
+    public static ContentValues setEventContentValues(long calendarID, String title, Calendar reminderDateTime, Calendar exDate, String reminderType) {
         ContentValues values = new ContentValues();
         TimeZone timeZone = TimeZone.getDefault();
         long startMillis = reminderDateTime.getTimeInMillis();
@@ -71,11 +154,12 @@ public class CalendarUtil {
         return values;
     }
 
-    public ContentValues setReminderContentValues(long eventID) {
+    public static ContentValues setReminderContentValues(long eventID) {
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Reminders.EVENT_ID, eventID);
         values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
         values.put(CalendarContract.Reminders.MINUTES, REMINDER_DURATION);
         return values;
     }
+
 }

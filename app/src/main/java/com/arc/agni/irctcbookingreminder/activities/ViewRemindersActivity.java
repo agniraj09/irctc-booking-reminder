@@ -5,35 +5,26 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.CalendarContract;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.Spinner;
 import android.widget.Toast;
-
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.adapters.EventAdapter;
 import com.arc.agni.irctcbookingreminder.bean.Event;
-import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -41,13 +32,23 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_ACCOUNT_NAME;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_PERMISSION_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.NO_EVENTS;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.SORT_BY_TRAVEL_DATE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_VIEW_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAYS;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
 
 public class ViewRemindersActivity extends AppCompatActivity /*implements AdapterView.OnItemSelectedListener*/ {
 
     Context context;
     Event[] eventListArray;
-    static ArrayList<Event> eventList;
+    static ArrayList<Event> eventList = new ArrayList<>();
     static ArrayList<Event> eventListBackup;
     public static EventAdapter eventAdapter;
     public RecyclerView recyclerView;
@@ -61,6 +62,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
         setContentView(R.layout.activity_view_reminders);
         setTitle(TITLE_VIEW_REMINDER);
 
+        // Request for ad
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -74,72 +76,65 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
         eventListBackup = eventList;
         if (eventList != null && eventList.size() > 0) {
 
-            showPopupMenu.setOnClickListener(new View.OnClickListener() {
+            showPopupMenu.setOnClickListener(v -> {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(ViewRemindersActivity.this, showPopupMenu);
+                popup.getMenu().add(ALL);
+                popup.getMenu().add(REMINDER_TYPE_120_DAY);
+                popup.getMenu().add(REMINDER_TYPE_TATKAL);
+                popup.getMenu().add(REMINDER_TYPE_CUSTOM);
 
-                @Override
-                public void onClick(View v) {
-                    //Creating the instance of PopupMenu
-                    PopupMenu popup = new PopupMenu(ViewRemindersActivity.this, showPopupMenu);
-                    popup.getMenu().add(ALL);
-                    popup.getMenu().add(REMINDER_TYPE_120_DAY);
-                    popup.getMenu().add(REMINDER_TYPE_TATKAL);
-                    popup.getMenu().add(REMINDER_TYPE_CUSTOM);
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(item -> {
+                    ArrayList<Event> eventsList = new ArrayList<>();
 
-                    //registering popup with OnMenuItemClickListener
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-
-                            ArrayList<Event> eventsList = new ArrayList<>();
-
-                            String type = item.getTitle().toString();
-                            switch (type) {
-                                case ALL: {
-                                    eventList = eventListBackup;
-                                    eventAdapter.refreshEventList(eventList);
-                                    break;
-                                }
-                                case REMINDER_TYPE_120_DAY: {
-                                    eventList = eventListBackup;
-                                    for (Event e : eventList) {
-                                        if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_120_DAY)) {
-                                            eventsList.add(e);
-                                        }
-                                    }
-                                    eventList = eventsList;
-                                    eventAdapter.refreshEventList(eventsList);
-                                    break;
-                                }
-                                case REMINDER_TYPE_TATKAL: {
-                                    eventList = eventListBackup;
-                                    for (Event e : eventList) {
-                                        if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_TATKAL)) {
-                                            eventsList.add(e);
-                                        }
-                                    }
-                                    eventList = eventsList;
-                                    eventAdapter.refreshEventList(eventsList);
-                                    break;
-                                }
-                                case REMINDER_TYPE_CUSTOM: {
-                                    eventList = eventListBackup;
-                                    for (Event e : eventList) {
-                                        if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_CUSTOM)) {
-                                            eventsList.add(e);
-                                        }
-                                    }
-                                    eventList = eventsList;
-                                    eventAdapter.refreshEventList(eventsList);
-                                    break;
+                    String type = item.getTitle().toString();
+                    switch (type) {
+                        case ALL: {
+                            eventList = eventListBackup;
+                            eventAdapter.refreshEventList(eventList);
+                            break;
+                        }
+                        case REMINDER_TYPE_120_DAY: {
+                            eventList = eventListBackup;
+                            for (Event e : eventList) {
+                                if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_120_DAY)) {
+                                    eventsList.add(e);
                                 }
                             }
-
-
-                            return true;
+                            eventList = eventsList;
+                            eventAdapter.refreshEventList(eventsList);
+                            break;
                         }
-                    });
+                        case REMINDER_TYPE_TATKAL: {
+                            eventList = eventListBackup;
+                            for (Event e : eventList) {
+                                if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_TATKAL)) {
+                                    eventsList.add(e);
+                                }
+                            }
+                            eventList = eventsList;
+                            eventAdapter.refreshEventList(eventsList);
+                            break;
+                        }
+                        case REMINDER_TYPE_CUSTOM: {
+                            eventList = eventListBackup;
+                            for (Event e : eventList) {
+                                if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_CUSTOM)) {
+                                    eventsList.add(e);
+                                }
+                            }
+                            eventList = eventsList;
+                            eventAdapter.refreshEventList(eventsList);
+                            break;
+                        }
+                    }
 
-                    popup.show();//showing popup menu
-                }
+
+                    return true;
+                });
+
+                popup.show();//showing popup menu
             });
 
             eventListArray = eventList.toArray(new Event[eventList.size()]);
@@ -149,7 +144,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(eventAdapter);
-        }else {
+        } else {
             horizontalLine.setVisibility(View.INVISIBLE);
             sortLayout.setVisibility(View.INVISIBLE);
             Toast toast = Toast.makeText(this, NO_EVENTS, Toast.LENGTH_LONG);
@@ -160,9 +155,13 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
     }
 
     public ArrayList<Event> getEventList() {
-        ArrayList<Event> eventList = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            Toast toast = Toast.makeText(this, CALENDAR_PERMISSION_WARNING, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
+
+        ArrayList<Event> eventList = new ArrayList<>();
         String[] mProjection =
                 {
                         CalendarContract.Events._ID,
@@ -179,7 +178,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
 
         Cursor cursor = getContentResolver().query(uri, mProjection, selection, selectionArgs, null);
 
-        while (cursor.moveToNext()) {
+        while (Objects.requireNonNull(cursor).moveToNext()) {
             Event event = new Event();
             event.setEventID(cursor.getString(cursor.getColumnIndex(CalendarContract.Events._ID)));
             event.setEventTitle(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.TITLE)));
@@ -238,12 +237,13 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
 
     public void sortByTravelDate(View view) {
         ArrayList<Event> eventsList = eventList;
+        Comparator<Event> travelDateComparator = (eventOne, eventTwo) -> eventOne.getTravelDate().compareTo(eventTwo.getTravelDate());
         if (eventsList != null) {
             sortByParamIndicator = SORT_BY_TRAVEL_DATE;
             if (altClickTravel) {
-                Collections.sort(eventsList, new Event());
+                Collections.sort(eventsList, travelDateComparator);
             } else {
-                Collections.sort(eventsList, new Event());
+                Collections.sort(eventsList, travelDateComparator);
                 Collections.reverse(eventsList);
             }
             altClickTravel = !altClickTravel;
@@ -253,11 +253,12 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
 
     public void sortByReminderDate(View view) {
         ArrayList<Event> eventsList = eventList;
+        Comparator<Event> reminderDateComparator = (eventOne, eventTwo) -> eventOne.getReminderDate().compareTo(eventTwo.getReminderDate());
         if (eventsList != null) {
             if (altClickRem) {
-                Collections.sort(eventsList, new Event());
+                Collections.sort(eventsList, reminderDateComparator);
             } else {
-                Collections.sort(eventsList, new Event());
+                Collections.sort(eventsList, reminderDateComparator);
                 Collections.reverse(eventsList);
             }
             altClickRem = !altClickRem;

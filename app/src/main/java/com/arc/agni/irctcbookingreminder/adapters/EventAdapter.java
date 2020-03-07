@@ -1,8 +1,6 @@
 package com.arc.agni.irctcbookingreminder.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arc.agni.irctcbookingreminder.R;
-import com.arc.agni.irctcbookingreminder.activities.CustomReminderActivity;
 import com.arc.agni.irctcbookingreminder.activities.ViewRemindersActivity;
 import com.arc.agni.irctcbookingreminder.bean.Event;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,20 +24,18 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
     private Event[] events;
     private Context context;
-    DialogUtil dialogUtil;
+    private DialogUtil dialogUtil;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView eventTitle;
-        private TextView travelDateLabel;
         private TextView travelDate;
         private TextView reminderDate;
         private TextView reminderType;
         private ImageView delete;
 
-        public MyViewHolder(View view) {
+        MyViewHolder(View view) {
             super(view);
             eventTitle = view.findViewById(R.id.event_title);
-            travelDateLabel = view.findViewById(R.id.travel_date_label);
             travelDate = view.findViewById(R.id.travel_date);
             reminderDate = view.findViewById(R.id.reminder_date);
             reminderType = view.findViewById(R.id.reminder_type);
@@ -53,7 +45,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
     public EventAdapter(ViewRemindersActivity viewRemindersActivity, Event[] events) {
         context = viewRemindersActivity;
-        dialogUtil = new DialogUtil(context);
+        dialogUtil = new DialogUtil();
         this.events = events;
     }
 
@@ -73,8 +65,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        String remDate = "";
-        String traDate = "";
+        String remDate;
+        String traDate;
         long reminderdate = Long.parseLong(events[position].getReminderDate());
         long traveldate = Long.parseLong(events[position].getTravelDate());
 
@@ -83,20 +75,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         reminderDatetoUI.setTimeInMillis(reminderdate);
         travelDatetoUI.setTimeInMillis(traveldate);
 
-        remDate = ("  :  " + DAYS[reminderDatetoUI.get(Calendar.DAY_OF_WEEK)-1] + ", " +  reminderDatetoUI.get(Calendar.DATE) + "/" + (reminderDatetoUI.get(Calendar.MONTH) + 1) + "/" + reminderDatetoUI.get(Calendar.YEAR));
-        traDate = ("  :  " + DAYS[travelDatetoUI.get(Calendar.DAY_OF_WEEK)-1] + ", " + travelDatetoUI.get(Calendar.DATE) + "/" + (travelDatetoUI.get(Calendar.MONTH) + 1) + "/" + travelDatetoUI.get(Calendar.YEAR));
+        remDate = ("  :  " + DAYS[reminderDatetoUI.get(Calendar.DAY_OF_WEEK) - 1] + ", " + reminderDatetoUI.get(Calendar.DATE) + "/" + (reminderDatetoUI.get(Calendar.MONTH) + 1) + "/" + reminderDatetoUI.get(Calendar.YEAR));
+        traDate = ("  :  " + DAYS[travelDatetoUI.get(Calendar.DAY_OF_WEEK) - 1] + ", " + travelDatetoUI.get(Calendar.DATE) + "/" + (travelDatetoUI.get(Calendar.MONTH) + 1) + "/" + travelDatetoUI.get(Calendar.YEAR));
         String reminderType = "  :  " + events[position].getEventType();
 
         holder.eventTitle.setText(events[position].getEventTitle());
         holder.travelDate.setText(traDate);
         holder.reminderDate.setText(remDate);
         holder.reminderType.setText(reminderType);
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialogUtil.showDeleteEventDialog(context, events[position].getEventID());
-            }
-        });
+        holder.delete.setOnClickListener(v -> dialogUtil.showDeleteEventDialog(context, events[position].getEventID()));
 
     }
 

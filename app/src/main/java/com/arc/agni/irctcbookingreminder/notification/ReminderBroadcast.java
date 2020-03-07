@@ -27,7 +27,6 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 

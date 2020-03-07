@@ -32,7 +32,7 @@
         1. The maximum advance booking period allowed by IRCTC is 120 days.\n\n
         2. Use this reminder to notify you 120 days before your travel date to book advance booking tickets.\n\n
         3. For your convenience, we will show the dates 120 days ahead from today.\n\n
-        4. IRCTC bookings will open at 8 a.m. We will notify you 1 hour before.\n\n
+        4. IRCTC bookings will open at 8 a.m. We will notify you 30 minutes before the booking opens.\n\n
         5. Best suitable for Special occasions and National holidays like Diwali, Independence Day, etc.
     </string>
 
@@ -40,12 +40,12 @@
         1. Tatkal tickets can be booked one day before the scheduled train departure date.\n\n
         2. Use this reminder to notify you 1 day before your travel date to book your Tatkal tickets.\n\n
         3. Booking time for AC coaches is 10 a.m. and Non AC coaches is 11 a.m.\n\n
-        4. We will notify you at 9 a.m.
+        4. We will notify you 30 minutes before the booking opens.
     </string>
 
     <string name="custom_booking_description">
         1. Customize the reminder with this option by selecting your preferred travel date and booking date.\n\n
-        2. We will notify you at 8 a.m. on the booking date you selected.
+        2. We will notify you 30 minutes before the booking opens on the booking date you selected.
     </string>
 
     <string name="view_reminders_description">

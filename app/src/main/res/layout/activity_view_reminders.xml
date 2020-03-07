@@ -6,27 +6,12 @@
     android:orientation="vertical"
     tools:context=".activities.ViewRemindersActivity">
 
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_unit_id">
-    </com.google.android.gms.ads.AdView>
-
     <LinearLayout
         android:id="@+id/sortMenu"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="3">
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/sortBarLine" />
 
         <Button
             android:id="@+id/sortByTravelDate"
@@ -39,12 +24,8 @@
             android:onClick="sortByTravelDate"
             android:text="@string/sortByTD"
             android:textAlignment="center"
-            android:textAllCaps="false" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/sortBarLine" />
+            android:textAllCaps="false"
+            android:layout_gravity="center_horizontal" />
 
         <Button
             android:id="@+id/sortByReminderDate"
@@ -57,12 +38,8 @@
             android:onClick="sortByReminderDate"
             android:text="@string/sortByRD"
             android:textAlignment="center"
-            android:textAllCaps="false" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/sortBarLine" />
+            android:textAllCaps="false"
+            android:layout_gravity="center_horizontal" />
 
         <Button
             android:id="@+id/show"
@@ -74,6 +51,21 @@
             android:drawableRight="@drawable/ic_filter_outline_grey600_18dp"
             android:text="@string/showOnly"
             android:textAllCaps="false" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/sortBarLine" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/sortBarLine" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/sortBarLine" />
 
         <View
             android:layout_width="1dp"
@@ -95,5 +87,14 @@
         android:layout_above="@+id/adView"
         android:layout_below="@id/horiontalline"
         android:scrollbars="vertical" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ad_unit_id" />
 
 </RelativeLayout>

@@ -2,17 +2,13 @@ package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
-import android.net.Uri;
-import android.provider.CalendarContract;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,17 +24,22 @@ import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_HOUR;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_MINUTE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_CUSTOM_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_CUSTOM_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
 
 public class CustomReminderActivity extends AppCompatActivity {
 
-    CalendarUtil calendarUtil = new CalendarUtil();
-    static String input_title;
-    static int input_date, input_month, input_year;
-    static int travel_date, travel_month, travel_year;
+    static int inputDay, inputMonth, inputYear;
+    static int travelDay, travelMonth, travelYear;
     int dateX, monthX, yearX;
-    EditText reminder_date, travel_date_show, travel_title;
-    private AdView mAdView;
+    EditText travelDate, reminderDate;
+
     static Calendar selectedTravelDate = Calendar.getInstance();
     public static boolean isTravelDateSelected = false;
 
@@ -49,26 +50,25 @@ public class CustomReminderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom_reminder);
         setTitle(TITLE_CUSTOM_REMINDER);
 
-        reminder_date = findViewById(R.id.cr_reminderdate);
-        travel_date_show = findViewById(R.id.cr_traveldate);
+        // 'travelDate' & 'reminderDate' TextView is accessed at class level.
+        travelDate = findViewById(R.id.cr_traveldate);
+        reminderDate = findViewById(R.id.cr_reminderdate);
 
-        mAdView = findViewById(R.id.adView);
+        // Request for ad
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }
 
-    public void showDatePickerDialog(View view) {
+    public void showDatePickerDialogForReminderDate(View view) {
         if (isTravelDateSelected) {
-            selectedTravelDate.set(travel_year, travel_month, travel_date, 0, 0);
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int day) {
-                    input_year = year;
-                    input_month = month;
-                    input_date = day;
-                    String reminderDate = input_date + "/" + (input_month + 1) + "/" + input_year;
-                    reminder_date.setText(reminderDate);
-                }
+            selectedTravelDate.set(travelYear, travelMonth, travelDay, 0, 0);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, datePickerYear, datePickerMonth, datePickerDay) -> {
+                inputYear = datePickerYear;
+                inputMonth = datePickerMonth;
+                inputDay = datePickerDay;
+                String reminderDateText = inputDay + "/" + (inputMonth + 1) + "/" + inputYear;
+                reminderDate.setText(reminderDateText);
             }, yearX, monthX, dateX);
 
             Calendar userShowDateStart = Calendar.getInstance();
@@ -83,17 +83,14 @@ public class CustomReminderActivity extends AppCompatActivity {
         }
     }
 
-    public void showDatePickerDialogOnButtonClick(View view) {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                travel_year = year;
-                travel_month = month;
-                travel_date = day;
-                String travelDate = travel_date + "/" + (travel_month + 1) + "/" + travel_year;
-                travel_date_show.setText(travelDate);
-                isTravelDateSelected = true;
-            }
+    public void showDatePickerDialogForTravelDate(View view) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, datePickerYear, datePickerMonth, datePickerDay) -> {
+            travelYear = datePickerYear;
+            travelMonth = datePickerMonth;
+            travelDay = datePickerDay;
+            String travelDateText = travelDay + "/" + (travelMonth + 1) + "/" + travelYear;
+            travelDate.setText(travelDateText);
+            isTravelDateSelected = true;
         }, yearX, monthX, dateX);
 
         Calendar userShowDateStart = Calendar.getInstance();
@@ -103,35 +100,29 @@ public class CustomReminderActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-
+    /**
+     * This method is used to create CUSTOM REMINDER
+     */
     public void createEvent(View view) {
-        ValidationUtil validationUtil = new ValidationUtil();
-        travel_title = findViewById(R.id.cr_event_title_input);
-        input_title = travel_title.getText().toString();
+        // Check if CALENDAR_WRITE PERMISSION is provided
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
 
-        if (validationUtil.advanceBookingValidation(input_title, input_date)) {
-            AdvanceBookingReminderActivity advanceBookingReminderActivity = new AdvanceBookingReminderActivity();
-            long calId = advanceBookingReminderActivity.getCalendarId(this);
-            if (calId == -1) {
-                advanceBookingReminderActivity.createCalendar(this);
-                calId = advanceBookingReminderActivity.getCalendarId(this);
-            }
+        // Retrieve title
+        String reminderTitle = ((EditText) findViewById(R.id.cr_event_title_input)).getText().toString();
 
+        // Create Custom reminder
+        if (ValidationUtil.titleAndDateValidation(reminderTitle, inputDay)) {
+            // Build reminderDateAndTime
             Calendar reminderDateAndTime = Calendar.getInstance();
-            reminderDateAndTime.set(input_year, input_month, input_date, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
-
+            reminderDateAndTime.set(inputYear, inputMonth, inputDay, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
+            // Build travelDateAndTime(exDateAndTime)
             Calendar travelDateAndTime = Calendar.getInstance();
-            travelDateAndTime.set(travel_year, travel_month, travel_date, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
+            travelDateAndTime.set(travelYear, travelMonth, travelDay, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
 
-            ContentValues values = calendarUtil.setEventContentValues(calId, reminderDateAndTime, travelDateAndTime, input_title, REMINDER_TYPE_CUSTOM);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            Uri uri = getContentResolver().insert(CalendarContract.Events.CONTENT_URI, values);
-            long eventID = Long.parseLong(uri.getLastPathSegment());
-            values = calendarUtil.setReminderContentValues(eventID);
-            getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, values);
-
+            // Create reminder
+            CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, travelDateAndTime, REMINDER_TYPE_CUSTOM, this);
             DialogUtil.showDialogPostEventCreation(CustomReminderActivity.this, IND_CUSTOM_REMINDER);
         } else {
             Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();

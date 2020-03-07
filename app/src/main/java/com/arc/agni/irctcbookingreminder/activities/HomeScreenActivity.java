@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -26,13 +27,13 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
-    DialogUtil dialogUtil = new DialogUtil(this);
+    DialogUtil dialogUtil = new DialogUtil();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        
+
         // Create Notification Channel. One time activity per application launch.
         createNotificationChannel();
 
