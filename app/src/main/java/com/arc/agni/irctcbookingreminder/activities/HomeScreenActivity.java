@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -18,6 +18,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -25,27 +26,26 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
-    private AdView mAdView;
-    private static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 1;
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 2;
-    DialogUtil dialogUtil;
+    DialogUtil dialogUtil = new DialogUtil(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
-        dialogUtil = new DialogUtil(this);
-
-        MobileAds.initialize(this, ADMOB_APP_ID);
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("0EC56B91253E874AAF286CEDC3945F6A").build();
-        mAdView.loadAd(adRequest);
-
-        // Create Notification Channel
+        
+        // Create Notification Channel. One time activity per application launch.
         createNotificationChannel();
+
+        // Initialize MobileAds & Request for ads
+        MobileAds.initialize(this, ADMOB_APP_ID);
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(TEST_DEVICE_ID).build();
+        mAdView.loadAd(adRequest);
     }
 
+    /**
+     * Start "Booking Day Calculator" Activity
+     */
     public void goToBookingCalculatorPage(View view) {
         if (arePermissionsGranted()) {
             Intent intent = new Intent(HomeScreenActivity.this, BookingDayCalculatorActivity.class);
@@ -53,126 +53,143 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Start "120 Day Reminder" Activity
+     */
     public void goToAdvanceBookingReminderPage(View view) {
-        if (arePermissionsGranted()) {
-            Intent intent = new Intent(HomeScreenActivity.this, AdvanceBookingReminderActivity.class);
-            startActivity(intent);
-        }
+        goToActivity(HomeScreenActivity.this, AdvanceBookingReminderActivity.class);
     }
 
+    /**
+     * Start "Tatkal Reminder" Activity
+     */
     public void goToTatkalReminderPage(View view) {
-        if (arePermissionsGranted()) {
-            Intent intent = new Intent(HomeScreenActivity.this, TatkalReminderActivity.class);
-            startActivity(intent);
-        }
+        goToActivity(HomeScreenActivity.this, TatkalReminderActivity.class);
     }
 
+    /**
+     * Start "Custom Reminder" Activity
+     */
     public void goToCustomBookingPage(View view) {
-        if (arePermissionsGranted()) {
-            Intent intent = new Intent(HomeScreenActivity.this, CustomReminderActivity.class);
-            startActivity(intent);
-        }
+        goToActivity(HomeScreenActivity.this, CustomReminderActivity.class);
     }
 
+    /**
+     * Start "View Reminders" Activity
+     */
     public void goToViewRemindersPage(View view) {
+        goToActivity(HomeScreenActivity.this, ViewRemindersActivity.class);
+    }
+
+    /**
+     * This method is used to start the specified activity from the given context
+     */
+    public <T> void goToActivity(Context packageContext, Class<T> className) {
         if (arePermissionsGranted()) {
-            Intent intent = new Intent(HomeScreenActivity.this, ViewRemindersActivity.class);
+            Intent intent = new Intent(packageContext, className);
             startActivity(intent);
         }
     }
 
+    /**
+     * Shows "120 Day Reminder" Info in pop-up
+     */
     public void showAdvanceBookingReminderInfo(View view) {
         dialogUtil.showDescriptionDialog(this, IND_120_DAY_REMINDER);
     }
 
+    /**
+     * Shows "Tatkal Reminder" Info in pop-up
+     */
     public void showTatkalReminderInfo(View view) {
         dialogUtil.showDescriptionDialog(this, IND_TATKAL_REMINDER);
     }
 
+    /**
+     * Shows "Custom Reminder" Info in pop-up
+     */
     public void showCustomReminderInfo(View view) {
         dialogUtil.showDescriptionDialog(this, IND_CUSTOM_REMINDER);
     }
 
+    /**
+     * Shows "View Reminders" Info in pop-up
+     */
     public void showViewRemindersInfo(View view) {
         dialogUtil.showDescriptionDialog(this, IND_VIEW_REMINDERS);
     }
 
+    /**
+     * This method checks if READ & WRITE permissions for CALENDAR are given by user
+     */
     public boolean arePermissionsGranted() {
         return (requestReadPermission() && requestWritePermission());
     }
 
+    /**
+     * This method checks if CALENDAR_READ permission is given by user.If not, it will raise the request
+     */
     public boolean requestReadPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             return true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CALENDAR},
-                    MY_PERMISSIONS_REQUEST_READ_CALENDAR);
+                    PERMISSIONS_REQUEST_READ_CALENDAR);
         }
         return false;
     }
 
+    /**
+     * This method checks if CALENDAR_WRITE permission is given by user.If not, it will raise the request
+     */
     public boolean requestWritePermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             return true;
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_CALENDAR},
-                    MY_PERMISSIONS_REQUEST_WRITE_CALENDAR);
+                    PERMISSIONS_REQUEST_WRITE_CALENDAR);
         }
         return false;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_CALENDAR: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    return;
-                } else {
-                    Toast.makeText(this, CALENDAR_PERMISSION_WARNING, Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-
-            case MY_PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    return;
-                } else {
-                    Toast.makeText(this, CALENDAR_PERMISSION_WARNING, Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-        }
-    }
-
+    /**
+     * This method creates an exclusive notification channel to shoot notifications
+     */
     private void createNotificationChannel() {
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = null;
-            channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(CHANNEL_DESCRIPTION);
 
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_READ_CALENDAR:
+            case PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+                if (!(grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Toast.makeText(this, CALENDAR_PERMISSION_WARNING, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+    /**
+     * This method is triggered when back button is pressed when in Home Page
+     */
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle("")
                 .setMessage(EXIT_WARNING)
                 .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        HomeScreenActivity.super.onBackPressed();
-                    }
-                }).create().show();
+                .setPositiveButton(android.R.string.yes, (arg0, arg1) -> HomeScreenActivity.super.onBackPressed()).create().show();
     }
 }

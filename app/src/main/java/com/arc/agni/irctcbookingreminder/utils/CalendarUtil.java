@@ -15,9 +15,8 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYP
 
 public class CalendarUtil {
 
-
-
-    public ContentValues setCalendarContentValues(){
+    /* This method sets attributes for a new calendar that will be created(One time event) for our application */
+    public ContentValues setCalendarContentValues() {
 
         ContentValues values = new ContentValues();
         values.put(
@@ -50,7 +49,8 @@ public class CalendarUtil {
         return values;
     }
 
-    public ContentValues setEventContentValues(long calendarID, Calendar reminderDateTime, Calendar exDate, String title, String reminderType){
+    /* This method sets attributes for a new event that will be created(whenever a user create a reminder) by users */
+    public ContentValues setEventContentValues(long calendarID, Calendar reminderDateTime, Calendar exDate, String title, String reminderType) {
         ContentValues values = new ContentValues();
         TimeZone timeZone = TimeZone.getDefault();
         long startMillis = reminderDateTime.getTimeInMillis();
@@ -64,17 +64,18 @@ public class CalendarUtil {
         values.put(CalendarContract.Events.DESCRIPTION, reminderType);
         values.put(CalendarContract.Events.CALENDAR_ID, calendarID);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-        if(reminderType.equalsIgnoreCase(REMINDER_TYPE_CUSTOM)) {
+        // In case of CUSTOM REMINDER, TRAVEL DATE  is stored in EXDATE. It will be retrieved later in ViewRemindersActivity
+        if (reminderType.equalsIgnoreCase(REMINDER_TYPE_CUSTOM)) {
             values.put(CalendarContract.Events.EXDATE, exMillis);
         }
         return values;
     }
 
-    public ContentValues setReminderContentValues(long eventID){
+    public ContentValues setReminderContentValues(long eventID) {
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Reminders.EVENT_ID, eventID);
         values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
-        values.put(CalendarContract.Reminders.MINUTES, 60);
+        values.put(CalendarContract.Reminders.MINUTES, REMINDER_DURATION);
         return values;
     }
 }

@@ -5,6 +5,7 @@
     <string name="custom_reminder">Custom Reminder</string>
     <string name="view_reminder">View Reminders</string>
     <string name="booking_day_calc">Booking Day Calculator</string>
+    <string name="image_view_description">Image View</string>
     <string name="sortByTD">Travel Date</string>
     <string name="sortByRD">Reminder Date</string>
     <string name="showOnly">Show</string>

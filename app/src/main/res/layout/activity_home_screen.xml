@@ -58,7 +58,8 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="0.3"
-                        android:background="@color/colorAccentDark" />
+                        android:background="@color/colorAccentDark"
+                        android:contentDescription="@string/image_view_description" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -113,7 +114,8 @@
                         android:layout_weight="0.4"
                         android:background="@color/colorAccentDark"
                         android:onClick="showAdvanceBookingReminderInfo"
-                        android:src="@drawable/ic_information_outline_white_48dp" />
+                        android:src="@drawable/ic_information_outline_white_48dp"
+                        android:contentDescription="@string/image_view_description" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -159,7 +161,8 @@
                         android:layout_weight="0.4"
                         android:background="@color/colorAccentDark"
                         android:onClick="showTatkalReminderInfo"
-                        android:src="@drawable/ic_information_outline_white_48dp" />
+                        android:src="@drawable/ic_information_outline_white_48dp"
+                        android:contentDescription="@string/image_view_description" />
 
                 </LinearLayout>
 
@@ -212,7 +215,8 @@
                         android:layout_weight="0.4"
                         android:background="@color/colorAccentDark"
                         android:onClick="showCustomReminderInfo"
-                        android:src="@drawable/ic_information_outline_white_48dp" />
+                        android:src="@drawable/ic_information_outline_white_48dp"
+                        android:contentDescription="@string/image_view_description" />
 
                 </LinearLayout>
 
@@ -257,7 +261,8 @@
                         android:layout_weight="0.4"
                         android:background="@color/colorAccentDark"
                         android:onClick="showViewRemindersInfo"
-                        android:src="@drawable/ic_information_outline_white_48dp" />
+                        android:src="@drawable/ic_information_outline_white_48dp"
+                        android:contentDescription="@string/image_view_description" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

@@ -75,8 +75,11 @@ public class Constants {
 
     // Admob Constants
     public static String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
+    public static String TEST_DEVICE_ID = "0EC56B91253E874AAF286CEDC3945F6A";
 
     // Calendar Constants
+    public static final int PERMISSIONS_REQUEST_READ_CALENDAR = 1;
+    public static final int PERMISSIONS_REQUEST_WRITE_CALENDAR = 2;
     public static final String CALENDAR_ACCOUNT_NAME = "IRCTC Booking Reminder";
     public static final String CALENDAR_NAME = "IRCTC Reminder Calendar";
     public static final int CALENDAR_COLOR_LOCAL = 0xffff0000;
