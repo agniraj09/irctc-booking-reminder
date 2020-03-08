@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.AdvanceBookingReminderActivity;

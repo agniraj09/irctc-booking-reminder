@@ -34,8 +34,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        // Create Notification Channel. One time activity per application launch.
-        createNotificationChannel();
+        /*// Create Notification Channel. One time activity per application launch.
+        createNotificationChannel();*/
 
         // Initialize MobileAds & Request for ads
         MobileAds.initialize(this, ADMOB_APP_ID);
@@ -155,9 +155,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         return false;
     }
 
+    /*    */
+
     /**
      * This method creates an exclusive notification channel to shoot notifications
-     */
+     *//*
     private void createNotificationChannel() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -167,8 +169,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
-
+    }*/
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {

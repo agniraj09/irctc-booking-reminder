@@ -90,4 +90,8 @@ public class Constants {
     public static final String CHANNEL_NAME = "IRCTC Booking Reminder Channel";
     public static final String CHANNEL_DESCRIPTION = "This is a channel to shoot notifications for IRCTC Booking Reminder App";
     public static final int NOTIFICATION_ID = 978;
+    public static final String NOTIFICATION_TITLE="IRCTC Booking Reminder";
+    public static final String NOTIFICATION_TEXT="It's a booking day, Gear Up !";
+    public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification-id";
+    public static final String INTENT_EXTRA_NOTIFICATION = "notification";
 }

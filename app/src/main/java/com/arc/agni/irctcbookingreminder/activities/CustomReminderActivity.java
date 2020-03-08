@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
@@ -114,6 +115,7 @@ public class CustomReminderActivity extends AppCompatActivity {
 
         // Create Custom reminder
         if (ValidationUtil.titleAndDateValidation(reminderTitle, inputDay)) {
+
             // Build reminderDateAndTime
             Calendar reminderDateAndTime = Calendar.getInstance();
             reminderDateAndTime.set(inputYear, inputMonth, inputDay, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
@@ -123,6 +125,12 @@ public class CustomReminderActivity extends AppCompatActivity {
 
             // Create reminder
             CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, travelDateAndTime, REMINDER_TYPE_CUSTOM, this);
+
+            // Schedule notification
+            String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_CUSTOM, reminderTitle, inputDay, inputMonth, inputYear, CUSTOM_BOOKING_REMINDER_HOUR);
+            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
+
+            // Show Success Pop-up
             DialogUtil.showDialogPostEventCreation(CustomReminderActivity.this, IND_CUSTOM_REMINDER);
         } else {
             Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();

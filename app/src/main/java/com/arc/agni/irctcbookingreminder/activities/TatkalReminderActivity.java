@@ -1,7 +1,6 @@
 package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -95,7 +94,6 @@ public class TatkalReminderActivity extends AppCompatActivity {
         // Create Tatkal reminder
         if (ValidationUtil.titleAndDateValidation(reminderTitle, inputDay)) {
             if (isACChecked | isNonACChecked) {
-
                 // Build reminderDateAndTime
                 Calendar reminderDateAndTime = Calendar.getInstance();
                 // For AC Coach, Reminder Time is TATKAL_BOOKING_AC_REMINDER_HOUR : TATKAL_BOOKING__AC_REMINDER_MINUTE
@@ -103,6 +101,9 @@ public class TatkalReminderActivity extends AppCompatActivity {
                     reminderDateAndTime.set(inputYear, inputMonth, inputDay, TATKAL_BOOKING_AC_REMINDER_HOUR, TATKAL_BOOKING__AC_REMINDER_MINUTE);
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL, this);
+                    // Schedule notification
+                    String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_TATKAL, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_AC_REMINDER_HOUR);
+                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
                 }
 
                 // For AC Coach, Reminder Time is TATKAL_BOOKING_NON_AC_REMINDER_HOUR : TATKAL_BOOKING__NON_AC_REMINDER_MINUTE
@@ -110,14 +111,14 @@ public class TatkalReminderActivity extends AppCompatActivity {
                     reminderDateAndTime.set(inputYear, inputMonth, inputDay, TATKAL_BOOKING_NON_AC_REMINDER_HOUR, TATKAL_BOOKING__NON_AC_REMINDER_MINUTE);
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL, this);
+                    // Schedule notification
+                    String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_TATKAL, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_NON_AC_REMINDER_HOUR);
+                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
                 }
 
+                // Show Success Pop-up
                 DialogUtil.showDialogPostEventCreation(TatkalReminderActivity.this, IND_TATKAL_REMINDER);
 
-                long time = System.currentTimeMillis();
-                long timePlusTen = 1000 * 5;
-                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                new ReminderBroadcast().createNotification(TatkalReminderActivity.this, alarmManager, time + timePlusTen);
             } else {
                 Toast.makeText(this, COACH_PREFERENCE_WARNING, Toast.LENGTH_SHORT).show();
             }

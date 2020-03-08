@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
-
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,9 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
-
-import static com.arc.agni.irctcbookingreminder.constants.Constants.*;
-
+import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
@@ -27,6 +24,18 @@ import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_120_DAY_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_MONTH;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_YEAR;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_120_DAYS;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_120_DAY_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAY_BOOKING_REMINDER_HOUR;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAY_BOOKING_REMINDER_MINUTE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._121_DAYS;
 
 public class AdvanceBookingReminderActivity extends AppCompatActivity {
 
@@ -99,6 +108,12 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
 
             // Create reminder
             CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_120_DAY, this);
+
+            // Schedule notification
+            String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_120_DAY, reminderTitle, inputDay, inputMonth, inputYear, _120_DAY_BOOKING_REMINDER_HOUR);
+            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
+
+            // Show Success Pop-up
             DialogUtil.showDialogPostEventCreation(AdvanceBookingReminderActivity.this, IND_120_DAY_REMINDER);
         } else {
             Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();
