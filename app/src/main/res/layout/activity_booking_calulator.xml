@@ -9,14 +9,17 @@
     android:padding="10dp"
     tools:context=".activities.BookingDayCalculatorActivity">
 
-    <TextView
-        android:id="@+id/bc_traveldate_textview"
+    <Button
+        android:id="@+id/bc_create120DayReminderEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/bc_result_textview"
         android:layout_centerHorizontal="true"
-        android:paddingTop="25dp"
-        android:text="@string/select_date"
-        android:textColor="@color/labelcolor" />
+        android:layout_marginTop="30dp"
+        android:onClick="createEvent"
+        android:text="@string/create_reminder_arrow"
+        android:textColor="@color/labelcolor"
+        android:visibility="invisible" />
 
     <EditText
         android:id="@+id/bc_traveldate"
@@ -36,31 +39,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="100dp"
         android:padding="15dp"
         android:textAlignment="center"
         android:textColor="@color/resultText"
         android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/bc_create120DayReminderEvent"
-        android:visibility="invisible"
+    <TextView
+        android:id="@+id/bc_traveldate_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bc_result_textview"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:onClick="createEvent"
-        android:textColor="@color/labelcolor"
-        android:text="@string/create_reminder_arrow" />
+        android:layout_marginTop="15dp"
+        android:text="@string/select_date"
+        android:textColor="@color/labelcolor" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        ads:adSize="SMART_BANNER"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_unit_id">
-    </com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/ad_unit_id" />
 </RelativeLayout>

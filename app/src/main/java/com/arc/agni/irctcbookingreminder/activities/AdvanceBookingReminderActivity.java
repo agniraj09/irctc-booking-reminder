@@ -4,12 +4,21 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
@@ -25,11 +34,19 @@ import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.AT;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_OPENING_TIME;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_STARTED;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_WILL_START;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DATE_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_120_DAY_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IST;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_MONTH;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_YEAR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_120_DAYS;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_120_DAY_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
@@ -77,6 +94,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             inputDay = datePickerDay;
             String travelDateText = inputDay + "/" + (inputMonth + 1) + "/" + inputYear;
             travelDate.setText(travelDateText);
+            showBookingDateWhenUserSelectsTravelDate();
         }, year, month, day);
 
         Calendar userShowDateStart = Calendar.getInstance();
@@ -85,6 +103,37 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
         datePickerDialog.show();
+    }
+
+    /**
+     * This method will calculate & show the BOOKING_DATE when user selects TRAVEL_DATE in DatePickerDialog
+     */
+    public void showBookingDateWhenUserSelectsTravelDate() {
+        if (inputDay > 0) {
+            String fullText;
+
+            // Calculate booking Date from User selected travel date
+            Calendar bookingDate = Calendar.getInstance();
+            bookingDate.set(inputYear, inputMonth, inputDay);
+            bookingDate.add(Calendar.DAY_OF_YEAR, MINUS_120_DAYS);
+
+            // Make up final text to be shown in screen
+            String bookingDateText = MONTHS[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + ", " + bookingDate.get(Calendar.YEAR) + " (" + DAYS[bookingDate.get(Calendar.DAY_OF_WEEK) - 1] + ") ";
+            fullText = BOOKING_WILL_START + "\n" + bookingDateText + AT + BOOKING_OPENING_TIME + IST;
+
+            // Format final text
+            SpannableString finalResultText = new SpannableString(fullText);
+            final int startIndex = fullText.indexOf(bookingDateText);
+            final int endIndex = fullText.indexOf(bookingDateText) + bookingDateText.length();
+
+            //finalResultText.setSpan(new StyleSpan(Typeface.BOLD), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            finalResultText.setSpan(new ForegroundColorSpan(0xFF388C16), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            finalResultText.setSpan(new RelativeSizeSpan(1.2f), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            TextView result = findViewById(R.id.ab_result_textview);
+            result.setBackgroundResource(R.drawable.result_textview);
+            result.setText(finalResultText);
+        }
     }
 
     /**

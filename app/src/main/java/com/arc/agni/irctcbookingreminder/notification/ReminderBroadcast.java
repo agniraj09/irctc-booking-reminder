@@ -88,9 +88,9 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .append(reminderTitle)
                 .append("\". The travel date is ")
                 .append(MONTHS[travelMonth]).append(" ").append(travelDay).append(", ").append(travelYear)
-                .append(" (").append(travelDay).append("/").append(travelMonth + 1).append("/").append(travelYear);
+                .append(" (").append(travelDay).append("/").append(travelMonth + 1).append("/").append(travelYear).append(").");
         if (!REMINDER_TYPE_CUSTOM.equalsIgnoreCase(reminderType)) {
-            contentBuilder.append("). Booking will open at ").append(bookingHour + 1).append(" A.M.");
+            contentBuilder.append(" Booking will open at ").append(bookingHour + 1).append(" A.M. today");
         }
         contentBuilder.append("\nGood Luck!");
 

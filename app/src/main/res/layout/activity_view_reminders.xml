@@ -6,6 +6,12 @@
     android:orientation="vertical"
     tools:context=".activities.ViewRemindersActivity">
 
+    <View
+        android:id="@+id/tophoriontalline"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/sortBarLine" />
+
     <LinearLayout
         android:id="@+id/sortMenu"
         android:layout_width="fill_parent"
@@ -13,10 +19,16 @@
         android:orientation="horizontal"
         android:weightSum="3">
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/sortBarLine" />
+
         <Button
             android:id="@+id/sortByTravelDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:background="@color/sortBar"
             android:drawableEnd="@drawable/ic_sort_grey600_18dp"
@@ -24,13 +36,18 @@
             android:onClick="sortByTravelDate"
             android:text="@string/sortByTD"
             android:textAlignment="center"
-            android:textAllCaps="false"
-            android:layout_gravity="center_horizontal" />
+            android:textAllCaps="false" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/sortBarLine" />
 
         <Button
             android:id="@+id/sortByReminderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:background="@color/sortBar"
             android:drawableEnd="@drawable/ic_sort_grey600_18dp"
@@ -38,8 +55,12 @@
             android:onClick="sortByReminderDate"
             android:text="@string/sortByRD"
             android:textAlignment="center"
-            android:textAllCaps="false"
-            android:layout_gravity="center_horizontal" />
+            android:textAllCaps="false" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/sortBarLine" />
 
         <Button
             android:id="@+id/show"
@@ -57,26 +78,12 @@
             android:layout_height="match_parent"
             android:background="@color/sortBarLine" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/sortBarLine" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/sortBarLine" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/sortBarLine" />
     </LinearLayout>
 
     <View
-        android:id="@+id/horiontalline"
+        android:id="@+id/bottomhoriontalline"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
         android:layout_below="@id/sortMenu"
         android:background="@color/sortBarLine" />
 
@@ -85,16 +92,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"
-        android:layout_below="@id/horiontalline"
+        android:layout_below="@id/bottomhoriontalline"
         android:scrollbars="vertical" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/ad_unit_id" />
 
 </RelativeLayout>

@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cr_traveldate"
         android:layout_centerHorizontal="true"
-        android:paddingTop="25dp"
+        android:layout_marginTop="15dp"
         android:text="@string/select_rem_date"
         android:textColor="@color/labelcolor" />
 
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cr_event_title_input"
         android:layout_centerHorizontal="true"
-        android:paddingTop="25dp"
+        android:layout_marginTop="15dp"
         android:text="@string/select_date"
         android:textColor="@color/labelcolor" />
 
@@ -84,16 +84,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:paddingTop="25dp"
+        android:layout_marginTop="15dp"
         android:text="@string/travel_title"
         android:textColor="@color/labelcolor" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        ads:adSize="SMART_BANNER"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
         ads:adUnitId="@string/ad_unit_id" />
 </RelativeLayout>

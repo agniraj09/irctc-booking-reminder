@@ -6,11 +6,16 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
@@ -26,14 +31,22 @@ import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.AC_COACH;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_WILL_START;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.COACH_PREFERENCE_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_TATKAL_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.IST;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_1_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.NON_AC_COACH;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_NON_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING__AC_REMINDER_MINUTE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING__NON_AC_REMINDER_MINUTE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_OPENING_TIME_AC;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_OPENING_TIME_NON_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_TATKAL_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._2_DAYS;
@@ -66,6 +79,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
             inputDay = datePickerDay;
             String travelDateText = inputDay + "/" + (inputMonth + 1) + "/" + inputYear;
             travelDate.setText(travelDateText);
+            showBookingDateWhenUserSelectsTravelDate();
         }, year, month, day);
 
         Calendar userShowDateStart = Calendar.getInstance();
@@ -74,6 +88,37 @@ public class TatkalReminderActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
         datePickerDialog.show();
+    }
+
+    /**
+     * This method will calculate & show the BOOKING_DATE when user selects TRAVEL_DATE in DatePickerDialog
+     */
+    public void showBookingDateWhenUserSelectsTravelDate() {
+        if (inputDay > 0) {
+            String fullText;
+
+            // Calculate booking Date from User selected travel date
+            Calendar bookingDate = Calendar.getInstance();
+            bookingDate.set(inputYear, inputMonth, inputDay);
+            bookingDate.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
+
+            // Make up final text to be shown in screen
+            String bookingDateText = MONTHS[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + ", " + bookingDate.get(Calendar.YEAR) + " (" + DAYS[bookingDate.get(Calendar.DAY_OF_WEEK) - 1] + ") ";
+            fullText = BOOKING_WILL_START + "\n" + bookingDateText + "\n" + AC_COACH + " - " + TATKAL_OPENING_TIME_AC + IST + ", " + NON_AC_COACH + " - " + TATKAL_OPENING_TIME_NON_AC + IST;
+
+            // Format final text
+            SpannableString finalResultText = new SpannableString(fullText);
+            final int startIndex = fullText.indexOf(bookingDateText);
+            final int endIndex = fullText.indexOf(bookingDateText) + bookingDateText.length();
+
+            //finalResultText.setSpan(new StyleSpan(Typeface.BOLD), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            finalResultText.setSpan(new ForegroundColorSpan(0xFF388C16), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            finalResultText.setSpan(new RelativeSizeSpan(1.2f), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            TextView result = findViewById(R.id.tb_result_textview);
+            result.setBackgroundResource(R.drawable.result_textview);
+            result.setText(finalResultText);
+        }
     }
 
     /**

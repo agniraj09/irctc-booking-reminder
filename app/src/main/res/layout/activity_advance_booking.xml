@@ -9,13 +9,15 @@
     android:padding="10dp"
     tools:context=".activities.AdvanceBookingReminderActivity">
 
-    <TextView
-        android:id="@+id/ab_title_textview"
+    <Button
+        android:id="@+id/create120DayReminderEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ab_result_textview"
         android:layout_centerHorizontal="true"
-        android:paddingTop="25dp"
-        android:text="@string/travel_title"
+        android:layout_marginTop="15dp"
+        android:onClick="createEvent"
+        android:text="@string/create_reminder"
         android:textColor="@color/labelcolor" />
 
     <EditText
@@ -30,16 +32,6 @@
         android:maxLength="30"
         android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/ab_traveldate_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ab_event_title_input"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="25dp"
-        android:text="@string/select_date"
-        android:textColor="@color/labelcolor" />
-
     <EditText
         android:id="@+id/ab_traveldate"
         android:layout_width="wrap_content"
@@ -52,24 +44,43 @@
         android:onClick="showDatePickerDialogOnButtonClick"
         android:textAlignment="center" />
 
-    <Button
-        android:id="@+id/create120DayReminderEvent"
+    <TextView
+        android:id="@+id/ab_result_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ab_traveldate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:onClick="createEvent"
-        android:textColor="@color/labelcolor"
-        android:text="@string/create_reminder" />
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/resultText"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/ab_traveldate_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ab_event_title_input"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/select_date"
+        android:textColor="@color/labelcolor" />
+
+    <TextView
+        android:id="@+id/ab_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/travel_title"
+        android:textColor="@color/labelcolor" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        ads:adSize="SMART_BANNER"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/ad_unit_id">
-    </com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/ad_unit_id" />
 </RelativeLayout>

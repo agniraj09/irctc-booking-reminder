@@ -67,6 +67,10 @@ public class Constants {
     public static final String AT = "at ";
     public static final String IST = " IST";
     public static final String BOOKING_OPENING_TIME = "8.00 a.m.";
+    public static final String AC_COACH = "A.C. Coach";
+    public static final String TATKAL_OPENING_TIME_AC = "10.00 a.m.";
+    public static final String NON_AC_COACH = "Non A.C. Coach";
+    public static final String TATKAL_OPENING_TIME_NON_AC = "11.00 a.m.";
     public static final String BOOKING_WILL_START = "Booking will start on";
     public static final String BOOKING_STARTED = "Booking has already started on";
     public static final String DELETE_EVENT = "Delete Reminder";
@@ -89,9 +93,7 @@ public class Constants {
     public static final String CHANNEL_ID = "IRCTCBookingReminder";
     public static final String CHANNEL_NAME = "IRCTC Booking Reminder Channel";
     public static final String CHANNEL_DESCRIPTION = "This is a channel to shoot notifications for IRCTC Booking Reminder App";
-    public static final int NOTIFICATION_ID = 978;
     public static final String NOTIFICATION_TITLE="IRCTC Booking Reminder";
     public static final String NOTIFICATION_TEXT="It's a booking day, Gear Up !";
-    public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification-id";
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
 }
