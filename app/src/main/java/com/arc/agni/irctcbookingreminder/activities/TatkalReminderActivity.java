@@ -49,6 +49,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_OPENI
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_OPENING_TIME_NON_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_TATKAL_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._2_DAYS;
 
 public class TatkalReminderActivity extends AppCompatActivity {
@@ -83,7 +84,13 @@ public class TatkalReminderActivity extends AppCompatActivity {
         }, year, month, day);
 
         Calendar userShowDateStart = Calendar.getInstance();
-        userShowDateStart.add(Calendar.DAY_OF_YEAR, _2_DAYS);
+        Calendar bookingTime = Calendar.getInstance();
+        bookingTime.set(bookingTime.get(Calendar.YEAR), bookingTime.get(Calendar.MONTH), bookingTime.get(Calendar.DAY_OF_MONTH), TATKAL_BOOKING_NON_AC_REMINDER_HOUR, TATKAL_BOOKING__NON_AC_REMINDER_MINUTE);
+        if (userShowDateStart.getTime().after(bookingTime.getTime())) {
+            userShowDateStart.add(Calendar.DAY_OF_YEAR, _2_DAYS);
+        } else {
+            userShowDateStart.add(Calendar.DAY_OF_YEAR, _1_DAY);
+        }
 
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");

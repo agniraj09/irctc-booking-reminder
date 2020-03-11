@@ -30,15 +30,15 @@ public class Constants {
     public static final String LABEL_INPUT_YEAR = "input_year";
 
     // Reminder Time Values
-    public static final int _120_DAY_BOOKING_REMINDER_HOUR = 7;
-    public static final int _120_DAY_BOOKING_REMINDER_MINUTE = 30;
-    public static final int TATKAL_BOOKING_AC_REMINDER_HOUR = 9;
-    public static final int TATKAL_BOOKING__AC_REMINDER_MINUTE = 30;
-    public static final int TATKAL_BOOKING_NON_AC_REMINDER_HOUR = 10;
-    public static final int TATKAL_BOOKING__NON_AC_REMINDER_MINUTE = 30;
-    public static final int CUSTOM_BOOKING_REMINDER_HOUR = 7;
-    public static final int CUSTOM_BOOKING_REMINDER_MINUTE = 30;
-    public static final int REMINDER_DURATION = 25;
+    public static final int _120_DAY_BOOKING_REMINDER_HOUR = 8;
+    public static final int _120_DAY_BOOKING_REMINDER_MINUTE = 0;
+    public static final int TATKAL_BOOKING_AC_REMINDER_HOUR = 10;
+    public static final int TATKAL_BOOKING__AC_REMINDER_MINUTE = 0;
+    public static final int TATKAL_BOOKING_NON_AC_REMINDER_HOUR = 11;
+    public static final int TATKAL_BOOKING__NON_AC_REMINDER_MINUTE = 0;
+    public static final int CUSTOM_BOOKING_REMINDER_HOUR = 8;
+    public static final int CUSTOM_BOOKING_REMINDER_MINUTE = 0;
+    public static final int REMINDER_DURATION = 30;
 
     // Warning Messages
     public static final String TITLE_AND_DATE_WARNING = "Please Enter Valid Title and Date";

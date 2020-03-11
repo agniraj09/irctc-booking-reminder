@@ -69,7 +69,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
 
         final Button showPopupMenu = findViewById(R.id.show);
         LinearLayout sortLayout = findViewById(R.id.sortMenu);
-        View horizontalLine = findViewById(R.id.horiontalline);
+        View horizontalLine = findViewById(R.id.bottomhoriontalline);
         context = this;
 
         eventList = getEventList();
