@@ -96,4 +96,5 @@ public class Constants {
     public static final String NOTIFICATION_TITLE="IRCTC Booking Reminder";
     public static final String NOTIFICATION_TEXT="It's a booking day, Gear Up !";
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
+    public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification_id";
 }

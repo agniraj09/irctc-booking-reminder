@@ -113,7 +113,7 @@ public class CalendarUtil {
         return -1;
     }
 
-    public static void createReminder(String reminderTitle, Calendar reminderDateAndTime, Calendar exDateAndTime, String reminderType, Context context) {
+    public static long createReminder(String reminderTitle, Calendar reminderDateAndTime, Calendar exDateAndTime, String reminderType, Context context) {
 
         ContextWrapper contextWrapper = new ContextWrapper(context);
         long calId = getCalendarId(context);
@@ -128,6 +128,7 @@ public class CalendarUtil {
         long eventID = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(uri).getLastPathSegment()));
         values = setReminderContentValues(eventID);
         contextWrapper.getContentResolver().insert(CalendarContract.Reminders.CONTENT_URI, values);
+        return eventID;
     }
 
     /**

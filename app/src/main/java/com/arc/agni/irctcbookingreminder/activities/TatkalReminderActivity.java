@@ -152,20 +152,20 @@ public class TatkalReminderActivity extends AppCompatActivity {
                 if (isACChecked) {
                     reminderDateAndTime.set(inputYear, inputMonth, inputDay, TATKAL_BOOKING_AC_REMINDER_HOUR, TATKAL_BOOKING__AC_REMINDER_MINUTE);
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
-                    CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL, this);
+                    long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL, this);
                     // Schedule notification
                     String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_TATKAL, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_AC_REMINDER_HOUR);
-                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
+                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
                 }
 
                 // For AC Coach, Reminder Time is TATKAL_BOOKING_NON_AC_REMINDER_HOUR : TATKAL_BOOKING__NON_AC_REMINDER_MINUTE
                 if (isNonACChecked) {
                     reminderDateAndTime.set(inputYear, inputMonth, inputDay, TATKAL_BOOKING_NON_AC_REMINDER_HOUR, TATKAL_BOOKING__NON_AC_REMINDER_MINUTE);
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
-                    CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL, this);
+                    long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL, this);
                     // Schedule notification
                     String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_TATKAL, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_NON_AC_REMINDER_HOUR);
-                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
+                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
                 }
 
                 // Show Success Pop-up

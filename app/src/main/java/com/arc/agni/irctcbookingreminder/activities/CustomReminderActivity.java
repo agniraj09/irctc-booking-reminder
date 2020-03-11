@@ -124,11 +124,11 @@ public class CustomReminderActivity extends AppCompatActivity {
             travelDateAndTime.set(travelYear, travelMonth, travelDay, CUSTOM_BOOKING_REMINDER_HOUR, CUSTOM_BOOKING_REMINDER_MINUTE);
 
             // Create reminder
-            CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, travelDateAndTime, REMINDER_TYPE_CUSTOM, this);
+            long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, travelDateAndTime, REMINDER_TYPE_CUSTOM, this);
 
             // Schedule notification
             String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_CUSTOM, reminderTitle, inputDay, inputMonth, inputYear, CUSTOM_BOOKING_REMINDER_HOUR);
-            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
+            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
 
             // Show Success Pop-up
             DialogUtil.showDialogPostEventCreation(CustomReminderActivity.this, IND_CUSTOM_REMINDER);

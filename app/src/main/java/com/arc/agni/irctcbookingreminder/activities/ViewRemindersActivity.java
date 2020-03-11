@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.adapters.EventAdapter;
 import com.arc.agni.irctcbookingreminder.bean.Event;
+import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -222,6 +223,9 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
                         CalendarContract.Events.CONTENT_URI,
                         CalendarContract.Events._ID + " =? ",
                         selArgs);
+
+        // Delete the corresponding notification set
+        ReminderBroadcast.cancelNotification(Integer.parseInt(eventID), context);
 
         ArrayList<Event> events = ViewRemindersActivity.eventList;
         for (Event event : events) {

@@ -156,11 +156,11 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_120_DAYS);
 
             // Create reminder
-            CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_120_DAY, this);
+            long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_120_DAY, this);
 
             // Schedule notification
             String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_120_DAY, reminderTitle, inputDay, inputMonth, inputYear, _120_DAY_BOOKING_REMINDER_HOUR);
-            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this);
+            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
 
             // Show Success Pop-up
             DialogUtil.showDialogPostEventCreation(AdvanceBookingReminderActivity.this, IND_120_DAY_REMINDER);

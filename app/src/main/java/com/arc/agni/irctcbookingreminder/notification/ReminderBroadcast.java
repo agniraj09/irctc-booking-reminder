@@ -21,6 +21,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_DESC
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TITLE;
@@ -32,6 +33,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = intent.getParcelableExtra(INTENT_EXTRA_NOTIFICATION);
+        int notificationID = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_ID, 0);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
@@ -62,14 +64,15 @@ public class ReminderBroadcast extends BroadcastReceiver {
     /**
      * This method will schedule a notification with the provided NOTIFICATION_TEXT at the specified REMINDER_DATE_TIME
      */
-    public static void scheduleNotification(String notificationText, Calendar reminderDateAndTime, Context context) {
+    public static void scheduleNotification(String notificationText, Calendar reminderDateAndTime, Context context, long eventID) {
         // Create notification with passed text
         Notification notification = createNotification(notificationText, context);
 
         // Create Intent with extra to pass to BroadcastReceiver
         Intent notificationIntent = new Intent(context, ReminderBroadcast.class);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_ID, (int) eventID);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Calculate time difference in millis
         //long notificationTime = Calendar.getInstance().getTimeInMillis() + (reminderDateAndTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
@@ -95,5 +98,15 @@ public class ReminderBroadcast extends BroadcastReceiver {
         contentBuilder.append("\nGood Luck!");
 
         return contentBuilder.toString();
+    }
+
+    /**
+     * This method is used to delete the set notification if the corresponding event is deleted
+     */
+    public static void cancelNotification(int eventID, Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent(context, ReminderBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
     }
 }
