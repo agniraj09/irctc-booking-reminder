@@ -21,7 +21,7 @@
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/successImage"
                 android:layout_centerHorizontal="true"
-                android:layout_width="170dp"
+                android:layout_width="wrap_content"
                 android:layout_height="170dp"
                 android:layout_below="@id/event_created_note"
                 android:src="@drawable/alarm_set_gif" />

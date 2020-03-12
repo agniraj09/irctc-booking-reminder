@@ -1,5 +1,7 @@
 package com.arc.agni.irctcbookingreminder.constants;
 
+import java.util.Calendar;
+
 public class Constants {
 
     // Activity Titles
@@ -47,8 +49,11 @@ public class Constants {
     public static final String COACH_PREFERENCE_WARNING = "Please Select Coach Preference";
     public static final String NO_EVENTS = "No reminders are created yet";
     public static final String CALENDAR_PERMISSION_WARNING = "Calendar Permission needed to proceed further";
+    public static final String INTERNET_PERMISSION_WARNING = "Internet & Network Access is required to view the list of holidays";
     public static final String EXIT_WARNING = "Are you sure you want to exit?";
     public static final String DELETE_WARNING = "Are you sure you want to delete the reminder ?";
+    public static final String NEED_INTERNET_CONNECTION = "Internet connection is required to view the list of holidays";
+    public static final String SOMETHING_WENT_WRONG = "Something went wrong, Please try again later!";
 
     // Day Calculation Constants
     public static final int _1_DAY = 1;
@@ -76,6 +81,7 @@ public class Constants {
     public static final String DELETE_EVENT = "Delete Reminder";
     public static final String DELETE_OPTION = "Delete";
     public static final String CANCEL = "Cancel";
+    public static final String HOLIDAY_LIST_TITLE = "Holiday List - " + Calendar.getInstance().get(Calendar.YEAR);
 
     // Admob Constants
     public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
@@ -84,6 +90,8 @@ public class Constants {
     // Calendar Constants
     public static final int PERMISSIONS_REQUEST_READ_CALENDAR = 1;
     public static final int PERMISSIONS_REQUEST_WRITE_CALENDAR = 2;
+    public static final int PERMISSIONS_REQUEST_INTERNET = 3;
+    public static final int PERMISSIONS_REQUEST_NETWORK = 4;
     public static final String CALENDAR_ACCOUNT_NAME = "IRCTC Booking Reminder";
     public static final String CALENDAR_NAME = "IRCTC Reminder Calendar";
     public static final int CALENDAR_COLOR_LOCAL = 0xffff0000;
@@ -93,8 +101,32 @@ public class Constants {
     public static final String CHANNEL_ID = "IRCTCBookingReminder";
     public static final String CHANNEL_NAME = "IRCTC Booking Reminder Channel";
     public static final String CHANNEL_DESCRIPTION = "This is a channel to shoot notifications for IRCTC Booking Reminder App";
-    public static final String NOTIFICATION_TITLE="IRCTC Booking Reminder";
-    public static final String NOTIFICATION_TEXT="It's a booking day, Gear Up !";
+    public static final String NOTIFICATION_TITLE = "IRCTC Booking Reminder";
+    public static final String NOTIFICATION_TEXT = "It's a booking day, Gear Up !";
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
     public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification_id";
+
+    // Network Constants
+    public static final String NETWORK_TEST_URL = "http://clients3.google.com/generate_204";
+    public static final String USER_AGENT_KEY = "User-Agent";
+    public static final String USER_AGENT_VALUE = "Android";
+    public static final String CONNECTION_KEY = "Connection";
+    public static final String CONNECTION_VALUE = "close";
+    public static final int CONNECTION_TIMEOUT = 2000;
+    public static final int STATUS_CODE = 204;
+    public static final int CONTENT_LENGTH = 0;
+
+    public static final String HOLIDAY_LIST_URL = "https://clients6.google.com/calendar/v3/calendars/{calendar}/events?calendarId={calendarId}&&singleEvents=true&timeZone={timeZone}&&maxAttendees=1&maxResults=250&sanitizeHtml=true&timeMin={timeMin}&timeMax={timeMax}&key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs";
+    public static final String GOOGLE_CALENDAR_NAME_KEY = "{calendar}";
+    public static final String GOOGLE_CALENDAR_NAME_VALUE = "en.indian%23holiday@group.v.calendar.google.com";
+    public static final String GOOGLE_CALENDAR_ID_KEY = "{calendarId}";
+    public static final String GOOGLE_CALENDAR_ID_VALUE = "en.indian%23holiday%40group.v.calendar.google.com";
+    public static final String TIMEZONE_KEY = "{timeZone}";
+    public static final String TIMEZONE_VALUE = "Asia%2FKolkata";
+    public static final String TIME_MIN_KEY = "{timeMin}";
+    public static final String TIME_MIN_VALUE = Calendar.getInstance().get(Calendar.YEAR) + "-01-01T00%3A00%3A00%2B05%3A30";
+    public static final String TIME_MAX_KEY = "{timeMax}";
+    public static final String TIME_MAX_VALUE = Calendar.getInstance().get(Calendar.YEAR) + "-12-31T00%3A00%3A00%2B05%3A30";
+
+
 }

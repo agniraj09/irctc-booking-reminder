@@ -5,6 +5,7 @@
     <string name="custom_reminder">Custom Reminder</string>
     <string name="view_reminder">View Reminders</string>
     <string name="booking_day_calc">Booking Day Calculator</string>
+    <string name="holiday_list">Holiday List</string>
     <string name="image_view_description">Image View</string>
     <string name="sortByTD">Travel Date</string>
     <string name="sortByRD">Reminder Date</string>
@@ -52,5 +53,6 @@
         1. View your reminders here.\n\n
         2. You can sort by Travel Date, Booking Date and can filter specific reminder types..
     </string>
+    <string name="title_activity_holiday_list">HolidayListActivity</string>
 
 </resources>

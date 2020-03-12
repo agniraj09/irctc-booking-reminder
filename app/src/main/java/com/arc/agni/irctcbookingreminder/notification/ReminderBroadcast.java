@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.activities.HomeScreenActivity;
 
 import java.util.Calendar;
 
@@ -34,6 +35,11 @@ public class ReminderBroadcast extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = intent.getParcelableExtra(INTENT_EXTRA_NOTIFICATION);
         int notificationID = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_ID, 0);
+        notificationManager.notify(notificationID, notification);
+    }
+
+    private static void createChannel(Context context) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
@@ -41,7 +47,6 @@ public class ReminderBroadcast extends BroadcastReceiver {
             notificationChannel.setDescription(CHANNEL_DESCRIPTION);
             notificationManager.createNotificationChannel(notificationChannel);
         }
-        notificationManager.notify((int) System.currentTimeMillis(), notification);
     }
 
     /**
@@ -65,6 +70,9 @@ public class ReminderBroadcast extends BroadcastReceiver {
      * This method will schedule a notification with the provided NOTIFICATION_TEXT at the specified REMINDER_DATE_TIME
      */
     public static void scheduleNotification(String notificationText, Calendar reminderDateAndTime, Context context, long eventID) {
+        // Create notification channel
+        createChannel(context);
+
         // Create notification with passed text
         Notification notification = createNotification(notificationText, context);
 
