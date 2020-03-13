@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#05109e</color>
     <color name="colorAccent">#54a3f0</color>
     <color name="colorAccentDark">#05109e</color>
+    <color name="colorRedLike">#FF9800</color>
+    <color name="colorRedLikeBorder">#FF5722</color>
     <color name="homescreenmenu">#ffffff</color>
     <color name="labelcolor">#05109e</color>
     <color name="gobook">#388C16</color>

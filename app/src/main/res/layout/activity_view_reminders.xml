@@ -91,7 +91,7 @@
         android:id="@+id/recycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/adView"
+        android:layout_above="@+id/adView1"
         android:layout_below="@id/bottomhoriontalline"
         android:scrollbars="vertical" />
 

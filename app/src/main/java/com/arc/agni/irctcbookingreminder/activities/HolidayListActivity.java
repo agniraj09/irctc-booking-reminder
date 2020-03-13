@@ -2,6 +2,7 @@ package com.arc.agni.irctcbookingreminder.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,21 +47,15 @@ public class HolidayListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_holiday_list);
         setTitle(TITLE_HOLIDAY_LIST);
+        setContentView(R.layout.loading_screen);
 
         // Request for ad
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        try {
-            new HolidayListTask().execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new HolidayListTask().execute();
     }
 
     /**
@@ -76,7 +71,6 @@ public class HolidayListActivity extends AppCompatActivity {
                 StringBuilder builder = new StringBuilder();
                 String jsonResponse = null;
                 String URL = HOLIDAY_LIST_URL.replace(GOOGLE_CALENDAR_NAME_KEY, GOOGLE_CALENDAR_NAME_VALUE).replace(GOOGLE_CALENDAR_ID_KEY, GOOGLE_CALENDAR_ID_VALUE).replace(TIMEZONE_KEY, TIMEZONE_VALUE).replace(TIME_MIN_KEY, TIME_MIN_VALUE).replace(TIME_MAX_KEY, TIME_MAX_VALUE);
-                Log.v("URL - ", URL);
 
                 HttpURLConnection client = (HttpURLConnection)
                         (new URL(URL)
@@ -92,7 +86,6 @@ public class HolidayListActivity extends AppCompatActivity {
                     }
                     br.close();
                     jsonResponse = builder.toString();
-                    Log.v("jsonResponse - ", jsonResponse);
                 }
 
                 if (null != jsonResponse) {
@@ -119,17 +112,6 @@ public class HolidayListActivity extends AppCompatActivity {
                     }
                 }
 
-                builder.setLength(0);
-                for (Map.Entry<String, Map<String, String>> holiday : HOLIDAY_LIST.entrySet()) {
-                    builder.append("--------------------------------");
-                    builder.append(holiday.getKey()).append("\n");
-                    for (Map.Entry<String, String> items : holiday.getValue().entrySet()) {
-                        builder.append(items.getKey()).append(" - ").append(items.getValue()).append("\n");
-                    }
-                }
-                TextView showList = findViewById(R.id.holiday_list);
-                showList.setText(builder.toString());
-
             } catch (Exception e) {
                 Log.e("", SOMETHING_WENT_WRONG, e);
             }
@@ -138,6 +120,11 @@ public class HolidayListActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            setContentView(R.layout.activity_holiday_list);
+            TextView showList = findViewById(R.id.holiday_list);
+            AdView mAdView = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+
             if (HOLIDAY_LIST.values().size() > 0) {
                 StringBuilder builder = new StringBuilder();
                 for (Map.Entry<String, Map<String, String>> holiday : HOLIDAY_LIST.entrySet()) {
@@ -147,10 +134,12 @@ public class HolidayListActivity extends AppCompatActivity {
                         builder.append(items.getKey()).append(" - ").append(items.getValue()).append("\n");
                     }
                 }
-                TextView showList = findViewById(R.id.holiday_list);
+
                 showList.setText(builder.toString());
+                mAdView.loadAd(adRequest);
             } else {
-                Toast.makeText(HolidayListActivity.this, SOMETHING_WENT_WRONG, Toast.LENGTH_SHORT).show();
+                showList.setText(SOMETHING_WENT_WRONG);
+                mAdView.loadAd(adRequest);
             }
 
         }
