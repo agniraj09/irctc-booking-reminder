@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg1"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".activities.AdvanceBookingReminderActivity">
 
     <Button
@@ -30,7 +29,8 @@
         android:inputType="textPersonName"
         android:maxEms="10"
         android:maxLength="30"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/ab_traveldate"
@@ -42,7 +42,8 @@
         android:hint="@string/travel_date"
         android:inputType="date"
         android:onClick="showDatePickerDialogOnButtonClick"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/ab_result_textview"
@@ -53,6 +54,7 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:textAlignment="center"
+        android:gravity="center_horizontal"
         android:textColor="@color/resultText"
         android:textSize="12sp" />
 

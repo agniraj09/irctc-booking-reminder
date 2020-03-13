@@ -10,7 +10,6 @@ import android.provider.CalendarContract;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -36,7 +35,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.ALL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_ACCOUNT_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_PERMISSION_WARNING;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.NO_EVENTS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
@@ -64,13 +62,11 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
         setTitle(TITLE_VIEW_REMINDER);
 
         // Request for ad
-        AdView mAdView = findViewById(R.id.adView);
+        AdView mAdView1 = findViewById(R.id.adView1);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView1.loadAd(adRequest);
 
         final Button showPopupMenu = findViewById(R.id.show);
-        LinearLayout sortLayout = findViewById(R.id.sortMenu);
-        View horizontalLine = findViewById(R.id.bottomhoriontalline);
         context = this;
 
         eventList = getEventList();
@@ -146,11 +142,10 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(eventAdapter);
         } else {
-            horizontalLine.setVisibility(View.INVISIBLE);
-            sortLayout.setVisibility(View.INVISIBLE);
-            Toast toast = Toast.makeText(this, NO_EVENTS, Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            // If the reminder list is empty, set the content view to "NO_REMINDERS_SET.xml"
+            setContentView(R.layout.no_reminders_set);
+            AdView mAdView2 = findViewById(R.id.adView2);
+            mAdView2.loadAd(adRequest);
         }
 
     }

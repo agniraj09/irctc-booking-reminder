@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg1"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".activities.BookingDayCalculatorActivity">
 
     <Button
@@ -31,7 +30,8 @@
         android:hint="@string/travel_date"
         android:inputType="date"
         android:onClick="showDatePickerDialogOnButtonClick"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/bc_result_textview"
@@ -42,6 +42,7 @@
         android:layout_marginTop="100dp"
         android:padding="15dp"
         android:textAlignment="center"
+        android:gravity="center_horizontal"
         android:textColor="@color/resultText"
         android:textSize="16sp" />
 

@@ -11,6 +11,8 @@ import com.arc.agni.irctcbookingreminder.bean.CalendarResponse;
 import com.arc.agni.irctcbookingreminder.bean.Items;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -36,6 +38,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.TIME_MAX_KEY
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIME_MAX_VALUE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIME_MIN_KEY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIME_MIN_VALUE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_HOLIDAY_LIST;
 
 public class HolidayListActivity extends AppCompatActivity {
     static Map<String, Map<String, String>> HOLIDAY_LIST = new LinkedHashMap<>();
@@ -44,6 +47,12 @@ public class HolidayListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_holiday_list);
+        setTitle(TITLE_HOLIDAY_LIST);
+
+        // Request for ad
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         try {
             new HolidayListTask().execute().get();

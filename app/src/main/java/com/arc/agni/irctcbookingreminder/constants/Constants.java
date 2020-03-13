@@ -10,6 +10,7 @@ public class Constants {
     public static final String TITLE_TATKAL_REMINDER = "Tatkal Reminder";
     public static final String TITLE_CUSTOM_REMINDER = "Custom Reminder";
     public static final String TITLE_VIEW_REMINDER = "View Reminders";
+    public static final String TITLE_HOLIDAY_LIST = "Holiday List "+ Calendar.getInstance().get(Calendar.YEAR);
 
     // Reminder Types
     public static final String REMINDER_TYPE_120_DAY = "120 Day Reminder";

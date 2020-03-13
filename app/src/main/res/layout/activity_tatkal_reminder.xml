@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg1"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".activities.TatkalReminderActivity">
 
 
@@ -30,7 +29,8 @@
         android:hint="@string/travel_date"
         android:inputType="date"
         android:onClick="showDatePickerDialogOnButtonClick"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:gravity="center_horizontal"/>
 
     <EditText
         android:id="@+id/tr_event_title_input"
@@ -42,7 +42,8 @@
         android:inputType="textPersonName"
         android:maxEms="10"
         android:maxLength="30"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:gravity="center_horizontal"/>
 
     <LinearLayout
         android:id="@+id/checkBoxes"
@@ -59,14 +60,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ac"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
 
         <CheckBox
             android:id="@+id/nonAcCoach"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/non_ac"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
     </LinearLayout>
 
     <TextView
@@ -88,6 +91,7 @@
         android:layout_marginTop="15dp"
         android:padding="10dp"
         android:textAlignment="center"
+        android:gravity="center_horizontal"
         android:textColor="@color/resultText"
         android:textSize="12sp" />
 
