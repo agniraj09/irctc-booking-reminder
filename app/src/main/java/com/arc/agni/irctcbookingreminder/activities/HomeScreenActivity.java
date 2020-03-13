@@ -81,7 +81,7 @@ public class HomeScreenActivity extends AppCompatActivity {
      * Start "Holiday List" Activity
      */
     public void goToHolidayListPage(View view) throws ExecutionException, InterruptedException {
-        if (isInternetAvailable()) {
+        if (HolidayListActivity.holidaysList.size() > 0 || isInternetAvailable()) {
             Intent intent = new Intent(HomeScreenActivity.this, HolidayListActivity.class);
             startActivity(intent);
         }

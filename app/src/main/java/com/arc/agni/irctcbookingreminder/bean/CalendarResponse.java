@@ -7,6 +7,9 @@ public class CalendarResponse {
 
     private List<Items> items = new ArrayList<>();
 
+    public CalendarResponse() {
+    }
+
     public List<Items> getItems() {
         return items;
     }

@@ -32,6 +32,7 @@
     <string name="please_wait">Please wait!</string>
     <string name="disclaimer">Disclaimer: All regional holidays are included in this list. Dates may vary based on your region/location.\nSource - Google Calendar</string>
     <string name="dummy">This is a text view</string>
+    <string name="number">88</string>
 
     <string name="advance_booking_description">
         1. The maximum advance booking period allowed by IRCTC is 120 days.\n\n

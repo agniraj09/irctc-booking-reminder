@@ -48,7 +48,6 @@ public class Constants {
     public static final String DATE_WARNING = "Please Select Valid Date";
     public static final String TRAVEL_DATE_WARNING = "Please Select Travel Date First";
     public static final String COACH_PREFERENCE_WARNING = "Please Select Coach Preference";
-    public static final String NO_EVENTS = "No reminders are created yet";
     public static final String CALENDAR_PERMISSION_WARNING = "Calendar Permission needed to proceed further";
     public static final String INTERNET_PERMISSION_WARNING = "Internet & Network Access is required to view the list of holidays";
     public static final String EXIT_WARNING = "Are you sure you want to exit?";
@@ -117,6 +116,7 @@ public class Constants {
     public static final int STATUS_CODE = 204;
     public static final int CONTENT_LENGTH = 0;
 
+    // Holiday List Constants
     public static final String HOLIDAY_LIST_URL = "https://clients6.google.com/calendar/v3/calendars/{calendar}/events?calendarId={calendarId}&&singleEvents=true&timeZone={timeZone}&&maxAttendees=1&maxResults=250&sanitizeHtml=true&timeMin={timeMin}&timeMax={timeMax}&key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs";
     public static final String GOOGLE_CALENDAR_NAME_KEY = "{calendar}";
     public static final String GOOGLE_CALENDAR_NAME_VALUE = "en.indian%23holiday@group.v.calendar.google.com";
@@ -128,6 +128,6 @@ public class Constants {
     public static final String TIME_MIN_VALUE = Calendar.getInstance().get(Calendar.YEAR) + "-01-01T00%3A00%3A00%2B05%3A30";
     public static final String TIME_MAX_KEY = "{timeMax}";
     public static final String TIME_MAX_VALUE = Calendar.getInstance().get(Calendar.YEAR) + "-12-31T00%3A00%3A00%2B05%3A30";
-
+    public static final String MONTH_LABEL = "monthname";
 
 }

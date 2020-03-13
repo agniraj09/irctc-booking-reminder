@@ -8,8 +8,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.adapters.EventAdapter;
+import com.arc.agni.irctcbookingreminder.adapters.HolidayListAdapter;
 import com.arc.agni.irctcbookingreminder.bean.CalendarResponse;
+import com.arc.agni.irctcbookingreminder.bean.Event;
 import com.arc.agni.irctcbookingreminder.bean.Items;
+import com.arc.agni.irctcbookingreminder.bean.Start;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.ads.AdRequest;
@@ -19,11 +23,18 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CONNECTION_TIMEOUT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALENDAR_ID_KEY;
@@ -32,6 +43,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALEN
 import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALENDAR_NAME_VALUE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.HOLIDAY_LIST_URL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTH_LABEL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.SOMETHING_WENT_WRONG;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIMEZONE_KEY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIMEZONE_VALUE;
@@ -42,7 +54,9 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.TIME_MIN_VAL
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_HOLIDAY_LIST;
 
 public class HolidayListActivity extends AppCompatActivity {
-    static Map<String, Map<String, String>> HOLIDAY_LIST = new LinkedHashMap<>();
+    static List<Items> holidaysList = new ArrayList<>();
+    public static HolidayListAdapter holidayListAdapter;
+    public RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +69,11 @@ public class HolidayListActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        new HolidayListTask().execute();
+        if (holidaysList.size() == 0) {
+            new HolidayListTask().execute();
+        } else {
+            renderHolidayList();
+        }
     }
 
     /**
@@ -66,7 +84,7 @@ public class HolidayListActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... urls) {
             try {
-                Map<String, String> holidays;
+                Map<String, List<Items>> holidays = new LinkedHashMap<>();
                 CalendarResponse response = new CalendarResponse();
                 StringBuilder builder = new StringBuilder();
                 String jsonResponse = null;
@@ -99,17 +117,23 @@ public class HolidayListActivity extends AppCompatActivity {
                     for (Items item : response.getItems()) {
                         if (null != item.getStart() && null != item.getStart().getDate()) {
                             if (item.getStart().getDate().length() >= 7) {
-                                holidays = new LinkedHashMap<>();
-                                holidays.put(item.getSummary(), item.getStart().getDate());
                                 String month = MONTHS[(Integer.parseInt((item.getStart().getDate().substring(5, 7))) - 1)];
-                                if (null != HOLIDAY_LIST.get(month)) {
-                                    HOLIDAY_LIST.get(month).putAll(holidays);
+                                if (null != holidays.get(month)) {
+                                    holidays.get(month).add(item);
                                 } else {
-                                    HOLIDAY_LIST.put(month, holidays);
+                                    holidays.put(month, new ArrayList<>(Arrays.asList(item)));
                                 }
                             }
                         }
                     }
+                }
+
+                for (Map.Entry<String, List<Items>> entry : holidays.entrySet()) {
+                    Items itemWithMonth = new Items();
+                    itemWithMonth.setSummary(entry.getKey());
+                    holidaysList.add(itemWithMonth);
+
+                    holidaysList.addAll(Objects.requireNonNull(holidays.get(entry.getKey())));
                 }
 
             } catch (Exception e) {
@@ -120,28 +144,26 @@ public class HolidayListActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            setContentView(R.layout.activity_holiday_list);
-            TextView showList = findViewById(R.id.holiday_list);
-            AdView mAdView = findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
+            renderHolidayList();
+        }
+    }
 
-            if (HOLIDAY_LIST.values().size() > 0) {
-                StringBuilder builder = new StringBuilder();
-                for (Map.Entry<String, Map<String, String>> holiday : HOLIDAY_LIST.entrySet()) {
-                    builder.append("--------------------------------");
-                    builder.append(holiday.getKey()).append("\n");
-                    for (Map.Entry<String, String> items : holiday.getValue().entrySet()) {
-                        builder.append(items.getKey()).append(" - ").append(items.getValue()).append("\n");
-                    }
-                }
+    public void renderHolidayList() {
+        setContentView(R.layout.activity_holiday_list);
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
 
-                showList.setText(builder.toString());
-                mAdView.loadAd(adRequest);
-            } else {
-                showList.setText(SOMETHING_WENT_WRONG);
-                mAdView.loadAd(adRequest);
-            }
-
+        if (holidaysList.size() > 0) {
+            holidayListAdapter = new HolidayListAdapter(HolidayListActivity.this, holidaysList);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(HolidayListActivity.this);
+            recyclerView = findViewById(R.id.holidaylistrecycleview);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(holidayListAdapter);
+            mAdView.loadAd(adRequest);
+        } else {
+            Toast.makeText(HolidayListActivity.this, SOMETHING_WENT_WRONG, Toast.LENGTH_SHORT).show();
+            mAdView.loadAd(adRequest);
         }
     }
 
