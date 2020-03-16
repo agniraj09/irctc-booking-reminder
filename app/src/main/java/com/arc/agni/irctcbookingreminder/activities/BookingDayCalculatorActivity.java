@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -95,7 +96,7 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
             bookingDate.add(Calendar.DAY_OF_YEAR, MINUS_120_DAYS);
 
             // Make up final text to be shown in screen
-            String bookingDateText = MONTHS[bookingDate.get(Calendar.MONTH)] + " " + bookingDate.get(Calendar.DAY_OF_MONTH) + ", " + bookingDate.get(Calendar.YEAR) + " (" + DAYS[bookingDate.get(Calendar.DAY_OF_WEEK) - 1] + ") ";
+            String bookingDateText = CommonUtil.formatCalendarDateToFullText(bookingDate);
             if (bookingDate.getTime().after(Calendar.getInstance().getTime())) {
                 bookingStarted = false;
                 fullText = BOOKING_WILL_START + "\n" + bookingDateText + "\n" + AT + BOOKING_OPENING_TIME + IST;

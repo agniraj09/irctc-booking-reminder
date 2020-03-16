@@ -2,8 +2,26 @@ package com.arc.agni.irctcbookingreminder.bean;
 
 public class Items {
 
+    private String monthLabel;
+    private String day;
     private String summary;
     private Start start;
+
+    public String getMonthLabel() {
+        return monthLabel;
+    }
+
+    public void setMonthLabel(String monthLabel) {
+        this.monthLabel = monthLabel;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
 
     public String getSummary() {
         return summary;

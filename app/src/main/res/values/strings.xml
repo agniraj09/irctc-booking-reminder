@@ -20,19 +20,22 @@
     <string name="calculate_booking_date">Calculate Booking Date</string>
     <string name="travel_date_label">Travel Date</string>
     <string name="reminder_date_label">Reminder Date</string>
-    <string name="reminder_type_label">Type</string>
+    <string name="reminder_time_label">Reminder Time</string>
+    <string name="type_label">Type</string>
+    <string name="reminder_type_label">Reminder Type</string>
     <string name="ac">AC Coach</string>
     <string name="non_ac">Non AC Coach</string>
     <string name="okay">OK</string>
-    <string name="goto_home">Go to Home</string>
+    <string name="goto_home">Home</string>
     <string name="create_another">One More</string>
     <string name="success_note">Your reminder has been successfully created !</string>
     <string name="ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="no_reminder_set">No reminders are created yet!</string>
     <string name="please_wait">Please wait!</string>
-    <string name="disclaimer">Disclaimer: All regional holidays are included in this list. Dates may vary based on your region/location.\nSource - Google Calendar</string>
+    <string name="disclaimer">Disclaimer: All regional holidays are included in this list. Dates may vary based on your region/location.\nSource : Google Calendar - Holidays in India</string>
     <string name="dummy">This is a text view</string>
     <string name="number">88</string>
+    <string name="day">Day</string>
 
     <string name="advance_booking_description">
         1. The maximum advance booking period allowed by IRCTC is 120 days.\n\n

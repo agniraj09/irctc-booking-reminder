@@ -3,6 +3,7 @@ package com.arc.agni.irctcbookingreminder.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
+import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
 import com.google.android.gms.ads.AdRequest;
@@ -131,7 +133,8 @@ public class CustomReminderActivity extends AppCompatActivity {
             ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
 
             // Show Success Pop-up
-            DialogUtil.showDialogPostEventCreation(CustomReminderActivity.this, IND_CUSTOM_REMINDER);
+            Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, REMINDER_TYPE_CUSTOM, travelDay, travelMonth, travelYear, reminderDateAndTime);
+            startActivity(intent);
         } else {
             Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();
         }

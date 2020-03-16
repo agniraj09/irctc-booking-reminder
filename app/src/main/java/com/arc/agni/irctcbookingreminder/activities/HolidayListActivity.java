@@ -23,8 +23,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +42,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CONNECTION_TIMEOUT;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALENDAR_ID_KEY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALENDAR_ID_VALUE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALENDAR_NAME_KEY;
@@ -114,26 +120,37 @@ public class HolidayListActivity extends AppCompatActivity {
 
 
                 if (null != response && null != response.getItems()) {
+                    String day;
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     for (Items item : response.getItems()) {
                         if (null != item.getStart() && null != item.getStart().getDate()) {
-                            if (item.getStart().getDate().length() >= 7) {
+                            if (item.getStart().getDate().length() >= 10) {
                                 String month = MONTHS[(Integer.parseInt((item.getStart().getDate().substring(5, 7))) - 1)];
+                                calendar.setTime(format.parse(item.getStart().getDate()));
+                                day = DAYS[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+                                item.setDay(day);
                                 if (null != holidays.get(month)) {
-                                    holidays.get(month).add(item);
+                                    Objects.requireNonNull(holidays.get(month)).add(item);
                                 } else {
-                                    holidays.put(month, new ArrayList<>(Arrays.asList(item)));
+                                    holidays.put(month, new ArrayList<>(Collections.singletonList(item)));
                                 }
                             }
                         }
                     }
                 }
 
+                Comparator<Items> dateComparator = (itemOne, itemTwo) -> itemOne.getStart().getDate().compareTo(itemTwo.getStart().getDate());
+
                 for (Map.Entry<String, List<Items>> entry : holidays.entrySet()) {
                     Items itemWithMonth = new Items();
-                    itemWithMonth.setSummary(entry.getKey());
+                    itemWithMonth.setMonthLabel(entry.getKey());
                     holidaysList.add(itemWithMonth);
 
-                    holidaysList.addAll(Objects.requireNonNull(holidays.get(entry.getKey())));
+                    List<Items> itemsToBeAdded = holidays.get(entry.getKey());
+                    Collections.sort(itemsToBeAdded, dateComparator);
+                    assert itemsToBeAdded != null;
+                    holidaysList.addAll(itemsToBeAdded);
                 }
 
             } catch (Exception e) {
@@ -154,7 +171,7 @@ public class HolidayListActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
 
         if (holidaysList.size() > 0) {
-            holidayListAdapter = new HolidayListAdapter(HolidayListActivity.this, holidaysList);
+            holidayListAdapter = new HolidayListAdapter(holidaysList);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(HolidayListActivity.this);
             recyclerView = findViewById(R.id.holidaylistrecycleview);
             recyclerView.setLayoutManager(layoutManager);

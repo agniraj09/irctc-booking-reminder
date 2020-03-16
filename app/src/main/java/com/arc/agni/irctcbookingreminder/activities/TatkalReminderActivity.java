@@ -3,6 +3,7 @@ package com.arc.agni.irctcbookingreminder.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
-import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
+import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -35,12 +36,13 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.AC_COACH;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_WILL_START;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.COACH_PREFERENCE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_TATKAL_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.IST;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_1_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NON_AC_COACH;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_AC;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_NON_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_NON_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING__AC_REMINDER_MINUTE;
@@ -168,8 +170,10 @@ public class TatkalReminderActivity extends AppCompatActivity {
                     ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
                 }
 
-                // Show Success Pop-up
-                DialogUtil.showDialogPostEventCreation(TatkalReminderActivity.this, IND_TATKAL_REMINDER);
+                // Show Success Screen
+                String reminderType = (isACChecked && isNonACChecked) ? REMINDER_TYPE_TATKAL : (isACChecked ? REMINDER_TYPE_TATKAL_AC : REMINDER_TYPE_TATKAL_NON_AC);
+                Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, reminderType, inputDay, inputMonth, inputYear, reminderDateAndTime);
+                startActivity(intent);
 
             } else {
                 Toast.makeText(this, COACH_PREFERENCE_WARNING, Toast.LENGTH_SHORT).show();

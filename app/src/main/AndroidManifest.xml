@@ -86,6 +86,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.HomeScreenActivity" />
         </activity>
+        <activity
+            android:name=".activities.ViewSetReminderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity">
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

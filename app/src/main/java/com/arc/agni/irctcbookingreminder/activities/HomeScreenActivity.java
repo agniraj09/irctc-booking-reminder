@@ -64,9 +64,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        /*// Create Notification Channel. One time activity per application launch.
-        createNotificationChannel();*/
-
+        // Set Holiday List
         TextView holidayList = findViewById(R.id.holiday_list);
         holidayList.setText(HOLIDAY_LIST_TITLE);
 

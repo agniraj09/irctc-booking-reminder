@@ -5,17 +5,27 @@ import java.util.Calendar;
 public class Constants {
 
     // Activity Titles
+    public static final String TITLE_HOLIDAY_LIST = "Holiday List " + Calendar.getInstance().get(Calendar.YEAR);
     public static final String TITLE_BOOKING_DAY_CALCULATOR = "Booking Day Calculator";
     public static final String TITLE_120_DAY_REMINDER = "120 Day Reminder";
     public static final String TITLE_TATKAL_REMINDER = "Tatkal Reminder";
     public static final String TITLE_CUSTOM_REMINDER = "Custom Reminder";
     public static final String TITLE_VIEW_REMINDER = "View Reminders";
-    public static final String TITLE_HOLIDAY_LIST = "Holiday List "+ Calendar.getInstance().get(Calendar.YEAR);
+    public static final String TITLE_VIEW_SET_REMINDER = "Reminder";
 
     // Reminder Types
     public static final String REMINDER_TYPE_120_DAY = "120 Day Reminder";
     public static final String REMINDER_TYPE_TATKAL = "Tatkal Reminder";
+    public static final String REMINDER_TYPE_TATKAL_AC = "Tatkal Reminder A.C.";
+    public static final String REMINDER_TYPE_TATKAL_NON_AC = "Tatkal Reminder Non A.C.";
     public static final String REMINDER_TYPE_CUSTOM = "Custom Reminder";
+
+    // Intent Constants
+    public static final String EVENT_TITILE = "eventTitle";
+    public static final String REMINDER_TYPE = "reminderType";
+    public static final String TRAVEL_DATE = "travelDate";
+    public static final String REMINDER_DATE = "reminderDate";
+    public static final String REMINDER_TIME = "reminderTime";
 
     //Activity Indicator
     public static final int IND_120_DAY_REMINDER = 1;

@@ -3,20 +3,17 @@ package com.arc.agni.irctcbookingreminder.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +21,7 @@ import android.widget.Toast;
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
-import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
+import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -36,11 +33,8 @@ import androidx.core.app.ActivityCompat;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.AT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_OPENING_TIME;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_STARTED;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_WILL_START;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.DATE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_120_DAY_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.IST;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_MONTH;
@@ -162,8 +156,9 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_120_DAY, reminderTitle, inputDay, inputMonth, inputYear, _120_DAY_BOOKING_REMINDER_HOUR);
             ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
 
-            // Show Success Pop-up
-            DialogUtil.showDialogPostEventCreation(AdvanceBookingReminderActivity.this, IND_120_DAY_REMINDER);
+            // Show Success Screen
+            Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, REMINDER_TYPE_120_DAY, inputDay, inputMonth, inputYear, reminderDateAndTime);
+            startActivity(intent);
         } else {
             Toast.makeText(this, TITLE_AND_DATE_WARNING, Toast.LENGTH_SHORT).show();
         }

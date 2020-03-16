@@ -1,7 +1,9 @@
 package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -35,6 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.ALL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_ACCOUNT_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_PERMISSION_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.EXIT_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
@@ -263,5 +266,15 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
             altClickRem = !altClickRem;
             eventAdapter.refreshEventList(eventsList);
         }
+    }
+
+    /**
+     * This method is triggered when back button is pressed when in View Reminders Page
+     */
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ViewRemindersActivity.this, HomeScreenActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
