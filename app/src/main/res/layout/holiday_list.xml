@@ -4,38 +4,28 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/holiday_date"
+    <RelativeLayout
+        android:id="@+id/date_lo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:background="#FF5722"
-        android:padding="2dp"
-        android:text="@string/number"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="5dp">
 
-    <TextView
-        android:id="@+id/holiday_day"
-        android:layout_width="40dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:textAlignment="center"
-        android:layout_marginLeft="3dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@id/holiday_date"
-        android:layout_toRightOf="@id/holiday_date"
-        android:background="#2196F3"
-        android:padding="2dp"
-        android:text="@string/day"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/holiday_date"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:background="#FF5722"
+            android:gravity="center_horizontal"
+            android:padding="1dp"
+            android:text="@string/day"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/holiday_name"
@@ -45,11 +35,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@id/holiday_day"
-        android:layout_toRightOf="@id/holiday_day"
+        android:layout_toEndOf="@id/date_lo"
+        android:layout_toRightOf="@id/date_lo"
         android:hint="@string/dummy"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="20sp" />
 
 </RelativeLayout>
 

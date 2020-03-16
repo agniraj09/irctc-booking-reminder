@@ -1,7 +1,6 @@
 package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,10 +36,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.ALL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_ACCOUNT_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CALENDAR_PERMISSION_WARNING;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.EXIT_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_AC;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_NON_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.SORT_BY_TRAVEL_DATE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_VIEW_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAYS;
@@ -109,7 +109,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
                         case REMINDER_TYPE_TATKAL: {
                             eventList = eventListBackup;
                             for (Event e : eventList) {
-                                if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_TATKAL)) {
+                                if (e.getEventType().equalsIgnoreCase(REMINDER_TYPE_TATKAL) || e.getEventType().equalsIgnoreCase(REMINDER_TYPE_TATKAL_NON_AC) || e.getEventType().equalsIgnoreCase(REMINDER_TYPE_TATKAL_AC)) {
                                     eventsList.add(e);
                                 }
                             }

@@ -2,6 +2,7 @@ package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,6 +32,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKI
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_MINUTE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_CUSTOM_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_NON_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_CUSTOM_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE_WARNING;
@@ -130,7 +132,8 @@ public class CustomReminderActivity extends AppCompatActivity {
 
             // Schedule notification
             String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_CUSTOM, reminderTitle, inputDay, inputMonth, inputYear, CUSTOM_BOOKING_REMINDER_HOUR);
-            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId);
+            PendingIntent notificationActivityIntent = CommonUtil.createPendingIntentForNotification(this, reminderTitle, REMINDER_TYPE_CUSTOM, inputDay, inputMonth, inputYear, reminderDateAndTime, eventId);
+            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId, notificationActivityIntent);
 
             // Show Success Pop-up
             Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, REMINDER_TYPE_CUSTOM, travelDay, travelMonth, travelYear, reminderDateAndTime);

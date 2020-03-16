@@ -25,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:onClick="gotoHome"
-                android:text="@string/goto_home" />
+                android:text="@string/goto_home"
+                android:textColor="@color/labelcolor"/>
 
             <Button
                 android:id="@+id/create_another"
@@ -33,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:onClick="gotoViewReminders"
-                android:text="@string/view_reminder" />
+                android:text="@string/view_reminder"
+                android:textColor="@color/labelcolor"/>
 
         </LinearLayout>
 

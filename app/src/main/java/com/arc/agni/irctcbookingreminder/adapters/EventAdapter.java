@@ -1,6 +1,8 @@
 package com.arc.agni.irctcbookingreminder.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +12,14 @@ import android.widget.TextView;
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.ViewRemindersActivity;
 import com.arc.agni.irctcbookingreminder.bean.Event;
+import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
@@ -32,6 +36,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         private TextView reminderDate;
         private TextView reminderType;
         private ImageView delete;
+        private CardView cardView;
 
         MyViewHolder(View view) {
             super(view);
@@ -40,6 +45,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             reminderDate = view.findViewById(R.id.reminder_date);
             reminderType = view.findViewById(R.id.reminder_type);
             delete = view.findViewById(R.id.delete_event);
+            cardView = view.findViewById(R.id.vr_card_view);
         }
     }
 
@@ -84,6 +90,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.reminderDate.setText(remDate);
         holder.reminderType.setText(reminderType);
         holder.delete.setOnClickListener(v -> dialogUtil.showDeleteEventDialog(context, events[position].getEventID()));
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = CommonUtil.createIntentPostReminderCreation(context, events[position].getEventTitle(), events[position].getEventType(), travelDatetoUI, reminderDatetoUI);
+            context.startActivity(intent);
+        });
 
     }
 

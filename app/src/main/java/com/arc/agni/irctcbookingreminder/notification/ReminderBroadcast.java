@@ -13,6 +13,7 @@ import android.media.RingtoneManager;
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.HomeScreenActivity;
+import com.arc.agni.irctcbookingreminder.activities.ViewSetReminderActivity;
 
 import java.util.Calendar;
 
@@ -52,7 +53,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
     /**
      * This method will create a NOTIFICATION object with the provided NOTIFICATION_TEXT and other NOTIFICATION_CONFIGURATIONS.
      */
-    private static Notification createNotification(String notificationText, Context context) {
+    private static Notification createNotification(String notificationText, Context context, PendingIntent viewReminderPendingIntent) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_notification_icon)
@@ -62,19 +63,21 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationText))
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentIntent(viewReminderPendingIntent)
+                .addAction(R.drawable.ic_notification_icon, "View", viewReminderPendingIntent);
         return builder.build();
     }
 
     /**
      * This method will schedule a notification with the provided NOTIFICATION_TEXT at the specified REMINDER_DATE_TIME
      */
-    public static void scheduleNotification(String notificationText, Calendar reminderDateAndTime, Context context, long eventID) {
+    public static void scheduleNotification(String notificationText, Calendar reminderDateAndTime, Context context, long eventID, PendingIntent viewReminderPendingIntent) {
         // Create notification channel
         createChannel(context);
 
         // Create notification with passed text
-        Notification notification = createNotification(notificationText, context);
+        Notification notification = createNotification(notificationText, context, viewReminderPendingIntent);
 
         // Create Intent with extra to pass to BroadcastReceiver
         Intent notificationIntent = new Intent(context, ReminderBroadcast.class);
