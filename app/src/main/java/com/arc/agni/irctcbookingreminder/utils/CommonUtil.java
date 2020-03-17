@@ -15,6 +15,8 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_DAT
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.SCOPE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.SCOPE_NO_TOAST;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE;
 
 public class CommonUtil {
@@ -51,6 +53,7 @@ public class CommonUtil {
         notificationActivityIntent.putExtra(REMINDER_DATE, formatCalendarDateToFullText(reminderDateAndTime));
         notificationActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationActivityIntent.putExtra(REMINDER_TIME, (reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1) + ".30 a.m.");
+        notificationActivityIntent.putExtra(SCOPE, SCOPE_NO_TOAST);
         PendingIntent viewReminderPendingIntent = PendingIntent.getActivity(context, (int) eventID, notificationActivityIntent, PendingIntent.FLAG_ONE_SHOT);
         return viewReminderPendingIntent;
     }

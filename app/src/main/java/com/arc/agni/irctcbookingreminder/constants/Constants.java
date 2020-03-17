@@ -26,6 +26,10 @@ public class Constants {
     public static final String TRAVEL_DATE = "travelDate";
     public static final String REMINDER_DATE = "reminderDate";
     public static final String REMINDER_TIME = "reminderTime";
+    public static final String SCOPE = "scope";
+
+    // Scopes
+    public static final String SCOPE_NO_TOAST = "noToast";
 
     //Activity Indicator
     public static final int IND_120_DAY_REMINDER = 1;

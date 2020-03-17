@@ -193,7 +193,9 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
                     break;
                 }
 
-                case REMINDER_TYPE_TATKAL: {
+                case REMINDER_TYPE_TATKAL:
+                case REMINDER_TYPE_TATKAL_AC:
+                case REMINDER_TYPE_TATKAL_NON_AC: {
                     travelDate.add(Calendar.DAY_OF_YEAR, _1_DAY);
                     break;
                 }

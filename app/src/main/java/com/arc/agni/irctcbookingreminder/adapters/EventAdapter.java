@@ -1,6 +1,5 @@
 package com.arc.agni.irctcbookingreminder.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -23,6 +22,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.SCOPE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.SCOPE_NO_TOAST;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
 
@@ -92,6 +93,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.delete.setOnClickListener(v -> dialogUtil.showDeleteEventDialog(context, events[position].getEventID()));
         holder.cardView.setOnClickListener(v -> {
             Intent intent = CommonUtil.createIntentPostReminderCreation(context, events[position].getEventTitle(), events[position].getEventType(), travelDatetoUI, reminderDatetoUI);
+            intent.putExtra(SCOPE, SCOPE_NO_TOAST);
             context.startActivity(intent);
         });
 
