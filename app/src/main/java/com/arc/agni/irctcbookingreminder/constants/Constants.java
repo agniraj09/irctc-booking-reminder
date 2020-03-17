@@ -26,6 +26,7 @@ public class Constants {
     public static final String TRAVEL_DATE = "travelDate";
     public static final String REMINDER_DATE = "reminderDate";
     public static final String REMINDER_TIME = "reminderTime";
+    public static final String BOOKING_TIME = "bookingTime";
     public static final String SCOPE = "scope";
 
     // Scopes

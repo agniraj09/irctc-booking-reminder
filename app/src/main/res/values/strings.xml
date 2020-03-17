@@ -20,6 +20,7 @@
     <string name="calculate_booking_date">Calculate Booking Date</string>
     <string name="travel_date_label">Travel Date</string>
     <string name="reminder_date_label">Reminder Date</string>
+    <string name="booking_time">Booking Time</string>
     <string name="reminder_time_label">Reminder Time</string>
     <string name="type_label">Type</string>
     <string name="reminder_type_label">Reminder Type</string>

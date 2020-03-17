@@ -26,7 +26,7 @@
                 android:layout_marginTop="10dp"
                 android:onClick="gotoHome"
                 android:text="@string/goto_home"
-                android:textColor="@color/labelcolor"/>
+                android:textColor="@color/labelcolor" />
 
             <Button
                 android:id="@+id/create_another"
@@ -35,7 +35,7 @@
                 android:layout_marginTop="10dp"
                 android:onClick="gotoViewReminders"
                 android:text="@string/view_reminder"
-                android:textColor="@color/labelcolor"/>
+                android:textColor="@color/labelcolor" />
 
         </LinearLayout>
 
@@ -47,17 +47,74 @@
             android:layout_centerHorizontal="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/reminder_type_label"
+            <RelativeLayout
+                android:id="@+id/booking_time_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:gravity="center_horizontal"
-                android:text="@string/type_label"
-                android:textAlignment="center"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="15sp" />
+                android:layout_below="@id/vsr_reminder_date">
+
+                <TextView
+                    android:id="@+id/booking_time_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/booking_time"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_purple"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/vsr_booking_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/booking_time_label"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/dummy"
+                    android:textAlignment="center"
+                    android:textColor="@color/labelcolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vsr_reminder_date"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/booking_time_layout"
+                android:layout_toRightOf="@id/booking_time_layout">
+
+                <TextView
+                    android:id="@+id/reminder_time_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/reminder_time_label"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_purple"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/vsr_reminder_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/reminder_time_label"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/dummy"
+                    android:textAlignment="center"
+                    android:textColor="@color/labelcolor"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/vsr_reminder_type"
@@ -128,31 +185,16 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/reminder_time_label"
+                android:id="@+id/reminder_type_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/vsr_reminder_date"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal"
-                android:text="@string/reminder_time_label"
-                android:textAlignment="center"
-                android:textColor="@android:color/holo_purple"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/vsr_reminder_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/reminder_time_label"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:gravity="center_horizontal"
-                android:hint="@string/dummy"
+                android:text="@string/type_label"
                 android:textAlignment="center"
-                android:textColor="@color/labelcolor"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textColor="@android:color/holo_purple"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 

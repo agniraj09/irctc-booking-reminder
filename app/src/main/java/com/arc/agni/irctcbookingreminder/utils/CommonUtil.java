@@ -8,6 +8,7 @@ import com.arc.agni.irctcbookingreminder.activities.ViewSetReminderActivity;
 
 import java.util.Calendar;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_TITILE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
@@ -17,6 +18,8 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYP
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.SCOPE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.SCOPE_NO_TOAST;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_AC_REMINDER_HOUR;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_NON_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE;
 
 public class CommonUtil {
@@ -24,38 +27,45 @@ public class CommonUtil {
     //static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     public static Intent createIntentPostReminderCreation(Context context, String reminderTitle, String reminderType, int travelDay, int travelMonth, int travelYear, Calendar reminderDateAndTime) {
-        Intent intent = new Intent(context, ViewSetReminderActivity.class);
-        intent.putExtra(EVENT_TITILE, reminderTitle);
-        intent.putExtra(REMINDER_TYPE, reminderType);
+        Intent intent = createIntent(context, reminderTitle, reminderType, reminderDateAndTime);
         intent.putExtra(TRAVEL_DATE, formatDateToFullText(travelDay, travelMonth, travelYear));
-        intent.putExtra(REMINDER_DATE, formatCalendarDateToFullText(reminderDateAndTime));
-        String reminderTime = REMINDER_TYPE_TATKAL.equalsIgnoreCase(reminderType) ? "7.30 a.m. & 10.30 a.m." : ((reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1) + ".30 a.m.");
-        intent.putExtra(REMINDER_TIME, reminderTime);
         return intent;
     }
 
     public static Intent createIntentPostReminderCreation(Context context, String reminderTitle, String reminderType, Calendar travelDateAndTime, Calendar reminderDateAndTime) {
-        Intent intent = new Intent(context, ViewSetReminderActivity.class);
-        intent.putExtra(EVENT_TITILE, reminderTitle);
-        intent.putExtra(REMINDER_TYPE, reminderType);
+        Intent intent = createIntent(context, reminderTitle, reminderType, reminderDateAndTime);
         intent.putExtra(TRAVEL_DATE, formatCalendarDateToFullText(travelDateAndTime));
-        intent.putExtra(REMINDER_DATE, formatCalendarDateToFullText(reminderDateAndTime));
-        String reminderTime = REMINDER_TYPE_TATKAL.equalsIgnoreCase(reminderType) ? "7.30 a.m. & 10.30 a.m." : ((reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1) + ".30 a.m.");
-        intent.putExtra(REMINDER_TIME, reminderTime);
         return intent;
     }
 
     public static PendingIntent createPendingIntentForNotification(Context context, String reminderTitle, String reminderType, int travelDay, int travelMonth, int travelYear, Calendar reminderDateAndTime, long eventID) {
-        Intent notificationActivityIntent = new Intent(context, ViewSetReminderActivity.class);
-        notificationActivityIntent.putExtra(EVENT_TITILE, reminderTitle);
-        notificationActivityIntent.putExtra(REMINDER_TYPE, reminderType);
+        Intent notificationActivityIntent = createIntent(context, reminderTitle, reminderType, reminderDateAndTime);
         notificationActivityIntent.putExtra(TRAVEL_DATE, formatDateToFullText(travelDay, travelMonth, travelYear));
-        notificationActivityIntent.putExtra(REMINDER_DATE, formatCalendarDateToFullText(reminderDateAndTime));
-        notificationActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationActivityIntent.putExtra(REMINDER_TIME, (reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1) + ".30 a.m.");
         notificationActivityIntent.putExtra(SCOPE, SCOPE_NO_TOAST);
-        PendingIntent viewReminderPendingIntent = PendingIntent.getActivity(context, (int) eventID, notificationActivityIntent, PendingIntent.FLAG_ONE_SHOT);
-        return viewReminderPendingIntent;
+        notificationActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        return PendingIntent.getActivity(context, (int) eventID, notificationActivityIntent, PendingIntent.FLAG_ONE_SHOT);
+    }
+
+    private static Intent createIntent(Context context, String reminderTitle, String reminderType, Calendar reminderDateAndTime) {
+        Intent intent = new Intent(context, ViewSetReminderActivity.class);
+        intent.putExtra(EVENT_TITILE, reminderTitle);
+        intent.putExtra(REMINDER_TYPE, reminderType);
+        intent.putExtra(REMINDER_DATE, formatCalendarDateToFullText(reminderDateAndTime));
+
+        // If reminder type is TATKAL, show both AC & NON_AC details or else show the actual details
+        String reminderTime;
+        String bookingTime;
+        if (REMINDER_TYPE_TATKAL.equalsIgnoreCase(reminderType)) {
+            reminderTime = "AC - " + (TATKAL_BOOKING_AC_REMINDER_HOUR - 1) + ".30 a.m.\nNon AC" + (TATKAL_BOOKING_NON_AC_REMINDER_HOUR - 1) + ".30 a.m.";
+            bookingTime = "AC - " + TATKAL_BOOKING_AC_REMINDER_HOUR + " a.m.\nNon AC - " + TATKAL_BOOKING_NON_AC_REMINDER_HOUR + " a.m";
+
+        } else {
+            reminderTime = (reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1) + ".30 a.m.";
+            bookingTime = reminderDateAndTime.get(Calendar.HOUR_OF_DAY) + " a.m";
+        }
+        intent.putExtra(BOOKING_TIME, bookingTime);
+        intent.putExtra(REMINDER_TIME, reminderTime);
+        return intent;
     }
 
     public static String formatDateToFullText(int day, int month, int year) {
