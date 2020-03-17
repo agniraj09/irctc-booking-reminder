@@ -43,7 +43,9 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_120_DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_NON_AC;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_120_DAY_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAY_BOOKING_REMINDER_HOUR;
@@ -155,9 +157,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_120_DAY, this);
 
             // Schedule notification
-            String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_120_DAY, reminderTitle, inputDay, inputMonth, inputYear, _120_DAY_BOOKING_REMINDER_HOUR);
-            PendingIntent notificationActivityIntent = CommonUtil.createPendingIntentForNotification(this, reminderTitle, REMINDER_TYPE_120_DAY, inputDay, inputMonth, inputYear, reminderDateAndTime, eventId);
-            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId, notificationActivityIntent);
+            CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_120_DAY, reminderTitle, inputDay, inputMonth, inputYear, _120_DAY_BOOKING_REMINDER_HOUR, this, reminderDateAndTime, eventId);
 
             // Show Success Screen
             Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, REMINDER_TYPE_120_DAY, inputDay, inputMonth, inputYear, reminderDateAndTime);

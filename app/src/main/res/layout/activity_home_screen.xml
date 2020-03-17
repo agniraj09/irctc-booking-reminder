@@ -47,7 +47,6 @@
                         android:onClick="goToHolidayListPage"
                         android:text="@string/holiday_list"
                         android:textAlignment="center"
-                        android:background="@color/colorRedLike"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/homescreenmenu" />
 
@@ -57,7 +56,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="0.3"
-                        android:background="@color/colorRedLikeBorder"
+                        android:background="@color/colorAccentDark"
                         android:contentDescription="@string/image_view_description" />
 
                 </LinearLayout>

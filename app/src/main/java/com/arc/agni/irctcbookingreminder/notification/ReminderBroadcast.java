@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.widget.RemoteViews;
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.HomeScreenActivity;
@@ -22,6 +23,7 @@ import androidx.core.app.NotificationCompat;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_DESCRIPTION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_NAME;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_ID_ADDUP;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
@@ -112,12 +114,37 @@ public class ReminderBroadcast extends BroadcastReceiver {
     }
 
     /**
+     * This method will build the notification text with given data
+     */
+    public static String buildNotificationContentForPreviousDay(String reminderType, String reminderTitle, int travelDay, int travelMonth, int travelYear, int bookingHour) {
+        StringBuilder contentBuilder = new StringBuilder();
+        contentBuilder
+                .append("You have set a reminder to book a train ticket for \"")
+                .append(reminderTitle)
+                .append("\". The travel date is ")
+                .append(MONTHS[travelMonth]).append(" ").append(travelDay).append(", ").append(travelYear)
+                .append(" (").append(travelDay).append("/").append(travelMonth + 1).append("/").append(travelYear).append(").");
+        if (REMINDER_TYPE_CUSTOM.equalsIgnoreCase(reminderType)) {
+            contentBuilder.append(" Tomorrow is your custom booking date");
+        } else {
+            contentBuilder.append(" Booking opens tomorrow at ").append(bookingHour).append(" a.m.");
+        }
+        contentBuilder.append("\nGood Luck!");
+
+        return contentBuilder.toString();
+    }
+
+    /**
      * This method is used to delete the set notification if the corresponding event is deleted
      */
     public static void cancelNotification(int eventID, Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(context, ReminderBroadcast.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
+
+        // Delete the additional notification
+        pendingIntent = PendingIntent.getBroadcast(context, (eventID + (int) EVENT_ID_ADDUP), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.cancel(pendingIntent);
     }
 }

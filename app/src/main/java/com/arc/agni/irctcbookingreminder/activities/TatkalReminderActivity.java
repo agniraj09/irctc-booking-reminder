@@ -157,9 +157,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL_AC, this);
                     // Schedule notification
-                    String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_TATKAL_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_AC_REMINDER_HOUR);
-                    PendingIntent notificationActivityIntent = CommonUtil.createPendingIntentForNotification(this, reminderTitle, REMINDER_TYPE_TATKAL_AC, inputDay, inputMonth, inputYear, reminderDateAndTime, eventId);
-                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId, notificationActivityIntent);
+                    CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_TATKAL_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_AC_REMINDER_HOUR, this, reminderDateAndTime, eventId);
                 }
 
                 // For AC Coach, Reminder Time is TATKAL_BOOKING_NON_AC_REMINDER_HOUR : TATKAL_BOOKING__NON_AC_REMINDER_MINUTE
@@ -168,9 +166,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL_NON_AC, this);
                     // Schedule notification
-                    String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_TATKAL_NON_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_NON_AC_REMINDER_HOUR);
-                    PendingIntent notificationActivityIntent = CommonUtil.createPendingIntentForNotification(this, reminderTitle, REMINDER_TYPE_TATKAL_NON_AC, inputDay, inputMonth, inputYear, reminderDateAndTime, eventId);
-                    ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId, notificationActivityIntent);
+                    CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_TATKAL_NON_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_NON_AC_REMINDER_HOUR, this, reminderDateAndTime, eventId);
                 }
 
                 // Show Success Screen

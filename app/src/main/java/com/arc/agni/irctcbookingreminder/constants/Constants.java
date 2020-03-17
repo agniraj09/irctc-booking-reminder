@@ -111,6 +111,7 @@ public class Constants {
     public static final String CALENDAR_NAME = "IRCTC Reminder Calendar";
     public static final int CALENDAR_COLOR_LOCAL = 0xffff0000;
     public static final String OWNER_ACCOUNT_ID = "";
+    public static final long EVENT_ID_ADDUP = 99999;
 
     // Push Notification Constants
     public static final String CHANNEL_ID = "IRCTCBookingReminder";

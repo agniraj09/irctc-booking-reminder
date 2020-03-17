@@ -31,11 +31,13 @@ import androidx.core.app.ActivityCompat;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_MINUTE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_CUSTOM_REMINDER;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_NON_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_CUSTOM_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE_WARNING;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAY_BOOKING_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
 
 public class CustomReminderActivity extends AppCompatActivity {
@@ -131,9 +133,7 @@ public class CustomReminderActivity extends AppCompatActivity {
             long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, travelDateAndTime, REMINDER_TYPE_CUSTOM, this);
 
             // Schedule notification
-            String notificationText = ReminderBroadcast.buildNotificationContent(REMINDER_TYPE_CUSTOM, reminderTitle, inputDay, inputMonth, inputYear, CUSTOM_BOOKING_REMINDER_HOUR);
-            PendingIntent notificationActivityIntent = CommonUtil.createPendingIntentForNotification(this, reminderTitle, REMINDER_TYPE_CUSTOM, inputDay, inputMonth, inputYear, reminderDateAndTime, eventId);
-            ReminderBroadcast.scheduleNotification(notificationText, reminderDateAndTime, this, eventId, notificationActivityIntent);
+            CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_CUSTOM, reminderTitle, travelDay, travelMonth, travelYear, CUSTOM_BOOKING_REMINDER_HOUR, this, reminderDateAndTime, eventId);
 
             // Show Success Pop-up
             Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, REMINDER_TYPE_CUSTOM, travelDay, travelMonth, travelYear, reminderDateAndTime);
