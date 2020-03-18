@@ -8,7 +8,7 @@
     tools:context=".activities.CustomReminderActivity">
 
 
-    <Button
+    <Button style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/create120DayReminderEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:layout_marginTop="30dp"
         android:onClick="createEvent"
         android:text="@string/create_reminder"
-        android:textColor="@color/labelcolor" />
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/cr_traveldate"

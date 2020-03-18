@@ -48,12 +48,12 @@ public class ViewSetReminderActivity extends AppCompatActivity {
         long minutesLeft = TimeUnit.MILLISECONDS.toMinutes(reminderDateAndTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
         if (daysLeft == 0) {
             if (hoursleft == 0) {
-                timeLeft = "(" + minutesLeft + " minutes to go)";
+                timeLeft = "(Tip : " + minutesLeft + " minutes to go for booking)";
             } else {
-                timeLeft = "(" + hoursleft + " hour(s) to go)";
+                timeLeft = "(Tip : " + hoursleft + " hour(s) to go for booking)";
             }
         } else {
-            timeLeft = "(" + daysLeft + " day(s) to go)";
+            timeLeft = "(Tip : " + daysLeft + " day(s) to go for booking)";
         }
 
         ((TextView) findViewById(R.id.vsr_event_title)).setText(getIntent().getStringExtra(EVENT_TITILE));

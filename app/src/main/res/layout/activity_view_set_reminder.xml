@@ -23,26 +23,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/reminder_details"
+            android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
-            <Button
+            <Button style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/goto_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:onClick="gotoHome"
                 android:text="@string/goto_home"
-                android:textColor="@color/labelcolor" />
+                android:textColor="@color/white" />
 
-            <Button
+            <Button style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/create_another"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:onClick="gotoViewReminders"
                 android:text="@string/view_reminder"
-                android:textColor="@color/labelcolor" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -58,6 +59,7 @@
                 android:id="@+id/booking_time_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:layout_below="@id/vsr_days_left">
 
                 <TextView
@@ -93,6 +95,7 @@
                 android:layout_below="@id/vsr_days_left"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/booking_time_layout"
                 android:layout_toRightOf="@id/booking_time_layout">
 
@@ -141,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vsr_reminder_type"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 android:text="@string/travel_date_label"
                 android:textAlignment="center"
@@ -168,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/vsr_travel_date"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 android:text="@string/booking_date_label"
                 android:textAlignment="center"
@@ -199,7 +202,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
                 android:gravity="center_horizontal"
                 android:hint="@string/dummy"
                 android:textAlignment="center"

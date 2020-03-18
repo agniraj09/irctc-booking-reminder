@@ -7,6 +7,7 @@
     <color name="colorRedLike">#FF9800</color>
     <color name="colorRedLikeBorder">#FF5722</color>
     <color name="homescreenmenu">#ffffff</color>
+    <color name="white">#ffffff</color>
     <color name="labelcolor">#05109e</color>
     <color name="gobook">#388C16</color>
     <color name="resultText">#10104d</color>
