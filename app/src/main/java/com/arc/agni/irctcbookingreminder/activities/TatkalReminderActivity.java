@@ -12,6 +12,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -84,12 +85,14 @@ public class TatkalReminderActivity extends AppCompatActivity {
             String travelDateText = inputDay + "/" + (inputMonth + 1) + "/" + inputYear;
             travelDate.setText(travelDateText);
             showBookingDateWhenUserSelectsTravelDate();
+            hideACCheckboxIfApplicable();
         }, year, month, day);
 
         Calendar userShowDateStart = Calendar.getInstance();
-        Calendar bookingTime = Calendar.getInstance();
-        bookingTime.set(bookingTime.get(Calendar.YEAR), bookingTime.get(Calendar.MONTH), bookingTime.get(Calendar.DAY_OF_MONTH), TATKAL_BOOKING_NON_AC_REMINDER_HOUR, TATKAL_BOOKING__NON_AC_REMINDER_MINUTE);
-        if (userShowDateStart.getTime().after(bookingTime.getTime())) {
+        Calendar nonACBBookingTime = Calendar.getInstance();
+        nonACBBookingTime.set(nonACBBookingTime.get(Calendar.YEAR), nonACBBookingTime.get(Calendar.MONTH), nonACBBookingTime.get(Calendar.DAY_OF_MONTH), (TATKAL_BOOKING_NON_AC_REMINDER_HOUR - 1), (TATKAL_BOOKING__NON_AC_REMINDER_MINUTE + 30));
+
+        if (userShowDateStart.getTime().after(nonACBBookingTime.getTime())) {
             userShowDateStart.add(Calendar.DAY_OF_YEAR, _2_DAYS);
         } else {
             userShowDateStart.add(Calendar.DAY_OF_YEAR, _1_DAY);
@@ -98,6 +101,17 @@ public class TatkalReminderActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
         datePickerDialog.show();
+    }
+
+    public void hideACCheckboxIfApplicable() {
+        Calendar acBookingTime = Calendar.getInstance();
+        acBookingTime.set(inputYear, inputMonth, inputDay, (TATKAL_BOOKING_AC_REMINDER_HOUR - 1), (TATKAL_BOOKING__AC_REMINDER_MINUTE + 30));
+        acBookingTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
+        if (Calendar.getInstance().getTime().after(acBookingTime.getTime())) {
+            findViewById(R.id.acCoach).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.acCoach).setVisibility(View.VISIBLE);
+        }
     }
 
     /**

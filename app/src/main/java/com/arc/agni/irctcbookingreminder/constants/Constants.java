@@ -25,6 +25,7 @@ public class Constants {
     public static final String REMINDER_TYPE = "reminderType";
     public static final String TRAVEL_DATE = "travelDate";
     public static final String REMINDER_DATE = "reminderDate";
+    public static final String TIME_LEFT = "daysLeft";
     public static final String REMINDER_TIME = "reminderTime";
     public static final String BOOKING_TIME = "bookingTime";
     public static final String SCOPE = "scope";
@@ -67,7 +68,7 @@ public class Constants {
     public static final String INTERNET_PERMISSION_WARNING = "Internet & Network Access is required to view the list of holidays";
     public static final String EXIT_WARNING = "Are you sure you want to exit?";
     public static final String DELETE_WARNING = "Are you sure you want to delete the reminder ?";
-    public static final String NEED_INTERNET_CONNECTION = "Internet connection is required to view the list of holidays";
+    public static final String NEED_INTERNET_CONNECTION = "Need internet connection to view holidays";
     public static final String SOMETHING_WENT_WRONG = "Something went wrong, Please try again later!";
 
     // Day Calculation Constants
@@ -118,9 +119,12 @@ public class Constants {
     public static final String CHANNEL_NAME = "IRCTC Booking Reminder Channel";
     public static final String CHANNEL_DESCRIPTION = "This is a channel to shoot notifications for IRCTC Booking Reminder App";
     public static final String NOTIFICATION_TITLE = "IRCTC Booking Reminder";
-    public static final String NOTIFICATION_TEXT = "It's a booking day, Gear Up !";
+    public static final String NOTIFICATION_TEXT_ACTUAL = "It's a booking day, Gear Up!";
+    public static final String NOTIFICATION_TEXT_PRE = "You have a booking tomorrow, Get ready!";
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
     public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification_id";
+    public static final int NOTIF_TYPE_ACTUAL = 1;
+    public static final int NOTIF_TYPE_PRE = 2;
 
     // Network Constants
     public static final String NETWORK_TEST_URL = "http://clients3.google.com/generate_204";

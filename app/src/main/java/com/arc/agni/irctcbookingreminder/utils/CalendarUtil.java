@@ -135,11 +135,13 @@ public class CalendarUtil {
      * This method sets attributes for a new event that will be created(whenever a user create a reminder) by users
      */
     public static ContentValues setEventContentValues(long calendarID, String title, Calendar reminderDateTime, Calendar exDate, String reminderType) {
+        Calendar localReminderDateTime = Calendar.getInstance();
+        localReminderDateTime.setTimeInMillis(reminderDateTime.getTimeInMillis());
         ContentValues values = new ContentValues();
         TimeZone timeZone = TimeZone.getDefault();
-        long startMillis = reminderDateTime.getTimeInMillis();
-        reminderDateTime.add(Calendar.MINUTE, REMINDER_DURATION);
-        long endMillis = reminderDateTime.getTimeInMillis();
+        long startMillis = localReminderDateTime.getTimeInMillis();
+        localReminderDateTime.add(Calendar.MINUTE, REMINDER_DURATION);
+        long endMillis = localReminderDateTime.getTimeInMillis();
         long exMillis = exDate.getTimeInMillis();
 
         values.put(CalendarContract.Events.DTSTART, startMillis);

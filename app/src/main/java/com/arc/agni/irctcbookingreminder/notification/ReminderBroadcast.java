@@ -10,11 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
-import android.widget.RemoteViews;
 
 import com.arc.agni.irctcbookingreminder.R;
-import com.arc.agni.irctcbookingreminder.activities.HomeScreenActivity;
-import com.arc.agni.irctcbookingreminder.activities.ViewSetReminderActivity;
 
 import java.util.Calendar;
 
@@ -27,8 +24,9 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_ID_ADD
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TITLE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_ACTUAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_PRE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIF_TYPE_ACTUAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
 
 public class ReminderBroadcast extends BroadcastReceiver {
@@ -55,12 +53,12 @@ public class ReminderBroadcast extends BroadcastReceiver {
     /**
      * This method will create a NOTIFICATION object with the provided NOTIFICATION_TEXT and other NOTIFICATION_CONFIGURATIONS.
      */
-    private static Notification createNotification(String notificationText, Context context, PendingIntent viewReminderPendingIntent) {
+    private static Notification createNotification(String notificationTitle, String notificationText, Context context, PendingIntent viewReminderPendingIntent, int notificationType) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_notification_icon)
-                .setContentTitle(NOTIFICATION_TITLE)
-                .setContentText(NOTIFICATION_TEXT)
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationType == NOTIF_TYPE_ACTUAL ? NOTIFICATION_TEXT_ACTUAL : NOTIFICATION_TEXT_PRE)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -74,12 +72,12 @@ public class ReminderBroadcast extends BroadcastReceiver {
     /**
      * This method will schedule a notification with the provided NOTIFICATION_TEXT at the specified REMINDER_DATE_TIME
      */
-    public static void scheduleNotification(String notificationText, Calendar reminderDateAndTime, Context context, long eventID, PendingIntent viewReminderPendingIntent) {
+    public static void scheduleNotification(String notificationTitle, String notificationText, Calendar reminderDateAndTime, Context context, long eventID, PendingIntent viewReminderPendingIntent, int notificationType) {
         // Create notification channel
         createChannel(context);
 
         // Create notification with passed text
-        Notification notification = createNotification(notificationText, context, viewReminderPendingIntent);
+        Notification notification = createNotification(notificationTitle, notificationText, context, viewReminderPendingIntent, notificationType);
 
         // Create Intent with extra to pass to BroadcastReceiver
         Intent notificationIntent = new Intent(context, ReminderBroadcast.class);
@@ -88,8 +86,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Calculate time difference in millis
-        //long notificationTime = Calendar.getInstance().getTimeInMillis() + (reminderDateAndTime.getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
-        long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
+        long notificationTime = reminderDateAndTime.getTimeInMillis() - (1000 * 60 * 30);
+        //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);
     }

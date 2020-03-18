@@ -184,6 +184,14 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
             event.setEventType(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.DESCRIPTION)));
             event.setReminderDate(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.DTSTART)));
 
+            // Delete old reminders
+            Calendar reminderDate = Calendar.getInstance();
+            reminderDate.setTimeInMillis(Long.parseLong(event.getReminderDate()));
+            if (Calendar.getInstance().getTime().after(reminderDate.getTime())) {
+                deleteEvent(event.getEventID(), context);
+                continue;
+            }
+
             Calendar travelDate = Calendar.getInstance();
             travelDate.setTimeInMillis(Long.parseLong(event.getReminderDate()));
 
@@ -226,6 +234,7 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
 
         // Delete the corresponding notification set
         ReminderBroadcast.cancelNotification(Integer.parseInt(eventID), context);
+
 
         ArrayList<Event> events = ViewRemindersActivity.eventList;
         for (Event event : events) {
