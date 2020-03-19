@@ -38,6 +38,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_120_DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_BOOKING_DAY_CALCULATOR;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
 
 public class BookingDayCalculatorActivity extends AppCompatActivity {
@@ -53,6 +54,8 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
 
         // 'travelDate' TextView is accessed at class level.
         travelDate = findViewById(R.id.bc_traveldate);
+
+        showAdvanceBookingWindowFromToday();
 
         // Request for ad
         AdView mAdView = findViewById(R.id.adView);
@@ -96,16 +99,17 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
             bookingDate.add(Calendar.DAY_OF_YEAR, MINUS_120_DAYS);
 
             // Make up final text to be shown in screen
+            fullText = "Travel Date : " + CommonUtil.formatDateToFullText(inputDay, inputMonth, inputYear) + "\n\n";
             String bookingDateText = CommonUtil.formatCalendarDateToFullText(bookingDate);
             if (bookingDate.getTime().after(Calendar.getInstance().getTime())) {
                 bookingStarted = false;
-                fullText = BOOKING_WILL_START + "\n" + bookingDateText + "\n" + AT + BOOKING_OPENING_TIME + IST;
+                fullText = fullText + BOOKING_WILL_START + "\n" + bookingDateText + "\n" + AT + BOOKING_OPENING_TIME + IST;
                 // Set Visibility of Create Event Button True
                 Button createEvent = findViewById(R.id.bc_create120DayReminderEvent);
                 createEvent.setVisibility(View.VISIBLE);
             } else {
                 bookingStarted = true;
-                fullText = BOOKING_STARTED + "\n" + bookingDateText + "\n" + AT + BOOKING_OPENING_TIME + IST;
+                fullText = fullText + BOOKING_STARTED + "\n" + bookingDateText + "\n" + AT + BOOKING_OPENING_TIME + IST;
             }
 
             // Format final text
@@ -128,6 +132,28 @@ public class BookingDayCalculatorActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, DATE_WARNING, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void showAdvanceBookingWindowFromToday() {
+        String text;
+        Calendar _120thDayFromToday = Calendar.getInstance();
+        _120thDayFromToday.add(Calendar.DAY_OF_YEAR, _120_DAYS);
+        String formattedDate = CommonUtil.formatCalendarDateToFullText(_120thDayFromToday);
+        if (_120thDayFromToday.get(Calendar.HOUR_OF_DAY) < 8) {
+            text = "Advance Booking for the date \n" + formattedDate + "\n will open today at 8 a.m.";
+        } else {
+            text = "Advance Booking for the date \n" + formattedDate + "\n opened today at 8 a.m.";
+        }
+
+        // Format final text
+        SpannableString finalResultText = new SpannableString(text);
+        final int endIndex = text.indexOf(formattedDate) + formattedDate.length();
+        finalResultText.setSpan(new StyleSpan(Typeface.BOLD), text.indexOf(formattedDate), endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        finalResultText.setSpan(new ForegroundColorSpan(0xFF05109E), text.indexOf(formattedDate), endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        finalResultText.setSpan(new RelativeSizeSpan(1.4f), text.indexOf(formattedDate), endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        TextView result = findViewById(R.id.bc_result_textview);
+        result.setBackgroundResource(R.drawable.result_textview);
+        result.setText(finalResultText);
     }
 
     /**

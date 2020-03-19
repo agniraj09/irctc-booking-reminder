@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.arc.agni.irctcbookingreminder">
-    <!-- Device Permission -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon"
@@ -17,7 +16,6 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -101,6 +99,7 @@
         <receiver android:name=".notification.ReminderBroadcast" />
     </application>
 
+    <!-- Device Permission -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />

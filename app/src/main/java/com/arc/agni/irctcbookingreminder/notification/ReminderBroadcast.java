@@ -57,6 +57,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_notification_icon)
+                .setColor(context.getResources().getColor(R.color.colorAccent))
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationType == NOTIF_TYPE_ACTUAL ? NOTIFICATION_TEXT_ACTUAL : NOTIFICATION_TEXT_PRE)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -64,8 +65,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationText))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentIntent(viewReminderPendingIntent)
-                .addAction(R.drawable.ic_notification_icon, "View", viewReminderPendingIntent);
+                .setContentIntent(viewReminderPendingIntent);
         return builder.build();
     }
 

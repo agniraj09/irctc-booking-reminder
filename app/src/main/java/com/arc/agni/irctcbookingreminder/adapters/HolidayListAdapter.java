@@ -30,14 +30,12 @@ public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView date;
         TextView holidayName;
-        TextView holidayDay;
         RelativeLayout layout;
 
         MyViewHolder(View view) {
             super(view);
             date = view.findViewById(R.id.holiday_date);
             holidayName = view.findViewById(R.id.holiday_name);
-            //holidayDay = view.findViewById(R.id.holiday_day);
             layout = view.findViewById(R.id.holiday_layout);
         }
     }

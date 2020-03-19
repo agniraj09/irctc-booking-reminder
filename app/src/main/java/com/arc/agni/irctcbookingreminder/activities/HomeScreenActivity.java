@@ -308,8 +308,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 urlc.setConnectTimeout(CONNECTION_TIMEOUT);
                 urlc.connect();
 
-                isInternetAvailable = (urlc.getResponseCode() == STATUS_CODE &&
-                        urlc.getContentLength() == CONTENT_LENGTH);
+                isInternetAvailable = (urlc.getResponseCode() == STATUS_CODE);
             } catch (IOException e) {
                 Log.e("", SOMETHING_WENT_WRONG, e);
             }

@@ -55,6 +55,7 @@ public class ViewSetReminderActivity extends AppCompatActivity {
         } else {
             timeLeft = "(Tip : " + daysLeft + " day(s) to go for booking)";
         }
+        timeLeft = timeLeft.contains("-") ? "(Booking has already started)" : timeLeft;
 
         ((TextView) findViewById(R.id.vsr_event_title)).setText(getIntent().getStringExtra(EVENT_TITILE));
         ((TextView) findViewById(R.id.vsr_reminder_type)).setText(getIntent().getStringExtra(REMINDER_TYPE));
