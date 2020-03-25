@@ -78,6 +78,7 @@ public class Constants {
     public static final int _121_DAYS = 121;
     public static final int _120_DAYS = 120;
     public static final int MINUS_120_DAYS = -120;
+    public static final int MINUS_30_MINUTES = 30;
 
     // Universal Constants
     public static final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};

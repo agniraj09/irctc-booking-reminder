@@ -23,6 +23,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_NAME
 import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_ID_ADDUP;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_ID;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_30_MINUTES;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_ACTUAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_PRE;
@@ -86,7 +87,10 @@ public class ReminderBroadcast extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Calculate time difference in millis
-        long notificationTime = reminderDateAndTime.getTimeInMillis() - (1000 * 60 * 30);
+        Calendar localReminderDateAndTime = Calendar.getInstance();
+        localReminderDateAndTime.setTimeInMillis(reminderDateAndTime.getTimeInMillis());
+        localReminderDateAndTime.add(Calendar.HOUR_OF_DAY, MINUS_30_MINUTES);
+        long notificationTime = localReminderDateAndTime.getTimeInMillis();
         //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);

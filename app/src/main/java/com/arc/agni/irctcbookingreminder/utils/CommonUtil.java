@@ -41,13 +41,14 @@ public class CommonUtil {
         ReminderBroadcast.scheduleNotification(reminderTitle, notificationText, localReminderDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_ACTUAL);
 
         // Set one additional reminder notification if the reminder date is long
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DAY_OF_YEAR, _1_DAY);
-        if (localReminderDateAndTime.getTime().after(tomorrow.getTime())) {
+        Calendar thresholdTime = Calendar.getInstance();
+        thresholdTime.add(Calendar.DAY_OF_YEAR, _1_DAY);
+        thresholdTime.set(Calendar.HOUR_OF_DAY, 1);
+        if (localReminderDateAndTime.getTime().after(thresholdTime.getTime())) {
             eventId = eventId + EVENT_ID_ADDUP;
-            localReminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
             notificationText = ReminderBroadcast.buildNotificationContentForPreviousDay(reminderType, reminderTitle, travelDay, travelMonth, travelYear, bookingHour);
             notificationActivityIntent = CommonUtil.createPendingIntentForNotification(context, reminderTitle, reminderType, travelDay, travelMonth, travelYear, localReminderDateAndTime, eventId);
+            localReminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
             ReminderBroadcast.scheduleNotification(reminderTitle, notificationText, localReminderDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_PRE);
         }
 
@@ -83,7 +84,7 @@ public class CommonUtil {
         String reminderTime;
         String bookingTime;
         if (REMINDER_TYPE_TATKAL.equalsIgnoreCase(reminderType)) {
-            reminderTime = "AC - " + (TATKAL_BOOKING_AC_REMINDER_HOUR - 1) + ".30 a.m.\nNon AC" + (TATKAL_BOOKING_NON_AC_REMINDER_HOUR - 1) + ".30 a.m.";
+            reminderTime = "AC - " + (TATKAL_BOOKING_AC_REMINDER_HOUR - 1) + ".30 a.m.\nNon AC - " + (TATKAL_BOOKING_NON_AC_REMINDER_HOUR - 1) + ".30 a.m.";
             bookingTime = "AC - " + TATKAL_BOOKING_AC_REMINDER_HOUR + " a.m.\nNon AC - " + TATKAL_BOOKING_NON_AC_REMINDER_HOUR + " a.m";
 
         } else {
