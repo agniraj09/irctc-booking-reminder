@@ -2,18 +2,13 @@ package com.arc.agni.irctcbookingreminder.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
-import com.arc.agni.irctcbookingreminder.adapters.EventAdapter;
 import com.arc.agni.irctcbookingreminder.adapters.HolidayListAdapter;
 import com.arc.agni.irctcbookingreminder.bean.CalendarResponse;
-import com.arc.agni.irctcbookingreminder.bean.Event;
 import com.arc.agni.irctcbookingreminder.bean.Items;
-import com.arc.agni.irctcbookingreminder.bean.Start;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.ads.AdRequest;
@@ -25,16 +20,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -49,7 +41,6 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALEN
 import static com.arc.agni.irctcbookingreminder.constants.Constants.GOOGLE_CALENDAR_NAME_VALUE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.HOLIDAY_LIST_URL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTH_LABEL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.SOMETHING_WENT_WRONG;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIMEZONE_KEY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIMEZONE_VALUE;
@@ -148,8 +139,8 @@ public class HolidayListActivity extends AppCompatActivity {
                     holidaysList.add(itemWithMonth);
 
                     List<Items> itemsToBeAdded = holidays.get(entry.getKey());
-                    Collections.sort(itemsToBeAdded, dateComparator);
                     assert itemsToBeAdded != null;
+                    Collections.sort(itemsToBeAdded, dateComparator);
                     holidaysList.addAll(itemsToBeAdded);
                 }
 

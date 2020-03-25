@@ -100,8 +100,8 @@ public class Constants {
     public static final String HOLIDAY_LIST_TITLE = "Holiday List - " + Calendar.getInstance().get(Calendar.YEAR);
 
     // Admob Constants
-    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
-    public static final String TEST_DEVICE_ID = "0EC56B91253E874AAF286CEDC3945F6A";
+    public static final String ADMOB_APP_ID = "ca-app-pub-4587610802196055~4797049191";
+    //public static final String TEST_DEVICE_ID = "0EC56B91253E874AAF286CEDC3945F6A";
 
     // Calendar Constants
     public static final int PERMISSIONS_REQUEST_READ_CALENDAR = 1;

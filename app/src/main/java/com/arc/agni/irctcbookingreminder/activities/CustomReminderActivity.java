@@ -2,7 +2,6 @@ package com.arc.agni.irctcbookingreminder.activities;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,10 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
-import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 import com.arc.agni.irctcbookingreminder.utils.CalendarUtil;
 import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
-import com.arc.agni.irctcbookingreminder.utils.DialogUtil;
 import com.arc.agni.irctcbookingreminder.utils.ValidationUtil;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -30,14 +27,10 @@ import androidx.core.app.ActivityCompat;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_MINUTE;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.IND_CUSTOM_REMINDER;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_NON_AC;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_AND_DATE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_CUSTOM_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE_WARNING;
-import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAY_BOOKING_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
 
 public class CustomReminderActivity extends AppCompatActivity {
@@ -153,6 +146,7 @@ public class CustomReminderActivity extends AppCompatActivity {
                 if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }

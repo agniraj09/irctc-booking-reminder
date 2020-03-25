@@ -30,13 +30,11 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_OPEN
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_STARTED;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_WILL_START;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DATE_WARNING;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.IST;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_MONTH;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_YEAR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_120_DAYS;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_BOOKING_DAY_CALCULATOR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
