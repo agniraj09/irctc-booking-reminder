@@ -3,13 +3,11 @@ package com.arc.agni.irctcbookingreminder.utils;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.arc.agni.irctcbookingreminder.activities.ViewSetReminderActivity;
 import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
@@ -66,7 +64,7 @@ public class CommonUtil {
         return intent;
     }
 
-    public static PendingIntent createPendingIntentForNotification(Context context, String reminderTitle, String reminderType, int travelDay, int travelMonth, int travelYear, Calendar reminderDateAndTime, long eventID) {
+    private static PendingIntent createPendingIntentForNotification(Context context, String reminderTitle, String reminderType, int travelDay, int travelMonth, int travelYear, Calendar reminderDateAndTime, long eventID) {
         Intent notificationActivityIntent = createIntent(context, reminderTitle, reminderType, reminderDateAndTime);
         notificationActivityIntent.putExtra(TRAVEL_DATE, formatDateToFullText(travelDay, travelMonth, travelYear));
         notificationActivityIntent.putExtra(SCOPE, SCOPE_NO_TOAST);

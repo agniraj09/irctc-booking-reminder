@@ -38,6 +38,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.IST;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_MONTH;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_YEAR;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_TRAVEL_HINT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_120_DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
@@ -50,6 +51,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants._121_DAYS;
 public class AdvanceBookingReminderActivity extends AppCompatActivity {
 
     static int inputDay, inputMonth, inputYear;
+    String travelHint;
     EditText travelDate;
 
     @Override
@@ -61,13 +63,17 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
         // 'travelDate' TextView is accessed at class level.
         travelDate = findViewById(R.id.ab_traveldate);
 
-        // Extra info will be passed only from BOOKING_DAY_CALCULATOR Activity with preset TRAVEL_DATE. No Extra info will be passed from HOME Activity
+        // Extra info will be passed only from BOOKING_DAY_CALCULATOR & HOLIDAY_LIST Activity with preset TRAVEL_DATE. No Extra info will be passed from HOME Activity
         inputDay = getIntent().getIntExtra(LABEL_INPUT_DAY, 0);
         inputMonth = getIntent().getIntExtra(LABEL_INPUT_MONTH, 0);
         inputYear = getIntent().getIntExtra(LABEL_INPUT_YEAR, 0);
+        travelHint = getIntent().getStringExtra(LABEL_TRAVEL_HINT);
         if (inputDay != 0) {
             String travelDateText = inputDay + "/" + (inputMonth + 1) + "/" + inputYear;
             travelDate.setText(travelDateText);
+        }
+        if (null != travelHint && !travelHint.isEmpty()) {
+            ((EditText) findViewById(R.id.ab_event_title_input)).setText(travelHint);
         }
 
         // Request for ad

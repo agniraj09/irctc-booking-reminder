@@ -1,5 +1,7 @@
 package com.arc.agni.irctcbookingreminder.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -13,23 +15,33 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.activities.AdvanceBookingReminderActivity;
 import com.arc.agni.irctcbookingreminder.bean.Items;
+import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_MONTH;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_YEAR;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_TRAVEL_HINT;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_120_DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 
 public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.MyViewHolder> {
 
     private List<Items> items;
+    private Context context;
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView date;
         TextView holidayName;
+        TextView bookingStatus;
         RelativeLayout layout;
 
         MyViewHolder(View view) {
@@ -37,11 +49,13 @@ public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.
             date = view.findViewById(R.id.holiday_date);
             holidayName = view.findViewById(R.id.holiday_name);
             layout = view.findViewById(R.id.holiday_layout);
+            bookingStatus = view.findViewById(R.id.booking_status);
         }
     }
 
-    public HolidayListAdapter(List<Items> items) {
+    public HolidayListAdapter(List<Items> items, Context context) {
         this.items = items;
+        this.context = context;
     }
 
 /*    public void refreshEventList(ArrayList<Items> items) {
@@ -67,14 +81,18 @@ public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.
 
             // If month name is passed, it should be formatted like a title
             if (null != month && Arrays.asList(MONTHS).contains(month)) {
+                holder.date.setVisibility(View.GONE);
+                holder.bookingStatus.setVisibility(View.GONE);
+                holder.layout.setBackgroundColor(0xFF03A9F4);
+                holder.layout.setOnClickListener(null);
+
                 holder.holidayName.setText(month);
-                holder.holidayName.setTextSize(20);
+                holder.holidayName.setTextSize(21);
                 holder.holidayName.setTextColor(0xFFFFFFFF);
                 holder.holidayName.setTypeface(holder.holidayName.getTypeface(), Typeface.BOLD);
-                holder.holidayName.setGravity(Gravity.CENTER_HORIZONTAL);
-                holder.date.setVisibility(View.GONE);
-                holder.layout.setBackgroundColor(0xFF03A9F4);
+                holder.holidayName.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
             } else {
+                boolean bookingAllowed = false;
                 SpannableString dateAndDay;
                 String date = currentItem.getStart() != null ? currentItem.getStart().getDate() : null;
                 String day = currentItem.getDay().substring(0, 3);
@@ -93,6 +111,33 @@ public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.
                     holder.date.setText(dateAndDay);
                     holder.date.setVisibility(View.VISIBLE);
                     holder.layout.setBackgroundColor(0xFFFFFFFF);
+
+                    // Booking status logic
+                    final String travelDate = currentItem.getStart().getDate();
+                    Calendar holidayDate = Calendar.getInstance();
+                    holidayDate.set(Integer.parseInt(travelDate.substring(0, 4)), (Integer.parseInt(travelDate.substring(5, 7)) - 1), Integer.parseInt(travelDate.substring(8)));
+                    holidayDate.add(Calendar.DAY_OF_YEAR, MINUS_120_DAYS);
+                    String bookingStatusText;
+                    if (holidayDate.getTime().after(Calendar.getInstance().getTime())) {
+                        bookingStatusText = "Booking starts on " + CommonUtil.formatCalendarDateToFullText(holidayDate);
+                        bookingAllowed = true;
+                    } else {
+                        bookingStatusText = "Booking has already started";
+                    }
+                    holder.bookingStatus.setText(bookingStatusText);
+                    holder.bookingStatus.setVisibility(View.VISIBLE);
+
+                    // Enable onclick listener to advance booking if booking not yet started
+                    if (bookingAllowed) {
+                        holder.layout.setOnClickListener(v -> {
+                            Intent intent = new Intent(context, AdvanceBookingReminderActivity.class);
+                            intent.putExtra(LABEL_INPUT_YEAR, Integer.parseInt(travelDate.substring(0, 4)));
+                            intent.putExtra(LABEL_INPUT_MONTH, (Integer.parseInt(travelDate.substring(5, 7)) - 1));
+                            intent.putExtra(LABEL_INPUT_DAY, Integer.parseInt(travelDate.substring(8)));
+                            intent.putExtra(LABEL_TRAVEL_HINT, holidayName);
+                            context.startActivity(intent);
+                        });
+                    }
                 }
             }
 

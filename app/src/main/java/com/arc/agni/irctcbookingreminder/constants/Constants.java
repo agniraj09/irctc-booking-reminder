@@ -47,6 +47,7 @@ public class Constants {
     public static final String LABEL_INPUT_DAY = "input_date";
     public static final String LABEL_INPUT_MONTH = "input_month";
     public static final String LABEL_INPUT_YEAR = "input_year";
+    public static final String LABEL_TRAVEL_HINT = "travel_hint";
 
     // Reminder Time Values
     public static final int _120_DAY_BOOKING_REMINDER_HOUR = 8;
@@ -119,7 +120,6 @@ public class Constants {
     public static final String CHANNEL_ID = "IRCTCBookingReminder";
     public static final String CHANNEL_NAME = "IRCTC Booking Reminder Channel";
     public static final String CHANNEL_DESCRIPTION = "This is a channel to shoot notifications for IRCTC Booking Reminder App";
-    public static final String NOTIFICATION_TITLE = "IRCTC Booking Reminder";
     public static final String NOTIFICATION_TEXT_ACTUAL = "It's a booking day, Gear Up!";
     public static final String NOTIFICATION_TEXT_PRE = "You have a booking tomorrow, Get ready!";
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
@@ -128,14 +128,14 @@ public class Constants {
     public static final int NOTIF_TYPE_PRE = 2;
 
     // Network Constants
-    public static final String NETWORK_TEST_URL = "http://clients3.google.com/generate_204";
+/*    public static final String NETWORK_TEST_URL = "http://clients3.google.com/generate_204";
     public static final String USER_AGENT_KEY = "User-Agent";
     public static final String USER_AGENT_VALUE = "Android";
     public static final String CONNECTION_KEY = "Connection";
     public static final String CONNECTION_VALUE = "close";
-    public static final int CONNECTION_TIMEOUT = 2000;
     public static final int STATUS_CODE = 204;
-    public static final int CONTENT_LENGTH = 0;
+    public static final int CONTENT_LENGTH = 0;*/
+    public static final int CONNECTION_TIMEOUT = 2000;
 
     // Holiday List Constants
     public static final String HOLIDAY_LIST_URL = "https://clients6.google.com/calendar/v3/calendars/{calendar}/events?calendarId={calendarId}&&singleEvents=true&timeZone={timeZone}&&maxAttendees=1&maxResults=250&sanitizeHtml=true&timeMin={timeMin}&timeMax={timeMax}&key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs";
@@ -149,6 +149,5 @@ public class Constants {
     public static final String TIME_MIN_VALUE = Calendar.getInstance().get(Calendar.YEAR) + "-01-01T00%3A00%3A00%2B05%3A30";
     public static final String TIME_MAX_KEY = "{timeMax}";
     public static final String TIME_MAX_VALUE = Calendar.getInstance().get(Calendar.YEAR) + "-12-31T00%3A00%3A00%2B05%3A30";
-    public static final String MONTH_LABEL = "monthname";
 
 }

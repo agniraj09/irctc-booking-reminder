@@ -54,7 +54,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
     /**
      * This method will create a NOTIFICATION object with the provided NOTIFICATION_TEXT and other NOTIFICATION_CONFIGURATIONS.
      */
-    private static Notification createNotification(String notificationTitle, String notificationText, Context context, PendingIntent viewReminderPendingIntent, int notificationType) {
+    private static Notification createNotification(String notificationTitle, String notificationText, Context context, PendingIntent viewReminderPendingIntent, int notificationType, long eventID) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_notification_icon)
@@ -67,6 +67,18 @@ public class ReminderBroadcast extends BroadcastReceiver {
                         .bigText(notificationText))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(viewReminderPendingIntent);
+
+       /* // For actual notification types, enable alarm sound and enable stop music button
+        if (notificationType == NOTIF_TYPE_ACTUAL) {
+            Intent stopAlarmIntent = new Intent(context, ActionReceiver.class);
+            stopAlarmIntent.putExtra(INTENT_EXTRA_NOTIFICATION_ID, (int) eventID);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, stopAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(R.drawable.ic_delete_grey600_18dp, "Stop Alarm", pendingIntent);
+            Notification notification = builder.build();
+            notification.flags = Notification.FLAG_INSISTENT;
+            return notification;
+        }*/
+
         return builder.build();
     }
 
@@ -78,7 +90,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         createChannel(context);
 
         // Create notification with passed text
-        Notification notification = createNotification(notificationTitle, notificationText, context, viewReminderPendingIntent, notificationType);
+        Notification notification = createNotification(notificationTitle, notificationText, context, viewReminderPendingIntent, notificationType, eventID);
 
         // Create Intent with extra to pass to BroadcastReceiver
         Intent notificationIntent = new Intent(context, ReminderBroadcast.class);

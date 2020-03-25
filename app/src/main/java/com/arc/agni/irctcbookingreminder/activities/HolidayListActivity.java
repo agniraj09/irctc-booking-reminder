@@ -162,7 +162,7 @@ public class HolidayListActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
 
         if (holidaysList.size() > 0) {
-            holidayListAdapter = new HolidayListAdapter(holidaysList);
+            holidayListAdapter = new HolidayListAdapter(holidaysList, this);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(HolidayListActivity.this);
             recyclerView = findViewById(R.id.holidaylistrecycleview);
             recyclerView.setLayoutManager(layoutManager);
