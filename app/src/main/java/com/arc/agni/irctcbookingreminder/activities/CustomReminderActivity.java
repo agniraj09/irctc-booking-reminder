@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -41,7 +42,7 @@ public class CustomReminderActivity extends AppCompatActivity {
     EditText travelDate, reminderDate;
 
     static Calendar selectedTravelDate = Calendar.getInstance();
-    public static boolean isTravelDateSelected = false;
+    public static boolean isTravelDateSelected;
 
 
     @Override
@@ -53,6 +54,7 @@ public class CustomReminderActivity extends AppCompatActivity {
         // 'travelDate' & 'reminderDate' TextView is accessed at class level.
         travelDate = findViewById(R.id.cr_traveldate);
         reminderDate = findViewById(R.id.cr_reminderdate);
+        isTravelDateSelected = false;
 
         // Request for ad
         AdView mAdView = findViewById(R.id.adView);
@@ -91,6 +93,7 @@ public class CustomReminderActivity extends AppCompatActivity {
             String travelDateText = travelDay + "/" + (travelMonth + 1) + "/" + travelYear;
             travelDate.setText(travelDateText);
             isTravelDateSelected = true;
+            clearReminderDateInput();
         }, yearX, monthX, dateX);
 
         Calendar userShowDateStart = Calendar.getInstance();
@@ -98,6 +101,13 @@ public class CustomReminderActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(userShowDateStart.getTimeInMillis() - 1000);
         datePickerDialog.setTitle("");
         datePickerDialog.show();
+    }
+
+    public void clearReminderDateInput() {
+        inputYear = 0;
+        inputMonth = 0;
+        inputDay = 0;
+        reminderDate.setText(null);
     }
 
     /**
