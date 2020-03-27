@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.arc.agni.irctcbookingreminder">
+
+    <!-- Device Permission -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon"
@@ -16,9 +18,11 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.HolidayListActivity"
             android:parentActivityName=".activities.HomeScreenActivity"
@@ -43,14 +47,10 @@
         </activity>
         <activity
             android:name=".activities.AdvanceBookingReminderActivity"
-            android:parentActivityName=".activities.HomeScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.HomeScreenActivity" />
         </activity>
         <activity
             android:name=".activities.ViewRemindersActivity"
@@ -89,20 +89,25 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <receiver android:name=".notification.ReminderBroadcast" />
+        <receiver android:name=".notification.ActionReceiver" />
+
+        <service
+            android:name=".service.NotificationMusicService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
-    <!-- Device Permission -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

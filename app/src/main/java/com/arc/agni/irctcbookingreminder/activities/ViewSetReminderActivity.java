@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.service.NotificationMusicService;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_TITILE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_CATEGORY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIF_TYPE_ACTUAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_DATE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE;
@@ -33,6 +36,12 @@ public class ViewSetReminderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_set_reminder);
         setTitle(TITLE_VIEW_SET_REMINDER);
+
+        // Stop the alarm sound if the notification is actual notification
+        int notificationCategory = getIntent().getIntExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, 0);
+        if (NOTIF_TYPE_ACTUAL == notificationCategory) {
+            stopService(new Intent(this, NotificationMusicService.class));
+        }
 
         // Do not show the Toast if SCOPE is set to NO_TOAST
         if (!(null != getIntent().getStringExtra(SCOPE) && SCOPE_NO_TOAST.equalsIgnoreCase(getIntent().getStringExtra(SCOPE)))) {

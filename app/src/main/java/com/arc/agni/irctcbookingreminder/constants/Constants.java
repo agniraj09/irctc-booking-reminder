@@ -116,6 +116,7 @@ public class Constants {
     public static final int CALENDAR_COLOR_LOCAL = 0xffff0000;
     public static final String OWNER_ACCOUNT_ID = "";
     public static final long EVENT_ID_ADDUP = 99999;
+    public static final long RANDOM = 9876544321L;
 
     // Push Notification Constants
     public static final String CHANNEL_ID = "IRCTCBookingReminder";
@@ -125,8 +126,11 @@ public class Constants {
     public static final String NOTIFICATION_TEXT_PRE = "You have a booking tomorrow, Get ready!";
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
     public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification_id";
+    public static final String INTENT_EXTRA_NOTIFICATION_CATEGORY = "notification_category";
+    public static final String STOP_ALARM = "Stop Alarm";
     public static final int NOTIF_TYPE_ACTUAL = 1;
     public static final int NOTIF_TYPE_PRE = 2;
+    public static final int NOTIF_TYPE_DUMMY = 0;
 
     // Network Constants
 /*    public static final String NETWORK_TEST_URL = "http://clients3.google.com/generate_204";

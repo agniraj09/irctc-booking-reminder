@@ -13,6 +13,7 @@ import android.media.RingtoneManager;
 import android.util.Log;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.service.NotificationMusicService;
 import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 
 import java.util.Calendar;
@@ -24,13 +25,16 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_ID_ADDUP;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_CATEGORY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_30_MINUTES;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_ACTUAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_PRE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIF_TYPE_ACTUAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.RANDOM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.STOP_ALARM;
 
 public class ReminderBroadcast extends BroadcastReceiver {
 
@@ -40,6 +44,12 @@ public class ReminderBroadcast extends BroadcastReceiver {
         Notification notification = intent.getParcelableExtra(INTENT_EXTRA_NOTIFICATION);
         int notificationID = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_ID, 0);
         notificationManager.notify(notificationID, notification);
+
+        // Start alarm music for on booking day(actual) notifications
+        int notificationCategory = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, 0);
+        if (NOTIF_TYPE_ACTUAL == notificationCategory) {
+            context.startService(new Intent(context, NotificationMusicService.class));
+        }
     }
 
     private static void createChannel(Context context) {
@@ -70,16 +80,13 @@ public class ReminderBroadcast extends BroadcastReceiver {
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(viewReminderPendingIntent);
 
-       /* // For actual notification types, enable alarm sound and enable stop music button
+        // For actual notification types, enable alarm sound and enable stop music button
         if (notificationType == NOTIF_TYPE_ACTUAL) {
             Intent stopAlarmIntent = new Intent(context, ActionReceiver.class);
-            stopAlarmIntent.putExtra(INTENT_EXTRA_NOTIFICATION_ID, (int) eventID);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, stopAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(R.drawable.ic_delete_grey600_18dp, "Stop Alarm", pendingIntent);
-            Notification notification = builder.build();
-            notification.flags = Notification.FLAG_INSISTENT;
-            return notification;
-        }*/
+            PendingIntent stopAlarmIntentPendingIntent = PendingIntent.getBroadcast(context, (int) (eventID + RANDOM), stopAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(R.drawable.ic_stop_alarm, STOP_ALARM, stopAlarmIntentPendingIntent)
+                    .setDeleteIntent(stopAlarmIntentPendingIntent);
+        }
 
         return builder.build();
     }
@@ -98,6 +105,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         Intent notificationIntent = new Intent(context, ReminderBroadcast.class);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION, notification);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_ID, (int) eventID);
+        notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, notificationType);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Calculate time difference in millis
