@@ -10,8 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.util.Log;
 
 import com.arc.agni.irctcbookingreminder.R;
+import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 
 import java.util.Calendar;
 
@@ -101,7 +103,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         // Calculate time difference in millis
         Calendar localReminderDateAndTime = Calendar.getInstance();
         localReminderDateAndTime.setTimeInMillis(reminderDateAndTime.getTimeInMillis());
-        localReminderDateAndTime.add(Calendar.HOUR_OF_DAY, MINUS_30_MINUTES);
+        localReminderDateAndTime.add(Calendar.MINUTE, MINUS_30_MINUTES);
         long notificationTime = localReminderDateAndTime.getTimeInMillis();
         //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

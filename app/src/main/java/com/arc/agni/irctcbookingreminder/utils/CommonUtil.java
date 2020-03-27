@@ -3,6 +3,7 @@ package com.arc.agni.irctcbookingreminder.utils;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.arc.agni.irctcbookingreminder.activities.ViewSetReminderActivity;
 import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
@@ -40,9 +41,9 @@ public class CommonUtil {
 
         // Set one additional reminder notification if the reminder date is long
         Calendar thresholdTime = Calendar.getInstance();
-        thresholdTime.add(Calendar.DAY_OF_YEAR, _1_DAY);
-        thresholdTime.set(Calendar.HOUR_OF_DAY, 1);
-        if (localReminderDateAndTime.getTime().after(thresholdTime.getTime())) {
+        thresholdTime.setTimeInMillis(localReminderDateAndTime.getTimeInMillis());
+        thresholdTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
+        if (thresholdTime.getTime().after(Calendar.getInstance().getTime())) {
             eventId = eventId + EVENT_ID_ADDUP;
             notificationText = ReminderBroadcast.buildNotificationContentForPreviousDay(reminderType, reminderTitle, travelDay, travelMonth, travelYear, bookingHour);
             notificationActivityIntent = CommonUtil.createPendingIntentForNotification(context, reminderTitle, reminderType, travelDay, travelMonth, travelYear, localReminderDateAndTime, eventId);

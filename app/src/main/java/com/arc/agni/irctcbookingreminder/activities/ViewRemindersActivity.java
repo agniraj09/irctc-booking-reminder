@@ -45,6 +45,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.SORT_BY_TRAV
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TITLE_VIEW_REMINDER;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._120_DAYS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY_IN_MILLISECONDS;
 
 public class ViewRemindersActivity extends AppCompatActivity /*implements AdapterView.OnItemSelectedListener*/ {
 
@@ -185,9 +186,9 @@ public class ViewRemindersActivity extends AppCompatActivity /*implements Adapte
             event.setReminderDate(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.DTSTART)));
 
             // Delete old reminders
-            Calendar reminderDate = Calendar.getInstance();
-            reminderDate.setTimeInMillis(Long.parseLong(event.getReminderDate()));
-            if (Calendar.getInstance().getTime().after(reminderDate.getTime())) {
+            Calendar reminderDatePlusOneDay = Calendar.getInstance();
+            reminderDatePlusOneDay.setTimeInMillis(Long.parseLong(event.getReminderDate()) + _1_DAY_IN_MILLISECONDS);
+            if (Calendar.getInstance().getTime().after(reminderDatePlusOneDay.getTime())) {
                 deleteEvent(event.getEventID(), context);
                 continue;
             }
