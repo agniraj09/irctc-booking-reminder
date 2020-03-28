@@ -11,11 +11,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
-import android.util.Log;
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.service.NotificationMusicService;
-import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 
 import java.util.Calendar;
 
@@ -45,10 +43,12 @@ public class ReminderBroadcast extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notification = intent.getParcelableExtra(INTENT_EXTRA_NOTIFICATION);
         int notificationID = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_ID, 0);
+        int notificationCategory = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, 0);
+
+        // Fire notification
         notificationManager.notify(notificationID, notification);
 
         // Start alarm music for on booking day(actual) notifications
-        int notificationCategory = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, 0);
         if (NOTIF_TYPE_ACTUAL == notificationCategory) {
             context.startService(new Intent(context, NotificationMusicService.class));
         }
@@ -105,6 +105,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
 
         // Create Intent with extra to pass to BroadcastReceiver
         Intent notificationIntent = new Intent(context, ReminderBroadcast.class);
+        notificationIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION, notification);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_ID, (int) eventID);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, notificationType);
