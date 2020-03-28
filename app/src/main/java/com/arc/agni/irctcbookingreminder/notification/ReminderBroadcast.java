@@ -27,7 +27,6 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_ID_ADD
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_CATEGORY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_ID;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.MINUS_30_MINUTES;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_ACTUAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_PRE;
@@ -35,6 +34,8 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIF_TYPE_A
 import static com.arc.agni.irctcbookingreminder.constants.Constants.RANDOM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.STOP_ALARM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._30_MINUTES;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._6_PM;
 
 public class ReminderBroadcast extends BroadcastReceiver {
 
@@ -108,10 +109,19 @@ public class ReminderBroadcast extends BroadcastReceiver {
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, notificationType);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Calculate time difference in millis
+        // Scheduling the notification
         Calendar localReminderDateAndTime = Calendar.getInstance();
         localReminderDateAndTime.setTimeInMillis(reminderDateAndTime.getTimeInMillis());
-        localReminderDateAndTime.add(Calendar.MINUTE, MINUS_30_MINUTES);
+        // Reminder time | Actual notifications - Half an hour before Booking time | Pre Notifications - 6 PM
+        if (NOTIF_TYPE_ACTUAL == notificationType) {
+            localReminderDateAndTime.set(Calendar.HOUR_OF_DAY, (reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1));
+            localReminderDateAndTime.set(Calendar.MINUTE, _30_MINUTES);
+            Log.e("actual", CommonUtil.formatCalendarDateToFullText(localReminderDateAndTime) + " / " + localReminderDateAndTime.get(Calendar.HOUR_OF_DAY) + "/" + localReminderDateAndTime.get(Calendar.MINUTE));
+        } else {
+            localReminderDateAndTime.set(Calendar.HOUR_OF_DAY, _6_PM);
+            Log.e("actual", CommonUtil.formatCalendarDateToFullText(localReminderDateAndTime) + " / " + localReminderDateAndTime.get(Calendar.HOUR_OF_DAY) + "/" + localReminderDateAndTime.get(Calendar.MINUTE));
+        }
+
         long notificationTime = localReminderDateAndTime.getTimeInMillis();
         //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

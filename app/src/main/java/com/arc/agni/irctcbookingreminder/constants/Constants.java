@@ -79,7 +79,8 @@ public class Constants {
     public static final int _121_DAYS = 121;
     public static final int _120_DAYS = 120;
     public static final int MINUS_120_DAYS = -120;
-    public static final int MINUS_30_MINUTES = -32;
+    public static final int _30_MINUTES = 30;
+    public static final int _6_PM = 18;
     public static final long _1_DAY_IN_MILLISECONDS = 86400000;
 
     // Universal Constants
