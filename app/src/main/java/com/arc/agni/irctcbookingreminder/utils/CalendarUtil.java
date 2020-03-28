@@ -1,6 +1,7 @@
 package com.arc.agni.irctcbookingreminder.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -113,6 +114,7 @@ public class CalendarUtil {
         return -1;
     }
 
+    @SuppressLint("MissingPermission")
     public static long createReminder(String reminderTitle, Calendar reminderDateAndTime, Calendar exDateAndTime, String reminderType, Context context) {
 
         ContextWrapper contextWrapper = new ContextWrapper(context);
@@ -160,7 +162,7 @@ public class CalendarUtil {
     public static ContentValues setReminderContentValues(long eventID) {
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Reminders.EVENT_ID, eventID);
-        values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+        values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALARM);
         values.put(CalendarContract.Reminders.MINUTES, REMINDER_DURATION);
         return values;
     }

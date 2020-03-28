@@ -3,7 +3,6 @@ package com.arc.agni.irctcbookingreminder.utils;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.arc.agni.irctcbookingreminder.activities.ViewSetReminderActivity;
 import com.arc.agni.irctcbookingreminder.notification.ReminderBroadcast;
@@ -30,7 +29,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKI
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_NON_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIME_LEFT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE;
-import static com.arc.agni.irctcbookingreminder.constants.Constants._1_DAY;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._6_PM;
 
 public class CommonUtil {
 
@@ -45,6 +44,7 @@ public class CommonUtil {
         Calendar thresholdTime = Calendar.getInstance();
         thresholdTime.setTimeInMillis(localReminderDateAndTime.getTimeInMillis());
         thresholdTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
+        thresholdTime.set(Calendar.HOUR_OF_DAY, _6_PM);
         if (thresholdTime.getTime().after(Calendar.getInstance().getTime())) {
             eventId = eventId + EVENT_ID_ADDUP;
             notificationText = ReminderBroadcast.buildNotificationContentForPreviousDay(reminderType, reminderTitle, travelDay, travelMonth, travelYear, bookingHour);

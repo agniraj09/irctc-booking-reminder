@@ -116,10 +116,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
         if (NOTIF_TYPE_ACTUAL == notificationType) {
             localReminderDateAndTime.set(Calendar.HOUR_OF_DAY, (reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1));
             localReminderDateAndTime.set(Calendar.MINUTE, _30_MINUTES);
-            Log.e("actual", CommonUtil.formatCalendarDateToFullText(localReminderDateAndTime) + " / " + localReminderDateAndTime.get(Calendar.HOUR_OF_DAY) + "/" + localReminderDateAndTime.get(Calendar.MINUTE));
         } else {
             localReminderDateAndTime.set(Calendar.HOUR_OF_DAY, _6_PM);
-            Log.e("actual", CommonUtil.formatCalendarDateToFullText(localReminderDateAndTime) + " / " + localReminderDateAndTime.get(Calendar.HOUR_OF_DAY) + "/" + localReminderDateAndTime.get(Calendar.MINUTE));
         }
 
         long notificationTime = localReminderDateAndTime.getTimeInMillis();
