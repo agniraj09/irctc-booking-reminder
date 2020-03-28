@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.util.Log;
 
 import com.arc.agni.irctcbookingreminder.R;
@@ -123,7 +124,11 @@ public class ReminderBroadcast extends BroadcastReceiver {
         long notificationTime = localReminderDateAndTime.getTimeInMillis();
         //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);
+        }
     }
 
     /**
