@@ -20,6 +20,10 @@ public class Constants {
     public static final String REMINDER_TYPE_TATKAL_NON_AC = "Tatkal Reminder Non A.C.";
     public static final String REMINDER_TYPE_CUSTOM = "Custom Reminder";
 
+    //
+    public static final String ALERT_TYPE_NOTIFICATION = "notification";
+    public static final String ALERT_TYPE_ALARM = "alarm";
+
     // Intent Constants
     public static final String EVENT_TITILE = "eventTitle";
     public static final String REMINDER_TYPE = "reminderType";
@@ -130,6 +134,7 @@ public class Constants {
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
     public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification_id";
     public static final String INTENT_EXTRA_NOTIFICATION_CATEGORY = "notification_category";
+    public static final String INTENT_EXTRA_ALERT_TYPE = "alert_type";
     public static final String INTENT_EXTRA_NOTIFICATION_TITLE = "notification_title";
     public static final String INTENT_EXTRA_TRAVEL_DATE = "travel_date";
     public static final String INTENT_EXTRA_TIME_LEFT = "time_left";

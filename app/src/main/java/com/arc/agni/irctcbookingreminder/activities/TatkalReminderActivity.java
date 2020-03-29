@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import static com.arc.agni.irctcbookingreminder.constants.Constants.AC_COACH;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALERT_TYPE_ALARM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALERT_TYPE_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_WILL_START;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.COACH_PREFERENCE_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.DAYS;
@@ -151,8 +154,9 @@ public class TatkalReminderActivity extends AppCompatActivity {
             return;
         }
 
-        // Retrieve title
+        // Retrieve title & alert type
         String reminderTitle = ((EditText) findViewById(R.id.tr_event_title_input)).getText().toString();
+        String alertType = ((RadioButton) findViewById(R.id.alarm)).isChecked() ? ALERT_TYPE_ALARM : ALERT_TYPE_NOTIFICATION;
         // Retrieve Coach Preference
         boolean isACChecked = ((CheckBox) findViewById(R.id.acCoach)).isChecked();
         boolean isNonACChecked = ((CheckBox) findViewById(R.id.nonAcCoach)).isChecked();
@@ -168,7 +172,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL_AC, this);
                     // Schedule notification
-                    CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_TATKAL_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_AC_REMINDER_HOUR, this, reminderDateAndTime, eventId);
+                    CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_TATKAL_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_AC_REMINDER_HOUR, this, reminderDateAndTime, eventId, alertType);
                 }
 
                 // For AC Coach, Reminder Time is TATKAL_BOOKING_NON_AC_REMINDER_HOUR : TATKAL_BOOKING__NON_AC_REMINDER_MINUTE
@@ -177,7 +181,7 @@ public class TatkalReminderActivity extends AppCompatActivity {
                     reminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
                     long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_TATKAL_NON_AC, this);
                     // Schedule notification
-                    CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_TATKAL_NON_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_NON_AC_REMINDER_HOUR, this, reminderDateAndTime, eventId);
+                    CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_TATKAL_NON_AC, reminderTitle, inputDay, inputMonth, inputYear, TATKAL_BOOKING_NON_AC_REMINDER_HOUR, this, reminderDateAndTime, eventId, alertType);
                 }
 
                 // Show Success Screen

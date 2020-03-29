@@ -8,16 +8,17 @@
     tools:context=".activities.CustomReminderActivity">
 
 
-    <Button style="@style/Widget.AppCompat.Button.Colored"
+    <Button
         android:id="@+id/create120DayReminderEvent"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cr_reminderdate"
+        android:layout_below="@id/toggle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:onClick="createEvent"
         android:text="@string/create_reminder"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
     <EditText
         android:id="@+id/cr_traveldate"
@@ -58,6 +59,50 @@
         android:maxLength="30"
         android:textAlignment="center" />
 
+    <RadioGroup
+        android:id="@+id/toggle"
+        android:layout_width="150dp"
+        android:layout_height="25dp"
+        android:layout_below="@id/cb_alert_type_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/out_line"
+        android:checkedButton="@+id/notification"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/notification"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:background="@drawable/toggle_widget_background"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/notification"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/alarm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/toggle_widget_background"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/alarm"
+            android:textColor="@color/white" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/cb_alert_type_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cr_reminderdate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/alert_type"
+        android:textColor="@color/labelcolor" />
+
     <TextView
         android:id="@+id/cr_reminderdate_textview"
         android:layout_width="wrap_content"
@@ -91,8 +136,8 @@
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ads:adSize="SMART_BANNER"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/ad_unit_id" />
 </RelativeLayout>

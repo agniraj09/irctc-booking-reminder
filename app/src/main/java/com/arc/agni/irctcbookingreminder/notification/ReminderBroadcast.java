@@ -19,10 +19,12 @@ import java.util.Calendar;
 
 import androidx.core.app.NotificationCompat;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALERT_TYPE_ALARM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_DESCRIPTION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_ID_ADDUP;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_ALERT_TYPE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_BOOKING_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_CATEGORY;
@@ -52,12 +54,13 @@ public class ReminderBroadcast extends BroadcastReceiver {
         Notification notification = intent.getParcelableExtra(INTENT_EXTRA_NOTIFICATION);
         int notificationID = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_ID, 0);
         int notificationCategory = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, 0);
+        String alertType = intent.getStringExtra(INTENT_EXTRA_ALERT_TYPE);
 
         // Fire notification
         notificationManager.notify(notificationID, notification);
 
         // Start alarm music for on booking day(actual) notifications
-        if (NOTIF_TYPE_ACTUAL == notificationCategory) {
+        if (NOTIF_TYPE_ACTUAL == notificationCategory && ALERT_TYPE_ALARM.equalsIgnoreCase(alertType)) {
             Intent alarmScreenIntent = new Intent(context, NotificationMusicService.class);
             alarmScreenIntent.putExtra(INTENT_EXTRA_NOTIFICATION_TITLE, intent.getStringExtra(INTENT_EXTRA_NOTIFICATION_TITLE));
             alarmScreenIntent.putExtra(INTENT_EXTRA_TRAVEL_DATE, intent.getStringExtra(INTENT_EXTRA_TRAVEL_DATE));
@@ -100,7 +103,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
     /**
      * This method will schedule a notification with the provided NOTIFICATION_TEXT at the specified REMINDER_DATE_TIME
      */
-    public static void scheduleNotification(String notificationTitle, String reminderType, String notificationText, Calendar reminderDateAndTime, String travelDateAndTime, Context context, long eventID, PendingIntent viewReminderPendingIntent, int notificationType) {
+    public static void scheduleNotification(String notificationTitle, String reminderType, String notificationText, Calendar reminderDateAndTime, String travelDateAndTime, Context context, long eventID, PendingIntent viewReminderPendingIntent, int notificationType, String alertType) {
         // Create notification channel
         createChannel(context);
 
@@ -113,10 +116,13 @@ public class ReminderBroadcast extends BroadcastReceiver {
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION, notification);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_ID, (int) eventID);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, notificationType);
-        notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_TITLE, notificationTitle);
-        notificationIntent.putExtra(INTENT_EXTRA_TRAVEL_DATE, travelDateAndTime);
-        notificationIntent.putExtra(INTENT_EXTRA_TIME_LEFT, reminderDateAndTime.getTimeInMillis());
-        notificationIntent.putExtra(INTENT_EXTRA_BOOKING_TIME, reminderDateAndTime.get(Calendar.HOUR_OF_DAY) + " a.m today");
+        notificationIntent.putExtra(INTENT_EXTRA_ALERT_TYPE, alertType);
+        if (ALERT_TYPE_ALARM.equalsIgnoreCase(alertType)) {
+            notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_TITLE, notificationTitle);
+            notificationIntent.putExtra(INTENT_EXTRA_TRAVEL_DATE, travelDateAndTime);
+            notificationIntent.putExtra(INTENT_EXTRA_TIME_LEFT, reminderDateAndTime.getTimeInMillis());
+            notificationIntent.putExtra(INTENT_EXTRA_BOOKING_TIME, reminderDateAndTime.get(Calendar.HOUR_OF_DAY) + " a.m today");
+        }
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Scheduling the notification
@@ -157,7 +163,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
 
         }
         long notificationTime = reminderDateAndTime.getTimeInMillis();
-        //long notificationTime = Calendar.getInstance().getTimeInMillis() + 2700000;
+        //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
 
         return notificationTime;
     }

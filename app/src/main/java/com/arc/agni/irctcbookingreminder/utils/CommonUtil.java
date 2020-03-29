@@ -33,13 +33,13 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants._12_PM;
 
 public class CommonUtil {
 
-    public static void buildAndScheduleNotification(String reminderType, String reminderTitle, int travelDay, int travelMonth, int travelYear, int bookingHour, Context context, Calendar reminderDateAndTime, long eventId) {
+    public static void buildAndScheduleNotification(String reminderType, String reminderTitle, int travelDay, int travelMonth, int travelYear, int bookingHour, Context context, Calendar reminderDateAndTime, long eventId, String alertType) {
         Calendar localReminderDateAndTime = Calendar.getInstance();
         localReminderDateAndTime.setTimeInMillis(reminderDateAndTime.getTimeInMillis());
         String travelDateAndTime = formatDateToFullText(travelDay, travelMonth, travelYear);
         String notificationText = ReminderBroadcast.buildNotificationContent(reminderType, reminderTitle, travelDay, travelMonth, travelYear, bookingHour);
         PendingIntent notificationActivityIntent = CommonUtil.createPendingIntentForNotification(context, reminderTitle, reminderType, travelDay, travelMonth, travelYear, localReminderDateAndTime, eventId, NOTIF_TYPE_ACTUAL);
-        ReminderBroadcast.scheduleNotification(reminderTitle, reminderType, notificationText, localReminderDateAndTime, travelDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_ACTUAL);
+        ReminderBroadcast.scheduleNotification(reminderTitle, reminderType, notificationText, localReminderDateAndTime, travelDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_ACTUAL, alertType);
 
         // Set one additional reminder notification if the reminder date is long
         Calendar thresholdTime = Calendar.getInstance();
@@ -51,7 +51,7 @@ public class CommonUtil {
             notificationText = ReminderBroadcast.buildNotificationContentForPreviousDay(reminderType, reminderTitle, travelDay, travelMonth, travelYear, bookingHour);
             notificationActivityIntent = CommonUtil.createPendingIntentForNotification(context, reminderTitle, reminderType, travelDay, travelMonth, travelYear, localReminderDateAndTime, eventId, NOTIF_TYPE_PRE);
             localReminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
-            ReminderBroadcast.scheduleNotification(reminderTitle, reminderType, notificationText, localReminderDateAndTime, travelDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_PRE);
+            ReminderBroadcast.scheduleNotification(reminderTitle, reminderType, notificationText, localReminderDateAndTime, travelDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_PRE, alertType);
         }
 
     }

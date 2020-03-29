@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALERT_TYPE_ALARM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALERT_TYPE_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.AT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_OPENING_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.BOOKING_WILL_START;
@@ -144,8 +147,9 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             return;
         }
 
-        // Retrieve title
+        // Retrieve title & alert type
         String reminderTitle = ((EditText) findViewById(R.id.ab_event_title_input)).getText().toString();
+        String alertType = ((RadioButton) findViewById(R.id.alarm)).isChecked() ? ALERT_TYPE_ALARM : ALERT_TYPE_NOTIFICATION;
 
         // Create 120 Day reminder
         if (ValidationUtil.titleAndDateValidation(reminderTitle, inputDay)) {
@@ -158,7 +162,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
             long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, Calendar.getInstance(), REMINDER_TYPE_120_DAY, this);
 
             // Schedule notification
-            CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_120_DAY, reminderTitle, inputDay, inputMonth, inputYear, _120_DAY_BOOKING_REMINDER_HOUR, this, reminderDateAndTime, eventId);
+            CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_120_DAY, reminderTitle, inputDay, inputMonth, inputYear, _120_DAY_BOOKING_REMINDER_HOUR, this, reminderDateAndTime, eventId, alertType);
 
             // Show Success Screen
             Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, REMINDER_TYPE_120_DAY, inputDay, inputMonth, inputYear, reminderDateAndTime);

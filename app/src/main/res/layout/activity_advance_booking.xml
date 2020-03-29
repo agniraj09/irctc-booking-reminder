@@ -8,8 +8,9 @@
     android:orientation="vertical"
     tools:context=".activities.AdvanceBookingReminderActivity">
 
-    <Button style="@style/Widget.AppCompat.Button.Colored"
+    <Button
         android:id="@+id/create120DayReminderEvent"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ab_result_textview"
@@ -25,12 +26,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ab_title_textview"
         android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:hint="@string/hint"
         android:inputType="textPersonName"
         android:maxEms="10"
         android:maxLength="50"
-        android:textAlignment="center"
-        android:gravity="center_horizontal" />
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/ab_traveldate"
@@ -39,24 +40,55 @@
         android:layout_below="@id/ab_traveldate_textview"
         android:layout_centerHorizontal="true"
         android:focusable="false"
+        android:gravity="center_horizontal"
         android:hint="@string/travel_date"
         android:inputType="date"
         android:onClick="showDatePickerDialogOnButtonClick"
-        android:textAlignment="center"
-        android:gravity="center_horizontal"/>
+        android:textAlignment="center" />
+
+    <RadioGroup
+        android:id="@+id/toggle"
+        android:layout_width="150dp"
+        android:layout_height="25dp"
+        android:layout_below="@id/ab_alert_type_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/out_line"
+        android:checkedButton="@+id/notification"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/notification"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:background="@drawable/toggle_widget_background"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/notification"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/alarm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/toggle_widget_background"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/alarm"
+            android:textColor="@color/white" />
+    </RadioGroup>
 
     <TextView
-        android:id="@+id/ab_result_textview"
+        android:id="@+id/ab_alert_type_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ab_traveldate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:textAlignment="center"
-        android:gravity="center_horizontal"
-        android:textColor="@color/resultText"
-        android:textSize="12sp" />
+        android:layout_marginTop="15dp"
+        android:text="@string/alert_type"
+        android:textColor="@color/labelcolor" />
 
     <TextView
         android:id="@+id/ab_traveldate_textview"
@@ -77,12 +109,26 @@
         android:text="@string/travel_title"
         android:textColor="@color/labelcolor" />
 
+    <TextView
+        android:id="@+id/ab_result_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toggle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/resultText"
+        android:textSize="12sp" />
+
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ads:adSize="SMART_BANNER"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/ad_unit_id" />
+
 </RelativeLayout>

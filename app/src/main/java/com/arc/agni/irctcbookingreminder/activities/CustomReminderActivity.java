@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
@@ -26,6 +27,8 @@ import java.util.Calendar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALERT_TYPE_ALARM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ALERT_TYPE_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CUSTOM_BOOKING_REMINDER_MINUTE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
@@ -119,8 +122,9 @@ public class CustomReminderActivity extends AppCompatActivity {
             return;
         }
 
-        // Retrieve title
+        // Retrieve title & alert type
         String reminderTitle = ((EditText) findViewById(R.id.cr_event_title_input)).getText().toString();
+        String alertType = ((RadioButton) findViewById(R.id.alarm)).isChecked() ? ALERT_TYPE_ALARM : ALERT_TYPE_NOTIFICATION;
 
         // Create Custom reminder
         if (ValidationUtil.titleAndDateValidation(reminderTitle, inputDay)) {
@@ -136,7 +140,7 @@ public class CustomReminderActivity extends AppCompatActivity {
             long eventId = CalendarUtil.createReminder(reminderTitle, reminderDateAndTime, travelDateAndTime, REMINDER_TYPE_CUSTOM, this);
 
             // Schedule notification
-            CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_CUSTOM, reminderTitle, travelDay, travelMonth, travelYear, CUSTOM_BOOKING_REMINDER_HOUR, this, reminderDateAndTime, eventId);
+            CommonUtil.buildAndScheduleNotification(REMINDER_TYPE_CUSTOM, reminderTitle, travelDay, travelMonth, travelYear, CUSTOM_BOOKING_REMINDER_HOUR, this, reminderDateAndTime, eventId, alertType);
 
             // Show Success Pop-up
             Intent intent = CommonUtil.createIntentPostReminderCreation(this, reminderTitle, REMINDER_TYPE_CUSTOM, travelDay, travelMonth, travelYear, reminderDateAndTime);

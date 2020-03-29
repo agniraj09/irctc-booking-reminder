@@ -20,4 +20,6 @@
     <color name="title">#222222</color>
     <color name="sortBar">#56dee4e9</color>
     <color name="sortBarLine">#a1c6cbcf</color>
+    <color name="transparent">#00C6CBCF</color>
+    <color name="pressed">#498BCC</color>
 </resources>
