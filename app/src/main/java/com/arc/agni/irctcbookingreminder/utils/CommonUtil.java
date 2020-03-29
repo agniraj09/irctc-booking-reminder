@@ -29,28 +29,29 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKI
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TATKAL_BOOKING_NON_AC_REMINDER_HOUR;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TIME_LEFT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.TRAVEL_DATE;
-import static com.arc.agni.irctcbookingreminder.constants.Constants._6_PM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._12_PM;
 
 public class CommonUtil {
 
     public static void buildAndScheduleNotification(String reminderType, String reminderTitle, int travelDay, int travelMonth, int travelYear, int bookingHour, Context context, Calendar reminderDateAndTime, long eventId) {
         Calendar localReminderDateAndTime = Calendar.getInstance();
         localReminderDateAndTime.setTimeInMillis(reminderDateAndTime.getTimeInMillis());
+        String travelDateAndTime = formatDateToFullText(travelDay, travelMonth, travelYear);
         String notificationText = ReminderBroadcast.buildNotificationContent(reminderType, reminderTitle, travelDay, travelMonth, travelYear, bookingHour);
         PendingIntent notificationActivityIntent = CommonUtil.createPendingIntentForNotification(context, reminderTitle, reminderType, travelDay, travelMonth, travelYear, localReminderDateAndTime, eventId, NOTIF_TYPE_ACTUAL);
-        ReminderBroadcast.scheduleNotification(reminderTitle, notificationText, localReminderDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_ACTUAL);
+        ReminderBroadcast.scheduleNotification(reminderTitle, reminderType, notificationText, localReminderDateAndTime, travelDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_ACTUAL);
 
         // Set one additional reminder notification if the reminder date is long
         Calendar thresholdTime = Calendar.getInstance();
         thresholdTime.setTimeInMillis(localReminderDateAndTime.getTimeInMillis());
         thresholdTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
-        thresholdTime.set(Calendar.HOUR_OF_DAY, _6_PM);
+        thresholdTime.set(Calendar.HOUR_OF_DAY, _12_PM);
         if (thresholdTime.getTime().after(Calendar.getInstance().getTime())) {
             eventId = eventId + EVENT_ID_ADDUP;
             notificationText = ReminderBroadcast.buildNotificationContentForPreviousDay(reminderType, reminderTitle, travelDay, travelMonth, travelYear, bookingHour);
             notificationActivityIntent = CommonUtil.createPendingIntentForNotification(context, reminderTitle, reminderType, travelDay, travelMonth, travelYear, localReminderDateAndTime, eventId, NOTIF_TYPE_PRE);
             localReminderDateAndTime.add(Calendar.DAY_OF_YEAR, MINUS_1_DAY);
-            ReminderBroadcast.scheduleNotification(reminderTitle, notificationText, localReminderDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_PRE);
+            ReminderBroadcast.scheduleNotification(reminderTitle, reminderType, notificationText, localReminderDateAndTime, travelDateAndTime, context, eventId, notificationActivityIntent, NOTIF_TYPE_PRE);
         }
 
     }

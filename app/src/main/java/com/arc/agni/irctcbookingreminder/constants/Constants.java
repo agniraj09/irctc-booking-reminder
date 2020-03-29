@@ -80,6 +80,8 @@ public class Constants {
     public static final int _120_DAYS = 120;
     public static final int MINUS_120_DAYS = -120;
     public static final int _30_MINUTES = 30;
+    public static final int _12_PM = 12;
+    public static final int _5_PM = 17;
     public static final int _6_PM = 18;
     public static final long _1_DAY_IN_MILLISECONDS = 86400000;
 
@@ -128,6 +130,10 @@ public class Constants {
     public static final String INTENT_EXTRA_NOTIFICATION = "notification";
     public static final String INTENT_EXTRA_NOTIFICATION_ID = "notification_id";
     public static final String INTENT_EXTRA_NOTIFICATION_CATEGORY = "notification_category";
+    public static final String INTENT_EXTRA_NOTIFICATION_TITLE = "notification_title";
+    public static final String INTENT_EXTRA_TRAVEL_DATE = "travel_date";
+    public static final String INTENT_EXTRA_TIME_LEFT = "time_left";
+    public static final String INTENT_EXTRA_BOOKING_TIME = "booking_time";
     public static final String STOP_ALARM = "Stop Alarm";
     public static final int NOTIF_TYPE_ACTUAL = 1;
     public static final int NOTIF_TYPE_PRE = 2;

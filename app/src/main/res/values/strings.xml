@@ -36,6 +36,7 @@
     <string name="please_wait">Please wait!</string>
     <string name="disclaimer">Disclaimer: All regional holidays are included in this list. Dates may vary based on your region/location.\nSource : Google Calendar - Holidays in India</string>
     <string name="dummy">This is a text view</string>
+    <string name="stop_alarm">Stop Alarm</string>
     <string name="number">88</string>
     <string name="day">Day</string>
 

@@ -8,10 +8,12 @@
     <color name="colorRedLikeBorder">#FF5722</color>
     <color name="homescreenmenu">#ffffff</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="labelcolor">#05109e</color>
     <color name="gobook">#388C16</color>
     <color name="resultText">#10104d</color>
     <color name="resultTextBG">#edebf5ff</color>
+    <color name="yellow">#FFD600</color>
     <color name="resultTextBorder">#05109e</color>
     <color name="createbutton">#af992a</color>
     <color name="year">#999999</color>

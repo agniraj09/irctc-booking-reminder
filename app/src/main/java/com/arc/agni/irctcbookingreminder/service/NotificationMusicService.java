@@ -10,7 +10,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 
+import com.arc.agni.irctcbookingreminder.activities.AlarmScreenActivity;
+
 import java.io.IOException;
+
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_BOOKING_TIME;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_TITLE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_TIME_LEFT;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_TRAVEL_DATE;
 
 public class NotificationMusicService extends Service {
 
@@ -32,7 +39,12 @@ public class NotificationMusicService extends Service {
         // 'setAudioAttributes' method is supported only =above LOLLIPOP
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             try {
-                player.setAudioAttributes(new AudioAttributes.Builder().setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED).setLegacyStreamType(AudioManager.STREAM_ALARM).setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
+                player.setAudioAttributes(new AudioAttributes.Builder()
+                        .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
+                        .setLegacyStreamType(AudioManager.STREAM_ALARM)
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build());
                 player.setDataSource(this, uri);
                 player.setLooping(true);
                 player.prepare();
@@ -44,7 +56,6 @@ public class NotificationMusicService extends Service {
             player.setAudioStreamType(AudioManager.STREAM_ALARM);
             player.setLooping(true);
         }
-
     }
 
     @Override
@@ -55,6 +66,15 @@ public class NotificationMusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         player.start();
+
+        Intent alarmScreenIntent = new Intent(this, AlarmScreenActivity.class);
+        alarmScreenIntent.putExtra(INTENT_EXTRA_NOTIFICATION_TITLE, intent.getStringExtra(INTENT_EXTRA_NOTIFICATION_TITLE));
+        alarmScreenIntent.putExtra(INTENT_EXTRA_TRAVEL_DATE, intent.getStringExtra(INTENT_EXTRA_TRAVEL_DATE));
+        alarmScreenIntent.putExtra(INTENT_EXTRA_TIME_LEFT, intent.getLongExtra(INTENT_EXTRA_TIME_LEFT, 0));
+        alarmScreenIntent.putExtra(INTENT_EXTRA_BOOKING_TIME, intent.getStringExtra(INTENT_EXTRA_BOOKING_TIME));
+        alarmScreenIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(alarmScreenIntent);
+
         return START_NOT_STICKY; // Service will be killed if app is killed
     }
 

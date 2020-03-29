@@ -23,17 +23,25 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_DESC
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_ID;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.CHANNEL_NAME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.EVENT_ID_ADDUP;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_BOOKING_TIME;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_CATEGORY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_ID;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_TITLE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_TIME_LEFT;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_TRAVEL_DATE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.MONTHS;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_ACTUAL;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIFICATION_TEXT_PRE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.NOTIF_TYPE_ACTUAL;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.RANDOM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_120_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_CUSTOM;
-import static com.arc.agni.irctcbookingreminder.constants.Constants.STOP_ALARM;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_AC;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.REMINDER_TYPE_TATKAL_NON_AC;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._12_PM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._30_MINUTES;
+import static com.arc.agni.irctcbookingreminder.constants.Constants._5_PM;
 import static com.arc.agni.irctcbookingreminder.constants.Constants._6_PM;
 
 public class ReminderBroadcast extends BroadcastReceiver {
@@ -50,7 +58,12 @@ public class ReminderBroadcast extends BroadcastReceiver {
 
         // Start alarm music for on booking day(actual) notifications
         if (NOTIF_TYPE_ACTUAL == notificationCategory) {
-            context.startService(new Intent(context, NotificationMusicService.class));
+            Intent alarmScreenIntent = new Intent(context, NotificationMusicService.class);
+            alarmScreenIntent.putExtra(INTENT_EXTRA_NOTIFICATION_TITLE, intent.getStringExtra(INTENT_EXTRA_NOTIFICATION_TITLE));
+            alarmScreenIntent.putExtra(INTENT_EXTRA_TRAVEL_DATE, intent.getStringExtra(INTENT_EXTRA_TRAVEL_DATE));
+            alarmScreenIntent.putExtra(INTENT_EXTRA_TIME_LEFT, intent.getLongExtra(INTENT_EXTRA_TIME_LEFT, 0));
+            alarmScreenIntent.putExtra(INTENT_EXTRA_BOOKING_TIME, intent.getStringExtra(INTENT_EXTRA_BOOKING_TIME));
+            context.startService(alarmScreenIntent);
         }
     }
 
@@ -81,22 +94,13 @@ public class ReminderBroadcast extends BroadcastReceiver {
                         .bigText(notificationText))
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(viewReminderPendingIntent);
-
-        // For actual notification types, enable alarm sound and enable stop music button
-        if (notificationType == NOTIF_TYPE_ACTUAL) {
-            Intent stopAlarmIntent = new Intent(context, ActionReceiver.class);
-            PendingIntent stopAlarmIntentPendingIntent = PendingIntent.getBroadcast(context, (int) (eventID + RANDOM), stopAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(R.drawable.ic_stop_alarm, STOP_ALARM, stopAlarmIntentPendingIntent)
-                    .setDeleteIntent(stopAlarmIntentPendingIntent);
-        }
-
         return builder.build();
     }
 
     /**
      * This method will schedule a notification with the provided NOTIFICATION_TEXT at the specified REMINDER_DATE_TIME
      */
-    public static void scheduleNotification(String notificationTitle, String notificationText, Calendar reminderDateAndTime, Context context, long eventID, PendingIntent viewReminderPendingIntent, int notificationType) {
+    public static void scheduleNotification(String notificationTitle, String reminderType, String notificationText, Calendar reminderDateAndTime, String travelDateAndTime, Context context, long eventID, PendingIntent viewReminderPendingIntent, int notificationType) {
         // Create notification channel
         createChannel(context);
 
@@ -109,27 +113,53 @@ public class ReminderBroadcast extends BroadcastReceiver {
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION, notification);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_ID, (int) eventID);
         notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, notificationType);
+        notificationIntent.putExtra(INTENT_EXTRA_NOTIFICATION_TITLE, notificationTitle);
+        notificationIntent.putExtra(INTENT_EXTRA_TRAVEL_DATE, travelDateAndTime);
+        notificationIntent.putExtra(INTENT_EXTRA_TIME_LEFT, reminderDateAndTime.getTimeInMillis());
+        notificationIntent.putExtra(INTENT_EXTRA_BOOKING_TIME, reminderDateAndTime.get(Calendar.HOUR_OF_DAY) + " a.m today");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, (int) eventID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Scheduling the notification
         Calendar localReminderDateAndTime = Calendar.getInstance();
         localReminderDateAndTime.setTimeInMillis(reminderDateAndTime.getTimeInMillis());
-        // Reminder time | Actual notifications - Half an hour before Booking time | Pre Notifications - 6 PM
-        if (NOTIF_TYPE_ACTUAL == notificationType) {
-            localReminderDateAndTime.set(Calendar.HOUR_OF_DAY, (reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1));
-            localReminderDateAndTime.set(Calendar.MINUTE, _30_MINUTES);
-        } else {
-            localReminderDateAndTime.set(Calendar.HOUR_OF_DAY, _6_PM);
-        }
+        long notificationTime = setNotificationTime(localReminderDateAndTime, reminderType, notificationType);
 
-        long notificationTime = localReminderDateAndTime.getTimeInMillis();
-        //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, notificationTime, pendingIntent);
         }
+    }
+
+    public static long setNotificationTime(Calendar reminderDateAndTime, final String reminderType, int notificationType) {
+
+        if (NOTIF_TYPE_ACTUAL == notificationType) {
+            reminderDateAndTime.set(Calendar.HOUR_OF_DAY, (reminderDateAndTime.get(Calendar.HOUR_OF_DAY) - 1));
+            reminderDateAndTime.set(Calendar.MINUTE, _30_MINUTES);
+        } else {
+            switch (reminderType) {
+                case REMINDER_TYPE_120_DAY: {
+                    reminderDateAndTime.set(Calendar.HOUR_OF_DAY, _5_PM);
+                    break;
+                }
+                case REMINDER_TYPE_TATKAL:
+                case REMINDER_TYPE_TATKAL_AC:
+                case REMINDER_TYPE_TATKAL_NON_AC: {
+                    reminderDateAndTime.set(Calendar.HOUR_OF_DAY, _6_PM);
+                    break;
+                }
+                case REMINDER_TYPE_CUSTOM: {
+                    reminderDateAndTime.set(Calendar.HOUR_OF_DAY, _12_PM);
+                    break;
+                }
+            }
+
+        }
+        long notificationTime = reminderDateAndTime.getTimeInMillis();
+        //long notificationTime = Calendar.getInstance().getTimeInMillis() + 2700000;
+
+        return notificationTime;
     }
 
     /**
