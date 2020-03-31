@@ -3,6 +3,7 @@
     <color name="colorPrimary">#05109e</color>
     <color name="colorPrimaryDark">#05109e</color>
     <color name="colorAccent">#54a3f0</color>
+    <color name="colorAccentMild">#519CE4</color>
     <color name="colorAccentDark">#05109e</color>
     <color name="colorRedLike">#FF9800</color>
     <color name="colorRedLikeBorder">#FF5722</color>

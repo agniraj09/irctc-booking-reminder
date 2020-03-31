@@ -50,10 +50,10 @@
         android:id="@+id/checkBoxes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toggle"
+        android:layout_below="@id/tb_coach_textview"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <CheckBox
@@ -74,12 +74,12 @@
     </LinearLayout>
 
     <RadioGroup
-        android:id="@+id/toggle"
+        android:id="@+id/tatkal_toggle"
         android:layout_width="150dp"
         android:layout_height="25dp"
         android:layout_below="@id/tb_alert_type_textview"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/out_line"
         android:checkedButton="@+id/notification"
         android:orientation="horizontal">
@@ -125,6 +125,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:text="@string/alert_type"
+        android:textColor="@color/labelcolor" />
+
+    <TextView
+        android:id="@+id/tb_coach_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tatkal_toggle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/coach"
         android:textColor="@color/labelcolor" />
 
     <TextView

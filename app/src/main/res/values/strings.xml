@@ -26,8 +26,9 @@
     <string name="reminder_time_label">Reminder Time</string>
     <string name="type_label">Type</string>
     <string name="reminder_type_label">Reminder Type</string>
-    <string name="ac">AC Coach</string>
-    <string name="non_ac">Non AC Coach</string>
+    <string name="coach">Coach Preference</string>
+    <string name="ac">A.C.</string>
+    <string name="non_ac">Non A.C.</string>
     <string name="okay">OK</string>
     <string name="goto_home">Home</string>
     <string name="create_another">One More</string>

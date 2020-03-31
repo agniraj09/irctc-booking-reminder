@@ -48,6 +48,7 @@
                         android:text="@string/holiday_list"
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:background="@drawable/home_button_onclick"
                         android:textColor="@color/homescreenmenu" />
 
                     <ImageView
@@ -91,6 +92,7 @@
                         android:text="@string/booking_day_calc"
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:background="@drawable/home_button_onclick"
                         android:textColor="@color/homescreenmenu" />
 
                     <ImageView
@@ -119,7 +121,7 @@
                 android:layout_height="wrap_content"
                 card_view:cardBackgroundColor="@color/colorAccent"
                 card_view:cardCornerRadius="5dp"
-                card_view:cardElevation="15dp"
+                card_view:cardElevation="10dp"
                 card_view:cardPreventCornerOverlap="true"
                 card_view:cardUseCompatPadding="true">
 
@@ -145,6 +147,7 @@
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/homescreenmenu"
+                        android:background="@drawable/home_button_onclick"
                         tools:onClick="goToAdvanceBookingReminderPage" />
 
                     <ImageView
@@ -166,7 +169,7 @@
                 android:layout_height="wrap_content"
                 card_view:cardBackgroundColor="@color/colorAccent"
                 card_view:cardCornerRadius="5dp"
-                card_view:cardElevation="15dp"
+                card_view:cardElevation="10dp"
                 card_view:cardPreventCornerOverlap="true"
                 card_view:cardUseCompatPadding="true">
 
@@ -192,6 +195,7 @@
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/homescreenmenu"
+                        android:background="@drawable/home_button_onclick"
                         tools:onClick="goToTatkalReminderPage" />
 
                     <ImageView
@@ -223,7 +227,7 @@
                 android:layout_height="wrap_content"
                 card_view:cardBackgroundColor="@color/colorAccent"
                 card_view:cardCornerRadius="5dp"
-                card_view:cardElevation="15dp"
+                card_view:cardElevation="10dp"
                 card_view:cardPreventCornerOverlap="true"
                 card_view:cardUseCompatPadding="true">
 
@@ -246,6 +250,7 @@
                         android:text="@string/custom_reminder"
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:background="@drawable/home_button_onclick"
                         android:textColor="@color/homescreenmenu" />
 
                     <ImageView
@@ -269,7 +274,7 @@
                 android:layout_height="wrap_content"
                 card_view:cardBackgroundColor="@color/colorAccent"
                 card_view:cardCornerRadius="5dp"
-                card_view:cardElevation="15dp"
+                card_view:cardElevation="10dp"
                 card_view:cardPreventCornerOverlap="true"
                 card_view:cardUseCompatPadding="true">
 
@@ -292,6 +297,7 @@
                         android:text="@string/view_reminder"
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:background="@drawable/home_button_onclick"
                         android:textColor="@color/homescreenmenu" />
 
                     <ImageView

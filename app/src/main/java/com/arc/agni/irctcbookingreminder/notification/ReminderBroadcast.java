@@ -162,10 +162,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
             }
 
         }
-        long notificationTime = reminderDateAndTime.getTimeInMillis();
-        //long notificationTime = Calendar.getInstance().getTimeInMillis() + 10000;
-
-        return notificationTime;
+        return reminderDateAndTime.getTimeInMillis();
+        //return Calendar.getInstance().getTimeInMillis() + 10000;
     }
 
     /**

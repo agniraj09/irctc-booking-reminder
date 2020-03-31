@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.arc.agni.irctcbookingreminder.R;
@@ -61,6 +65,15 @@ public class AlarmScreenActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.as_travel_date)).setText(getIntent().getStringExtra(INTENT_EXTRA_TRAVEL_DATE));
         ((TextView) findViewById(R.id.as_days_left)).setText(timeLeft);
         ((TextView) findViewById(R.id.as_booking_time)).setText(getIntent().getStringExtra(INTENT_EXTRA_BOOKING_TIME));
+
+        // button animation
+        final Animation animation = new AlphaAnimation(1F,0.5F);
+        animation.setDuration(800);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setRepeatMode(Animation.REVERSE);
+        final Button button = findViewById(R.id.stop_alarm);
+        button.startAnimation(animation);
     }
 
     public void stopAlarm(View view) {

@@ -95,6 +95,7 @@
             android:name=".activities.AlarmScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.NoActionBar"
+            android:excludeFromRecents="true"
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity" />
 
