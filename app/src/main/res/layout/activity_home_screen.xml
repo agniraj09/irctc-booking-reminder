@@ -315,6 +315,26 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/arc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/arc"
+            android:textAlignment="center"
+            android:textColor="#6510104D" />
+
+        <TextView
+            android:id="@+id/dummy"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/arc"/>
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
