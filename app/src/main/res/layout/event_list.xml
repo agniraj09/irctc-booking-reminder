@@ -35,8 +35,8 @@
             <View
                 android:id="@+id/horizontalline"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#3481D4FA" />
+                android:layout_height="1dp"
+                android:background="#14000000" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

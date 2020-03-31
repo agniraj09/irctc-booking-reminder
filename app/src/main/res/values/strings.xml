@@ -40,6 +40,7 @@
     <string name="dummy">This is a text view</string>
     <string name="notification">Notification</string>
     <string name="alarm">Alarm</string>
+    <string name="swipe">Swipe to cancel alarm</string>
     <string name="stop_alarm">Stop Alarm</string>
     <string name="number">88</string>
     <string name="day">Day</string>

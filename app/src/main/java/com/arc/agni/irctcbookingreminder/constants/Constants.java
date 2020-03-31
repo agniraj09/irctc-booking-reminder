@@ -98,9 +98,9 @@ public class Constants {
     public static final String AT = "at ";
     public static final String IST = " IST";
     public static final String BOOKING_OPENING_TIME = "8.00 a.m.";
-    public static final String AC_COACH = "A.C. Coach";
+    public static final String AC_COACH = "A.C.";
     public static final String TATKAL_OPENING_TIME_AC = "10.00 a.m.";
-    public static final String NON_AC_COACH = "Non A.C. Coach";
+    public static final String NON_AC_COACH = "Non A.C.";
     public static final String TATKAL_OPENING_TIME_NON_AC = "11.00 a.m.";
     public static final String BOOKING_WILL_START = "Booking will start on";
     public static final String BOOKING_STARTED = "Booking has already started on";

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000000"
     android:keepScreenOn="true"
     tools:context=".activities.AlarmScreenActivity">
@@ -15,23 +16,39 @@
 
         <LinearLayout
             android:id="@+id/buttons"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/reminder_details"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <Button
+            <com.ebanx.swipebtn.SwipeButton
                 android:id="@+id/stop_alarm"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:onClick="stopAlarm"
-                android:textSize="20sp"
-                android:text="@string/stop_alarm"
-                android:textColor="@color/white" />
+                android:layout_marginStart="45dp"
+                android:layout_marginEnd="45dp"
+                app:inner_text="@string/swipe"
+                app:inner_text_color="@android:color/white"
+                app:inner_text_size="16sp"
+                app:inner_text_top_padding="18dp"
+                app:inner_text_bottom_padding="18dp"
+                app:inner_text_left_padding="40dp"
+                app:inner_text_background="@drawable/shape_rounded"
+                app:button_image_height="70dp"
+                app:button_image_width="70dp"
+                app:button_image_disabled="@drawable/ic_alarm_off"
+                app:button_image_enabled="@drawable/ic_alarm_off"
+                app:button_left_padding="20dp"
+                app:button_right_padding="20dp"
+                app:button_top_padding="20dp"
+                app:button_bottom_padding="20dp"
+                app:button_background="@drawable/shape_button"
+                app:button_trail_enabled="false"
+                app:initial_state="disabled"
+                app:has_activate_state="true"
+                />
         </LinearLayout>
 
         <RelativeLayout
