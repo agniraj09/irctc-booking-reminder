@@ -104,7 +104,6 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <receiver android:name=".notification.ReminderBroadcast" />
-        <receiver android:name=".notification.ActionReceiver" />
 
         <service
             android:name=".service.NotificationMusicService"

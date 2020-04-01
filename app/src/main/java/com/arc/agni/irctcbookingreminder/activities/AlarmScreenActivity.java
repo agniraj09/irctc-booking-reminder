@@ -3,6 +3,7 @@ package com.arc.agni.irctcbookingreminder.activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,6 +22,7 @@ import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_NOTIFICATION_TITLE;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_TIME_LEFT;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.INTENT_EXTRA_TRAVEL_DATE;
+import static com.arc.agni.irctcbookingreminder.constants.Constants.ONE_AND_HALF_MINUTES;
 
 public class AlarmScreenActivity extends AppCompatActivity {
 
@@ -65,6 +67,18 @@ public class AlarmScreenActivity extends AppCompatActivity {
 
         SwipeButton enableButton = findViewById(R.id.stop_alarm);
         enableButton.setOnStateChangeListener(active -> stopAlarm(null));
+
+        // The below code will disable the alarm after ONE_AND_HALF_MINUTES if it is not cancelled by user
+        new CountDownTimer(ONE_AND_HALF_MINUTES, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                stopAlarm(null);
+            }
+        }.start();
     }
 
     public void stopAlarm(View view) {

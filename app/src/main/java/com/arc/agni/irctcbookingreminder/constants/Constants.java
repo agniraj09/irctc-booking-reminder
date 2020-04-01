@@ -88,6 +88,7 @@ public class Constants {
     public static final int _5_PM = 17;
     public static final int _6_PM = 18;
     public static final long _1_DAY_IN_MILLISECONDS = 86400000;
+    public static final long ONE_AND_HALF_MINUTES = 90000L;
 
     // Universal Constants
     public static final String[] MONTHS = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -123,7 +124,6 @@ public class Constants {
     public static final int CALENDAR_COLOR_LOCAL = 0xffff0000;
     public static final String OWNER_ACCOUNT_ID = "";
     public static final long EVENT_ID_ADDUP = 99999;
-    public static final long RANDOM = 9876544321L;
 
     // Push Notification Constants
     public static final String CHANNEL_ID = "IRCTCBookingReminder";
