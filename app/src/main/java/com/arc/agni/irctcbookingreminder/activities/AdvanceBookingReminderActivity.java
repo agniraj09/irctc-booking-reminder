@@ -74,6 +74,7 @@ public class AdvanceBookingReminderActivity extends AppCompatActivity {
         if (inputDay != 0) {
             String travelDateText = inputDay + "/" + (inputMonth + 1) + "/" + inputYear;
             travelDate.setText(travelDateText);
+            showBookingDateWhenUserSelectsTravelDate();
         }
         if (null != travelHint && !travelHint.isEmpty()) {
             ((EditText) findViewById(R.id.ab_event_title_input)).setText(travelHint);

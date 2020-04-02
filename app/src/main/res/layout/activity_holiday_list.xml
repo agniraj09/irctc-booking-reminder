@@ -4,19 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     tools:context=".activities.HolidayListActivity">
+
+    <TextView
+        android:id="@+id/booking_day_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="@string/booking_date_alert"
+        android:textAlignment="center"
+        android:textColor="#D50000"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/disclaimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/disclaimer"
+        android:layout_below="@id/booking_day_alert"
         android:background="@color/sortBarLine"
-        android:textColor="@color/resultText"
+        android:gravity="center_horizontal"
         android:padding="5dp"
-        android:textSize="12sp"
-        android:gravity="center_horizontal" />
+        android:text="@string/disclaimer"
+        android:textAlignment="center"
+        android:textColor="@color/resultText"
+        android:textSize="12sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/holidaylistrecycleview"

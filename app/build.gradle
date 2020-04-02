@@ -10,8 +10,8 @@ android {
         applicationId "com.arc.agni.irctcbookingreminder"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 9
-        versionName "7.0"
+        versionCode 10
+        versionName "7.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     packagingOptions {

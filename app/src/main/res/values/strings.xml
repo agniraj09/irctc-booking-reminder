@@ -37,6 +37,7 @@
     <string name="no_reminder_set">No reminders are created yet!</string>
     <string name="please_wait">Please wait!</string>
     <string name="disclaimer">Disclaimer: All regional holidays are included in this list. Dates may vary based on your region/location.\nSource : Google Calendar - Holidays in India</string>
+    <string name="booking_date_alert">Booking dates displayed here are for the festival dates. If you are planning to travel before or after the festival, select your \n<b>travel date</b> accordingly while creating reminders.</string>
     <string name="dummy">This is a text view</string>
     <string name="notification">Notification</string>
     <string name="alarm">Alarm</string>

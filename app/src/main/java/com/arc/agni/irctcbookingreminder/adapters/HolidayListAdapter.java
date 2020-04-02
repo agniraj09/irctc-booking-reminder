@@ -1,5 +1,6 @@
 package com.arc.agni.irctcbookingreminder.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.arc.agni.irctcbookingreminder.R;
 import com.arc.agni.irctcbookingreminder.activities.AdvanceBookingReminderActivity;
+import com.arc.agni.irctcbookingreminder.activities.HomeScreenActivity;
 import com.arc.agni.irctcbookingreminder.bean.Items;
 import com.arc.agni.irctcbookingreminder.utils.CommonUtil;
 
@@ -26,6 +28,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.arc.agni.irctcbookingreminder.constants.Constants.EXIT_WARNING;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_DAY;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_MONTH;
 import static com.arc.agni.irctcbookingreminder.constants.Constants.LABEL_INPUT_YEAR;
@@ -129,13 +132,35 @@ public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.
 
                     // Enable onclick listener to advance booking if booking not yet started
                     if (bookingAllowed) {
+                        int travelYear = Integer.parseInt(travelDate.substring(0, 4));
+                        int travelMonth = (Integer.parseInt(travelDate.substring(5, 7)) - 1);
+                        int travelDay = Integer.parseInt(travelDate.substring(8));
+
                         holder.layout.setOnClickListener(v -> {
-                            Intent intent = new Intent(context, AdvanceBookingReminderActivity.class);
-                            intent.putExtra(LABEL_INPUT_YEAR, Integer.parseInt(travelDate.substring(0, 4)));
-                            intent.putExtra(LABEL_INPUT_MONTH, (Integer.parseInt(travelDate.substring(5, 7)) - 1));
-                            intent.putExtra(LABEL_INPUT_DAY, Integer.parseInt(travelDate.substring(8)));
-                            intent.putExtra(LABEL_TRAVEL_HINT, holidayName);
-                            context.startActivity(intent);
+
+                            Calendar travelDateActual = Calendar.getInstance();
+                            travelDateActual.set(travelYear, travelMonth, travelDay);
+                            if (travelDateActual.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                                new AlertDialog.Builder(context)
+                                        .setTitle("")
+                                        .setMessage("The selected holiday falls on Saturday. Did you plan to travel by Friday ?")
+                                        .setNegativeButton("No, Proceed with selected date", (arg0, arg1) -> createReminderForHoliday(holidayName, travelDateActual))
+                                        .setPositiveButton("Yes, Remind me for Friday booking", (arg0, arg1) -> {
+                                            travelDateActual.add(Calendar.DAY_OF_YEAR, -1);
+                                            createReminderForHoliday(holidayName, travelDateActual);
+                                        }).create().show();
+                            } else if (travelDateActual.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                                new AlertDialog.Builder(context)
+                                        .setTitle("")
+                                        .setMessage("The selected holiday falls on Sunday. Did you plan to travel by Friday ?")
+                                        .setNegativeButton("No, Proceed with selected date", (arg0, arg1) -> createReminderForHoliday(holidayName, travelDateActual))
+                                        .setPositiveButton("Yes, Remind me for Friday Booking", (arg0, arg1) -> {
+                                            travelDateActual.add(Calendar.DAY_OF_YEAR, -2);
+                                            createReminderForHoliday(holidayName, travelDateActual);
+                                        }).create().show();
+                            } else {
+                                createReminderForHoliday(holidayName, travelDateActual);
+                            }
                         });
                     }
                 }
@@ -144,6 +169,16 @@ public class HolidayListAdapter extends RecyclerView.Adapter<HolidayListAdapter.
         }
 
     }
+
+    public void createReminderForHoliday(String holidayName, Calendar travelDate) {
+        Intent intent = new Intent(context, AdvanceBookingReminderActivity.class);
+        intent.putExtra(LABEL_INPUT_YEAR, travelDate.get(Calendar.YEAR));
+        intent.putExtra(LABEL_INPUT_MONTH, travelDate.get(Calendar.MONTH));
+        intent.putExtra(LABEL_INPUT_DAY, travelDate.get(Calendar.DAY_OF_MONTH));
+        intent.putExtra(LABEL_TRAVEL_HINT, holidayName);
+        context.startActivity(intent);
+    }
+
 
     @Override
     public int getItemCount() {

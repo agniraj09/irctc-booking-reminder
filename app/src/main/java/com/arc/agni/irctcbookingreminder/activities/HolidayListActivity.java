@@ -2,7 +2,10 @@ package com.arc.agni.irctcbookingreminder.activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arc.agni.irctcbookingreminder.R;
@@ -169,6 +172,17 @@ public class HolidayListActivity extends AppCompatActivity {
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(holidayListAdapter);
             mAdView.loadAd(adRequest);
+
+            new CountDownTimer(10000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+                @Override
+                public void onFinish() {
+                    ((TextView) findViewById(R.id.booking_day_alert)).setVisibility(View.GONE);
+                }
+            }.start();
+
         } else {
             Toast.makeText(HolidayListActivity.this, SOMETHING_WENT_WRONG, Toast.LENGTH_SHORT).show();
             mAdView.loadAd(adRequest);
