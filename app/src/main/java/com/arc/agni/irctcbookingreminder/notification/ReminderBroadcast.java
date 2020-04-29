@@ -56,9 +56,6 @@ public class ReminderBroadcast extends BroadcastReceiver {
         int notificationCategory = intent.getIntExtra(INTENT_EXTRA_NOTIFICATION_CATEGORY, 0);
         String alertType = intent.getStringExtra(INTENT_EXTRA_ALERT_TYPE);
 
-        // Fire notification
-        notificationManager.notify(notificationID, notification);
-
         // Start alarm music for on booking day(actual) notifications
         if (NOTIF_TYPE_ACTUAL == notificationCategory && ALERT_TYPE_ALARM.equalsIgnoreCase(alertType)) {
             Intent alarmScreenIntent = new Intent(context, NotificationMusicService.class);
@@ -68,6 +65,9 @@ public class ReminderBroadcast extends BroadcastReceiver {
             alarmScreenIntent.putExtra(INTENT_EXTRA_BOOKING_TIME, intent.getStringExtra(INTENT_EXTRA_BOOKING_TIME));
             context.startService(alarmScreenIntent);
         }
+
+        // Fire notification
+        notificationManager.notify(notificationID, notification);
     }
 
     private static void createChannel(Context context) {
